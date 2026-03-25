@@ -20,6 +20,38 @@ function getIsoNow() {
   return new Date().toISOString();
 }
 
+function extractDeadline(text) {
+  const s = cleanText(text);
+
+  const fullRange = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}\s*[~\-]\s*\d{4}[./-]\d{1,2}[./-]\d{1,2}/);
+  if (fullRange) return fullRange[0];
+
+  const shortRange = s.match(/\d{1,2}[./-]\d{1,2}\s*[~\-]\s*\d{1,2}[./-]\d{1,2}/);
+  if (shortRange) return shortRange[0];
+
+  const labeled = s.match(/(?:마감|마감일|접수마감)\s*[:：]?\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
+  if (labeled) return labeled[1];
+
+  return "마감일 없음";
+}
+
+function extractUploadDate(text) {
+  const s = cleanText(text);
+  const withYear = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}/);
+  if (withYear) {
+    const m = withYear[0].match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
+    if (m) return `${m[1]}.${String(m[2]).padStart(2, "0")}.${String(m[3]).padStart(2, "0")}`;
+  }
+
+  const short = s.match(/\d{1,2}[./-]\d{1,2}/);
+  if (short) {
+    const m = short[0].match(/(\d{1,2})[./-](\d{1,2})/);
+    if (m) return `${String(m[1]).padStart(2, "0")}.${String(m[2]).padStart(2, "0")}`;
+  }
+
+  return "";
+}
+
 // 줄바꿈/중복 공백을 줄여 카드 UI에서 읽기 쉽게 정리합니다.
 function cleanText(text) {
   return String(text || "")
@@ -39,7 +71,11 @@ function safeAbsolute(base, href) {
 // =======================
 async function scrapeWevity() {
   const url = "https://www.wevity.com/?c=find&s=1&gub=1";
-  const { data } = await axios.get(url);
+  const { data } = await axios.get(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0"
+    }
+  });
   const $ = cheerio.load(data);
 
   const results = [];
@@ -49,11 +85,31 @@ async function scrapeWevity() {
     const link = safeAbsolute("https://www.wevity.com", $(el).find("a").attr("href"));
     const text = $(el).text();
 
-    const deadline = (text.match(/~\s*\d{2}\.\d{2}/) || ["마감일 없음"])[0];
-    const uploadDate = (text.match(/\d{2}\.\d{2}/) || [""])[0];
+    const deadline = extractDeadline(text);
+    const uploadDate = extractUploadDate(text);
 
     if (title && link) results.push({ title, link, deadline, uploadDate });
   });
+
+  // 목록 텍스트에 마감일이 없을 때 상세 페이지 본문에서 한 번 더 보강합니다.
+  for (const item of results) {
+    if (item.deadline !== "마감일 없음") continue;
+
+    try {
+      const detail = await axios.get(item.link, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        timeout: 8000
+      });
+      const detailText = cleanText(cheerio.load(detail.data).text());
+      const enrichedDeadline = extractDeadline(detailText);
+      const enrichedUploadDate = extractUploadDate(detailText);
+
+      if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
+      if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
+    } catch (_) {
+      // 상세 페이지 조회 실패는 전체 스크래핑 실패로 처리하지 않습니다.
+    }
+  }
 
   return results.map((item) => ({ ...item, source: "wevity" }));
 }
@@ -62,22 +118,61 @@ async function scrapeWevity() {
 // 2. 씽굿
 // =======================
 async function scrapeThinkgood() {
-  const url = "https://www.thinkcontest.com/Contest/CateField.html";
-  const { data } = await axios.get(url);
+  const url = "https://www.thinkcontest.com/thinkgood/user/contest/index.do";
+  const { data } = await axios.post(url, null, {
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+      Referer: "https://www.thinkcontest.com/"
+    }
+  });
   const $ = cheerio.load(data);
 
   const results = [];
 
-  $("table tr").each((i, el) => {
-    const title = cleanText($(el).find("a").text());
-    const link = safeAbsolute("https://www.thinkcontest.com", $(el).find("a").attr("href"));
-    const text = $(el).text();
+  // 씽굿은 목록을 JS로 렌더링하므로 JSON-LD(ItemList) 블록에서 링크/제목을 추출합니다.
+  $("script[type='application/ld+json']").each((_, el) => {
+    const raw = $(el).contents().text();
+    if (!raw) return;
 
-    const deadline = (text.match(/\d{2}\.\d{2}/) || ["마감일 없음"])[0];
-    const uploadDate = deadline;
+    try {
+      const parsed = JSON.parse(raw);
+      const arr = Array.isArray(parsed) ? parsed : [parsed];
+      for (const obj of arr) {
+        if (!obj || obj["@type"] !== "ItemList" || !Array.isArray(obj.itemListElement)) continue;
 
-    if (title && link) results.push({ title, link, deadline, uploadDate });
+        for (const item of obj.itemListElement) {
+          const title = cleanText(item?.name);
+          const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
+          if (title && link.includes("contest/view.do")) {
+            results.push({ title, link, deadline: "마감일 확인 필요", uploadDate: "" });
+          }
+        }
+      }
+    } catch (_) {
+      // JSON 파싱 실패는 무시하고 다음 블록을 시도합니다.
+    }
   });
+
+  // 씽굿 상세 페이지에서 실제 접수기간/마감일을 보강합니다.
+  for (const item of results) {
+    try {
+      const detail = await axios.get(item.link, {
+        headers: {
+          "User-Agent": "Mozilla/5.0",
+          Referer: "https://www.thinkcontest.com/"
+        },
+        timeout: 8000
+      });
+      const detailText = cleanText(cheerio.load(detail.data).text());
+      const enrichedDeadline = extractDeadline(detailText);
+      const enrichedUploadDate = extractUploadDate(detailText);
+
+      if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
+      if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
+    } catch (_) {
+      // 상세 조회 실패 시 기본값을 유지합니다.
+    }
+  }
 
   return results.map((item) => ({ ...item, source: "thinkcontest" }));
 }
@@ -87,7 +182,11 @@ async function scrapeThinkgood() {
 // =======================
 async function scrapeAllcon() {
   const url = "https://www.all-con.co.kr/uni_contest";
-  const { data } = await axios.get(url);
+  const { data } = await axios.get(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0"
+    }
+  });
   const $ = cheerio.load(data);
 
   const results = [];
@@ -97,8 +196,8 @@ async function scrapeAllcon() {
     const link = safeAbsolute("https://www.all-con.co.kr", $(el).find("a").attr("href"));
     const text = $(el).text();
 
-    const deadline = (text.match(/\d{2}\.\d{2}/) || ["마감일 없음"])[0];
-    const uploadDate = deadline;
+    const deadline = extractDeadline(text);
+    const uploadDate = extractUploadDate(text);
 
     if (title && link) results.push({ title, link, deadline, uploadDate });
   });
@@ -111,19 +210,27 @@ async function scrapeAllcon() {
 // =======================
 async function getAllContests() {
   // 한 사이트가 실패해도 전체 수집은 계속 진행하기 위해 allSettled를 사용합니다.
-  const settled = await Promise.allSettled([
-    scrapeWevity(),
-    scrapeThinkgood(),
-    scrapeAllcon()
-  ]);
+  const jobs = [
+    ["wevity", scrapeWevity()],
+    ["thinkcontest", scrapeThinkgood()],
+    ["allcon", scrapeAllcon()]
+  ];
+  const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
   const results = settled
     .filter((r) => r.status === "fulfilled")
     .map((r) => r.value);
 
-  const failed = settled.filter((r) => r.status === "rejected");
+  const failed = settled
+    .map((r, i) => ({ source: jobs[i][0], result: r }))
+    .filter((x) => x.result.status === "rejected");
+
   if (failed.length > 0) {
     console.warn(`⚠ 일부 사이트 수집 실패: ${failed.length}개`);
+    for (const f of failed) {
+      const reason = f.result.reason?.message || String(f.result.reason);
+      console.warn(`  - ${f.source}: ${reason}`);
+    }
   }
 
   return results.flat();
