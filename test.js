@@ -70,6 +70,78 @@ function splitTitleField(text) {
   return { title, field };
 }
 
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function formatYmd(year, month, day) {
+  return `${year}-${pad2(month)}-${pad2(day)}`;
+}
+
+function normalizeDeadline(deadline, uploadDate) {
+  const text = cleanText(deadline || "");
+  if (!text || text === "기간 정보 없음") return "기간 정보 없음";
+
+  const yearFromUpload = String(uploadDate || "").match(/^(\d{4})[.-]/)?.[1];
+  const fallbackYear = Number(yearFromUpload || new Date().getFullYear());
+
+  const fullToShort = text.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})\s*[~\-]\s*(\d{1,2})[./-](\d{1,2})$/);
+  if (fullToShort) {
+    const sy = Number(fullToShort[1]);
+    const sm = Number(fullToShort[2]);
+    const sd = Number(fullToShort[3]);
+    const em = Number(fullToShort[4]);
+    const ed = Number(fullToShort[5]);
+    const ey = em < sm ? sy + 1 : sy;
+    return `${formatYmd(sy, sm, sd)} ~ ${formatYmd(ey, em, ed)}`;
+  }
+
+  const shortRange = text.match(/^(\d{1,2})[./-](\d{1,2})\s*[~\-]\s*(\d{1,2})[./-](\d{1,2})$/);
+  if (shortRange) {
+    const sm = Number(shortRange[1]);
+    const sd = Number(shortRange[2]);
+    const em = Number(shortRange[3]);
+    const ed = Number(shortRange[4]);
+    const sy = fallbackYear;
+    const ey = em < sm ? sy + 1 : sy;
+    return `${formatYmd(sy, sm, sd)} ~ ${formatYmd(ey, em, ed)}`;
+  }
+
+  const fullRange = text.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})\s*[~\-]\s*(\d{4})[./-](\d{1,2})[./-](\d{1,2})$/);
+  if (fullRange) {
+    return `${formatYmd(Number(fullRange[1]), Number(fullRange[2]), Number(fullRange[3]))} ~ ${formatYmd(Number(fullRange[4]), Number(fullRange[5]), Number(fullRange[6]))}`;
+  }
+
+  const singleFull = text.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})$/);
+  if (singleFull) return formatYmd(Number(singleFull[1]), Number(singleFull[2]), Number(singleFull[3]));
+
+  const singleShort = text.match(/^(\d{1,2})[./-](\d{1,2})$/);
+  if (singleShort) return formatYmd(fallbackYear, Number(singleShort[1]), Number(singleShort[2]));
+
+  return text;
+}
+
+function extractCampusPeriod(detailText, endDate) {
+  const text = cleanText(detailText || "");
+
+  const fullRange = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2})\s*[~\-]\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2})/);
+  if (fullRange) return normalizeDeadline(`${fullRange[1]} ~ ${fullRange[2]}`, endDate);
+
+  const korMdRange = text.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일(?:\([^)]*\))?\s*[~\-]\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/);
+  if (korMdRange) {
+    const em = Number(korMdRange[3]);
+    const ed = Number(korMdRange[4]);
+    const sm = Number(korMdRange[1]);
+    const sd = Number(korMdRange[2]);
+    const endYear = Number(String(endDate || "").match(/^(\d{4})/)?.[1] || new Date().getFullYear());
+    const startYear = sm > em ? endYear - 1 : endYear;
+    return `${formatYmd(startYear, sm, sd)} ~ ${formatYmd(endYear, em, ed)}`;
+  }
+
+  const endOnly = normalizeDeadline(endDate, endDate);
+  return endOnly === "기간 정보 없음" ? endOnly : `시작일 미제공 ~ ${endOnly}`;
+}
+
 function isContestLike(text) {
   return /공모|경진|해커톤|아이디어|챌린지|모집|서포터즈/i.test(String(text || ""));
 }
@@ -200,7 +272,7 @@ async function scrapeWevity() {
     const link = safeAbsolute("https://www.wevity.com", $(el).find("a").attr("href"));
     const text = $(el).text();
 
-    const deadline = extractDeadline(text);
+    const deadline = normalizeDeadline(extractDeadline(text), extractUploadDate(text));
     const uploadDate = extractUploadDate(text);
 
     if (parsed.title && link) results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
@@ -216,7 +288,7 @@ async function scrapeWevity() {
         timeout: 8000
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      const enrichedDeadline = extractDeadline(detailText);
+      const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
       const enrichedUploadDate = extractUploadDate(detailText);
 
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
@@ -279,7 +351,7 @@ async function scrapeThinkgood() {
         timeout: 8000
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      const enrichedDeadline = extractDeadline(detailText);
+      const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
       const enrichedUploadDate = extractUploadDate(detailText);
 
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
@@ -317,9 +389,22 @@ async function scrapeCampuspick() {
       title: cleanText(a.title),
       field: "",
       link: `https://www.campuspick.com/contest/view?id=${a.id}`,
-      deadline: a.endDate ? cleanText(a.endDate) : "기간 정보 없음",
-      uploadDate: a.endDate ? cleanText(a.endDate) : ""
+      deadline: a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "기간 정보 없음",
+      uploadDate: a.endDate ? extractUploadDate(cleanText(a.endDate)) : ""
     }));
+
+  for (const item of results) {
+    try {
+      const detail = await fetchWithRetry(item.link, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        timeout: 8000
+      }, 1);
+      const detailText = cleanText(cheerio.load(detail.data).text());
+      item.deadline = extractCampusPeriod(detailText, item.deadline);
+    } catch (_) {
+      item.deadline = normalizeDeadline(item.deadline, item.uploadDate);
+    }
+  }
 
   return results.map((item) => ({ ...item, source: "campuspick" }));
 }

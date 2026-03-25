@@ -183,24 +183,35 @@
 
     .pill {
       cursor: pointer;
-        .refresh-btn {
-          display: inline-block;
-          margin-left: 8px;
-          padding: 6px 10px;
-          border: 1px solid var(--line);
-          border-radius: 6px;
-          background: #fff;
-          color: var(--ink);
-          font-size: 13px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
+    }
 
-        .refresh-btn:hover {
-          background: var(--accent);
-          color: #fff;
-          border-color: var(--accent);
-        }
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 12px;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--accent2);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .refresh-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: rotate(20deg);
+    }
+
+    .refresh-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+      transform: none;
     }
 
     .pill.active {
@@ -230,7 +241,7 @@
   <main class="wrap">
     <section class="hero">
       <h1>공모전 데일리 보드</h1>
-      <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span><button class="refresh-btn" id="refreshBtn">갱신</button></p>
+      <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span><button class="refresh-btn" id="refreshBtn" aria-label="데이터 갱신" title="데이터 갱신">↻</button></p>
       <div class="count">
         <span class="pill" id="todayCount">오늘 0건</span>
         <span class="pill" id="totalCount">전체 0건</span>
@@ -293,28 +304,11 @@
       const deadline = item.deadline || '-';
       const deadlineClass = deadline.includes('없음') ? 'deadline warn' : 'deadline';
       const parsed = splitTitleAndField(item.title);
-            // 기간 포맷: "YYYY-MM-DD ~ YYYY-MM-DD" 형태를 "MM/DD ~ MM/DD" 또는 그대로 표시
-            let formattedDeadline = deadline;
-            if (deadline.includes('~')) {
-              const parts = deadline.split('~').map(d => d.trim());
-              if (parts.length === 2) {
-                const [start, end] = parts;
-                // YYYY-MM-DD 형식이면 MM/DD 형식으로 변환
-                const formatDate = (dateStr) => {
-                  if (dateStr.match(/\d{4}-\d{2}-\d{2}/)) {
-                    const [, m, d] = dateStr.match(/(\d{2})-(\d{2})$/) || [];
-                    return m && d ? `${m}/${d}` : dateStr;
-                  }
-                  return dateStr;
-                };
-                formattedDeadline = `${formatDate(start)} ~ ${formatDate(end)}`;
-              }
-            }
       return `
         <article class="card" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <span class="source">${sourceLabel(item.source)}</span>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          <div class="${deadlineClass}">기간: ${escapeHtml(formattedDeadline)}</div>
+          <div class="${deadlineClass}">기간: ${escapeHtml(deadline)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
@@ -428,10 +422,10 @@
         };
 
         refreshBtn.onclick = async () => {
-          refreshBtn.textContent = '갱신 중...';
+          refreshBtn.textContent = '...';
           refreshBtn.disabled = true;
           await init();
-          refreshBtn.textContent = '갱신';
+          refreshBtn.textContent = '↻';
           refreshBtn.disabled = false;
         };
 

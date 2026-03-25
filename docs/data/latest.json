@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-25T04:21:16.065Z",
+  "generatedAt": "2026-03-25T05:10:00.450Z",
   "today": "2026.03.25",
   "counts": {
     "total": 61,
-    "today": 2
+    "today": 4
   },
   "items": [
     {
@@ -39,6 +39,14 @@
       "source": "wevity"
     },
     {
+      "title": "2026 생활 속 목재이용 국민참여 공모전 (목재 공감(共感) 키트)",
+      "field": "기획/아이디어, 디자인/캐릭터/웹툰, 게임/소프트웨어, 건축/건설/인테리어, 예체능/미술/음악",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=105705",
+      "deadline": "2026-03-03 ~ 2026-04-17",
+      "uploadDate": "2026.03.03",
+      "source": "wevity"
+    },
+    {
       "title": "제13회 산업안전보건 조사자료 논문 경진대회",
       "field": "기획/아이디어, 광고/마케팅, 논문/리포트, 과학/공학, 대외활동/서포터즈, 기타",
       "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=105566",
@@ -50,7 +58,7 @@
       "title": "제8회 밀크T 창작동화 공모전",
       "field": "논문/리포트, 문학/글/시나리오, 예체능/미술/음악, 기타",
       "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=105519",
-      "deadline": "2026-5-4~ 5-10",
+      "deadline": "2026-05-04 ~ 2026-05-10",
       "uploadDate": "2026.05.04",
       "source": "wevity"
     },
@@ -90,7 +98,7 @@
       "title": "제2회 꿈을 짓다! 건축 아이디어 공모전",
       "field": "기획/아이디어, 광고/마케팅, 디자인/캐릭터/웹툰, 건축/건설/인테리어, 예체능/미술/음악, 대외활동/서포터즈",
       "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=105145",
-      "deadline": "2026-02-21~ 2026-04-15",
+      "deadline": "2026-02-21 ~ 2026-04-15",
       "uploadDate": "2026.02.21",
       "source": "wevity"
     },
@@ -103,19 +111,11 @@
       "source": "wevity"
     },
     {
-      "title": "[한국문화예술위원회] 아르코 썸 페스타 홍보 서포터즈 2기 모집 신규",
-      "field": "기타",
-      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106009",
-      "deadline": "2026-03-25 ~ 2026-05-03",
-      "uploadDate": "2026.03.25",
-      "source": "wevity"
-    },
-    {
-      "title": "2026 진주 정원박람회 시민참여정원 작품 공모 신규",
-      "field": "건축/건설/인테리어",
-      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106007",
-      "deadline": "2026-03-25 ~ 2026-04-22",
-      "uploadDate": "2026.03.25",
+      "title": "2026 학교안전공제중앙회 온라인 서포터즈 2기 모집 신규",
+      "field": "대외활동/서포터즈",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106018",
+      "deadline": "2026-04-01 ~ 2026-04-14",
+      "uploadDate": "2026.04.01",
       "source": "wevity"
     },
     {
@@ -178,339 +178,355 @@
       "title": "2026 식목일 슬로건 공모전「한 줄의 초록」",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33269",
-      "deadline": "2026-04-05",
-      "uploadDate": "2026-04-05",
+      "deadline": "시작일 미제공 ~ 2026-04-05",
+      "uploadDate": "2026.04.05",
       "source": "campuspick"
     },
     {
       "title": "마케팅 전략 공모전 : TOSS FOREIGNER BRIDGE CREW",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33227",
-      "deadline": "2026-04-05",
-      "uploadDate": "2026-04-05",
+      "deadline": "2026-03-18 ~ 2026-04-05",
+      "uploadDate": "2026.04.05",
       "source": "campuspick"
     },
     {
       "title": "스타트업 커리어 챌린지’ AI·블록체인 아이디어 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33182",
-      "deadline": "2026-03-25",
-      "uploadDate": "2026-03-25",
+      "deadline": "2026-02-26 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
       "source": "campuspick"
     },
     {
       "title": "'26년 KEPCO 창업 아이디어·기술 사업화 경진대회 참여자 모집 공고",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33171",
-      "deadline": "2026-03-26",
-      "uploadDate": "2026-03-26",
+      "deadline": "시작일 미제공 ~ 2026-03-26",
+      "uploadDate": "2026.03.26",
       "source": "campuspick"
     },
     {
       "title": "완주 30초 숏폼 챌린지 「완주에서의 30초」",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33158",
-      "deadline": "2026-03-27",
-      "uploadDate": "2026-03-27",
+      "deadline": "시작일 미제공 ~ 2026-03-27",
+      "uploadDate": "2026.03.27",
       "source": "campuspick"
     },
     {
       "title": "전기에너지 국민 아이디어 공모전기에너지 국민 아이디어 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33145",
-      "deadline": "2026-03-25",
-      "uploadDate": "2026-03-25",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
       "source": "campuspick"
     },
     {
       "title": "제96회 춘향제 전국밴드경연대회 “풍ROCK을 울려라\"",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33121",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "2026 미디어 스타트업 지원사업 공모",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33065",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "제6회 2030청년영화제 단편영화 제작지원 공모",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33061",
-      "deadline": "2026-04-06",
-      "uploadDate": "2026-04-06",
+      "deadline": "2026-03-23 ~ 2026-04-06",
+      "uploadDate": "2026.04.06",
       "source": "campuspick"
     },
     {
       "title": "「삶 속의 교통이야기, 숏폼 영상 공모전」",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33040",
-      "deadline": "2026-04-06",
-      "uploadDate": "2026-04-06",
+      "deadline": "시작일 미제공 ~ 2026-04-06",
+      "uploadDate": "2026.04.06",
       "source": "campuspick"
     },
     {
       "title": "하나금융그룹 하나 청년 금융인재 양성 프로젝트",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33036",
-      "deadline": "2026-04-06",
-      "uploadDate": "2026-04-06",
+      "deadline": "2026-03-09 ~ 2026-04-06",
+      "uploadDate": "2026.04.06",
       "source": "campuspick"
     },
     {
       "title": "2026 INC0GNITO 아이디어톤",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33028",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "2026년 방송미디어통신위원회 캐릭터 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33019",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "2026 제7회 한 줄 로그라인 백일장",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33010",
-      "deadline": "2026-03-27",
-      "uploadDate": "2026-03-27",
+      "deadline": "시작일 미제공 ~ 2026-03-27",
+      "uploadDate": "2026.03.27",
       "source": "campuspick"
     },
     {
       "title": "폭스바겐 골프 GTI 대학생 AI 영상 광고 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32918",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "2026-03-03 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "📣 짐빔 디자인 공모전 🔥",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32916",
-      "deadline": "2026-03-25",
-      "uploadDate": "2026-03-25",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
       "source": "campuspick"
     },
     {
       "title": "BJH-컴퍼니 시각장애인 오디오북 네이밍 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32911",
-      "deadline": "2026-03-30",
-      "uploadDate": "2026-03-30",
+      "deadline": "2026-02-27 ~ 2026-03-30",
+      "uploadDate": "2026.03.30",
       "source": "campuspick"
     },
     {
       "title": "2026 대학생 PR-Competition",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32857",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "2026-03-23 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "제1회 \"꿈꾸는 아리랑\" AI 뮤직비디오 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32778",
-      "deadline": "2026-04-04",
-      "uploadDate": "2026-04-04",
+      "deadline": "시작일 미제공 ~ 2026-04-04",
+      "uploadDate": "2026.04.04",
       "source": "campuspick"
     },
     {
       "title": "제7회 푸른코끼리 학교폭력·사이버폭력예방 포스터, 웹툰, 에세이 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32713",
-      "deadline": "2026-03-31",
-      "uploadDate": "2026-03-31",
+      "deadline": "시작일 미제공 ~ 2026-03-31",
+      "uploadDate": "2026.03.31",
       "source": "campuspick"
     },
     {
       "title": "제 1회 유디아이디 서비스 소개 영상 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32611",
-      "deadline": "2026-03-29",
-      "uploadDate": "2026-03-29",
+      "deadline": "시작일 미제공 ~ 2026-03-29",
+      "uploadDate": "2026.03.29",
       "source": "campuspick"
     },
     {
       "title": "2026년 제12회 창작 바다동요대회",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32590",
-      "deadline": "2026-04-01",
-      "uploadDate": "2026-04-01",
+      "deadline": "시작일 미제공 ~ 2026-04-01",
+      "uploadDate": "2026.04.01",
       "source": "campuspick"
     },
     {
       "title": "제1회 여주도자기 디자인 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32582",
-      "deadline": "2026-03-25",
-      "uploadDate": "2026-03-25",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
       "source": "campuspick"
     },
     {
       "title": "Red Bull Basement 2026 세계를 변화시킬 하나의 아이디어",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32558",
-      "deadline": "2026-03-29",
-      "uploadDate": "2026-03-29",
+      "deadline": "시작일 미제공 ~ 2026-03-29",
+      "uploadDate": "2026.03.29",
       "source": "campuspick"
     },
     {
       "title": "2026 산업안전상생 혁신 아이디어 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32473",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "제25회 국제 지구사랑 작품공모전(~04/03)",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32363",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "2026-02-23 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "2026 예금보험공사 창립 30주년 대국민 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32298",
-      "deadline": "2026-03-27",
-      "uploadDate": "2026-03-27",
+      "deadline": "시작일 미제공 ~ 2026-03-27",
+      "uploadDate": "2026.03.27",
       "source": "campuspick"
     },
     {
       "title": "2026 부산국제디자인어워드(ibda)",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32165",
-      "deadline": "2026-04-03",
-      "uploadDate": "2026-04-03",
+      "deadline": "시작일 미제공 ~ 2026-04-03",
+      "uploadDate": "2026.04.03",
       "source": "campuspick"
     },
     {
       "title": "제6회 넥서스 작가",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=32106",
-      "deadline": "2026-03-31",
-      "uploadDate": "2026-03-31",
+      "deadline": "2026-01-01 ~ 2026-03-31",
+      "uploadDate": "2026.03.31",
       "source": "campuspick"
     },
     {
       "title": "[KT&G 상상마당] 2026 친환경 화장품 창업 공모전 _ 코코챌린지",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33325",
-      "deadline": "2026-04-20",
-      "uploadDate": "2026-04-20",
+      "deadline": "시작일 미제공 ~ 2026-04-20",
+      "uploadDate": "2026.04.20",
       "source": "campuspick"
     },
     {
       "title": "2026 기후에너지환경창업대전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33323",
-      "deadline": "2026-05-01",
-      "uploadDate": "2026-05-01",
+      "deadline": "시작일 미제공 ~ 2026-05-01",
+      "uploadDate": "2026.05.01",
       "source": "campuspick"
     },
     {
       "title": "총 장학금 4만불 지원★2026 해커스 장학생 모집 (~5/31 마감)",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33316",
-      "deadline": "2026-05-31",
-      "uploadDate": "2026-05-31",
+      "deadline": "시작일 미제공 ~ 2026-05-31",
+      "uploadDate": "2026.05.31",
       "source": "campuspick"
     },
     {
       "title": "제 6회 스타벅스 그림 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33304",
-      "deadline": "2026-04-20",
-      "uploadDate": "2026-04-20",
+      "deadline": "시작일 미제공 ~ 2026-04-20",
+      "uploadDate": "2026.04.20",
       "source": "campuspick"
     },
     {
       "title": "OK저축은행 29역숏폼왕",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33297",
-      "deadline": "2026-04-23",
-      "uploadDate": "2026-04-23",
+      "deadline": "시작일 미제공 ~ 2026-04-23",
+      "uploadDate": "2026.04.23",
       "source": "campuspick"
     },
     {
       "title": "2026 나주방문의해 , 홍보 숏폼・크리에이터 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33296",
-      "deadline": "2026-05-31",
-      "uploadDate": "2026-05-31",
+      "deadline": "시작일 미제공 ~ 2026-05-31",
+      "uploadDate": "2026.05.31",
       "source": "campuspick"
     },
     {
       "title": "제9회 전국동시지방선거 숏폼영상공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33291",
-      "deadline": "2026-04-17",
-      "uploadDate": "2026-04-17",
+      "deadline": "2026-03-23 ~ 2026-04-17",
+      "uploadDate": "2026.04.17",
       "source": "campuspick"
     },
     {
       "title": "[문화체육관광부] 문화요일 영상 공모전 🎬 (~4/14)",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33290",
-      "deadline": "2026-04-14",
-      "uploadDate": "2026-04-14",
+      "deadline": "시작일 미제공 ~ 2026-04-14",
+      "uploadDate": "2026.04.14",
       "source": "campuspick"
     },
     {
       "title": "2026년도 AI를 활용한 장애인식개선 동화 공모전 개최 안내",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33289",
-      "deadline": "2026-04-30",
-      "uploadDate": "2026-04-30",
+      "deadline": "시작일 미제공 ~ 2026-04-30",
+      "uploadDate": "2026.04.30",
       "source": "campuspick"
     },
     {
       "title": "Casual Degen Game Hackathon",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33283",
-      "deadline": "2026-04-17",
-      "uploadDate": "2026-04-17",
+      "deadline": "시작일 미제공 ~ 2026-04-17",
+      "uploadDate": "2026.04.17",
       "source": "campuspick"
     },
     {
       "title": "2026 친환경 화장품 창업 공모전",
       "field": "",
       "link": "https://www.campuspick.com/contest/view?id=33279",
-      "deadline": "2026-04-20",
-      "uploadDate": "2026-04-20",
+      "deadline": "시작일 미제공 ~ 2026-04-20",
+      "uploadDate": "2026.04.20",
       "source": "campuspick"
     }
   ],
   "todayItems": [
     {
-      "title": "[한국문화예술위원회] 아르코 썸 페스타 홍보 서포터즈 2기 모집 신규",
-      "field": "기타",
-      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106009",
-      "deadline": "2026-03-25 ~ 2026-05-03",
+      "title": "스타트업 커리어 챌린지’ AI·블록체인 아이디어 공모전",
+      "field": "",
+      "link": "https://www.campuspick.com/contest/view?id=33182",
+      "deadline": "2026-02-26 ~ 2026-03-25",
       "uploadDate": "2026.03.25",
-      "source": "wevity"
+      "source": "campuspick"
     },
     {
-      "title": "2026 진주 정원박람회 시민참여정원 작품 공모 신규",
-      "field": "건축/건설/인테리어",
-      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106007",
-      "deadline": "2026-03-25 ~ 2026-04-22",
+      "title": "전기에너지 국민 아이디어 공모전기에너지 국민 아이디어 공모전",
+      "field": "",
+      "link": "https://www.campuspick.com/contest/view?id=33145",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
       "uploadDate": "2026.03.25",
-      "source": "wevity"
+      "source": "campuspick"
+    },
+    {
+      "title": "📣 짐빔 디자인 공모전 🔥",
+      "field": "",
+      "link": "https://www.campuspick.com/contest/view?id=32916",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
+      "source": "campuspick"
+    },
+    {
+      "title": "제1회 여주도자기 디자인 공모전",
+      "field": "",
+      "link": "https://www.campuspick.com/contest/view?id=32582",
+      "deadline": "시작일 미제공 ~ 2026-03-25",
+      "uploadDate": "2026.03.25",
+      "source": "campuspick"
     }
   ]
 }
