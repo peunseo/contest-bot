@@ -163,7 +163,11 @@
   <script>
     // GitHub Pages에서 생성된 최신 JSON 파일을 읽어 화면에 렌더링합니다.
     async function load() {
-      const res = await fetch('./data/latest.json', { cache: 'no-store' });
+      // GitHub Pages 서브경로(.../contest-bot/)에서도 동작하도록 경로를 잡습니다.
+      const basePath = window.location.pathname.includes('contest-bot') 
+        ? '/contest-bot/data/latest.json' 
+        : './data/latest.json';
+      const res = await fetch(basePath, { cache: 'no-store' });
       if (!res.ok) throw new Error('latest.json 로드 실패');
       return res.json();
     }
