@@ -275,21 +275,20 @@
       const deadline = item.deadline || '-';
       const deadlineClass = deadline.includes('없음') ? 'deadline warn' : 'deadline';
       const parsed = splitTitleAndField(item.title);
-      const field = item.field ? String(item.field).trim() : parsed.field;
       return `
         <article class="card" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <span class="source">${sourceLabel(item.source)}</span>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          ${field ? `<div class="field">분야: ${escapeHtml(field)}</div>` : ''}
           <div class="${deadlineClass}">기간: ${escapeHtml(deadline)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
     }
 
-    function applyFilters(items, query) {
+    function applyFilters(items, query, source) {
       const q = String(query || '').toLowerCase().trim();
       return items.filter((item) => {
+        if (source && source !== 'all' && item.source !== source) return false;
         if (!q) return true;
         return String(item.title || '').toLowerCase().includes(q);
       });
@@ -330,7 +329,7 @@
           return;
         }
 
-        const state = { query: '', view: 'today' }; // 'today' or 'all'
+        const state = { query: '', view: 'today', source: 'all' }; // 'today' or 'all'
 
         function render() {
           let base;
@@ -344,7 +343,7 @@
             statusEl.textContent = `전체 ${items.length}건을 보여드립니다.`;
           }
           
-          const filtered = applyFilters(base, state.query);
+          const filtered = applyFilters(base, state.query, state.source);
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
@@ -372,6 +371,31 @@
         searchInputEl.addEventListener('input', () => {
           state.query = searchInputEl.value;
           render();
+        });
+
+        // 소스 필터링 버튼 이벤트
+        sourceSummaryEl.addEventListener('click', (e) => {
+          if (e.target.classList.contains('pill')) {
+            const text = e.target.textContent;
+            let source = 'all';
+            if (text.includes('위비티')) source = 'wevity';
+            else if (text.includes('씽굿')) source = 'thinkcontest';
+            else if (text.includes('캠퍼스픽')) source = 'campuspick';
+            
+            if (state.source === source) {
+              state.source = 'all';
+            } else {
+              state.source = source;
+            }
+            
+            Array.from(sourceSummaryEl.querySelectorAll('.pill')).forEach(pill => {
+              pill.classList.remove('active');
+            });
+            if (state.source !== 'all') {
+              e.target.classList.add('active');
+            }
+            render();
+          }
         });
 
         // 초기 상태: 오늘 보기 강조
