@@ -265,7 +265,9 @@
       const basePath = window.location.pathname.includes('contest-bot') 
         ? '/contest-bot/data/latest.json' 
         : './data/latest.json';
-      const res = await fetch(basePath, { cache: 'no-store' });
+      // 캐시를 우회하기 위해 쿼리스트링을 붙여 항상 최신 파일을 다시 요청합니다.
+      const freshPath = `${basePath}?t=${Date.now()}`;
+      const res = await fetch(freshPath, { cache: 'no-store' });
       if (!res.ok) throw new Error('latest.json 로드 실패');
       return res.json();
     }
@@ -336,7 +338,8 @@
       try {
         const data = await load();
 
-        updatedEl.textContent = `마지막 갱신: ${toLocalText(data.generatedAt)}`;
+        const checkedAt = new Date().toISOString();
+        updatedEl.textContent = `마지막 갱신: ${toLocalText(data.generatedAt)} (조회: ${toLocalText(checkedAt)})`;
         todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
@@ -381,7 +384,7 @@
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
-            if (state.query) {
+            if (String(state.query || '').trim()) {
               statusEl.textContent += ' 검색 조건에 맞는 공고가 없습니다.';
             }
             return;
