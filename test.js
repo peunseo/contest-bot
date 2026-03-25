@@ -132,7 +132,8 @@ async function scrapeWevity() {
       if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
-      // 상세 페이지 조회 실패는 전체 스크래핑 실패로 처리하지 않습니다.
+      // 접속 제한/연결 끊김으로 상세 조회가 실패한 경우를 사용자에게 명시합니다.
+      item.deadline = "마감일 확인 필요";
     }
   }
 
@@ -195,7 +196,7 @@ async function scrapeThinkgood() {
       if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
-      // 상세 조회 실패 시 기본값을 유지합니다.
+      item.deadline = "마감일 확인 필요";
     }
   }
 

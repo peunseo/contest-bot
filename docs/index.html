@@ -65,6 +65,13 @@
       flex-wrap: wrap;
     }
 
+    .source-summary {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .controls {
       margin-top: 16px;
       display: grid;
@@ -164,6 +171,8 @@
       margin: 0;
       font-size: 16px;
       line-height: 1.45;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .deadline {
@@ -214,6 +223,7 @@
         <span class="pill" id="todayCount">오늘 0건</span>
         <span class="pill" id="totalCount">전체 0건</span>
       </div>
+      <div class="source-summary" id="sourceSummary"></div>
       <div class="controls">
         <div class="mode-row" id="modeRow">
           <button class="mode-btn" data-mode="today">오늘</button>
@@ -306,6 +316,7 @@
       const statusEl = document.getElementById('status');
       const listEl = document.getElementById('list');
       const resultHintEl = document.getElementById('resultHint');
+      const sourceSummaryEl = document.getElementById('sourceSummary');
       const modeRowEl = document.getElementById('modeRow');
       const sourceFilterEl = document.getElementById('sourceFilter');
       const searchInputEl = document.getElementById('searchInput');
@@ -319,6 +330,21 @@
 
         const items = Array.isArray(data.items) ? data.items : [];
         const todayItems = Array.isArray(data.todayItems) ? data.todayItems : [];
+
+        const sourceCounts = items.reduce((acc, item) => {
+          const key = item.source || 'unknown';
+          acc[key] = (acc[key] || 0) + 1;
+          return acc;
+        }, {});
+        const unresolved = items.filter((x) => String(x.deadline || '').includes('확인 필요')).length;
+
+        sourceSummaryEl.innerHTML = `
+          <span class="pill">위비티 ${sourceCounts.wevity || 0}건</span>
+          <span class="pill">씽굿 ${sourceCounts.thinkcontest || 0}건</span>
+          <span class="pill">올콘 ${sourceCounts.allcon || 0}건</span>
+          <span class="pill">마감일 확인 필요 ${unresolved}건</span>
+        `;
+
         if (items.length === 0) {
           statusEl.textContent = '아직 수집된 데이터가 없습니다.';
           return;
