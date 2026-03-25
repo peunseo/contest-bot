@@ -249,6 +249,7 @@
     function sourceLabel(source) {
       if (source === 'wevity') return '위비티';
       if (source === 'thinkcontest') return '씽굿';
+      if (source === 'campuspick') return '캠퍼스픽';
       return source || 'unknown';
     }
 
@@ -264,11 +265,12 @@
       const deadline = item.deadline || '-';
       const deadlineClass = deadline.includes('없음') ? 'deadline warn' : 'deadline';
       const parsed = splitTitleAndField(item.title);
+      const field = item.field ? String(item.field).trim() : parsed.field;
       return `
         <article class="card" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <span class="source">${sourceLabel(item.source)}</span>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          ${parsed.field ? `<div class="field">분야: ${escapeHtml(parsed.field)}</div>` : ''}
+          ${field ? `<div class="field">분야: ${escapeHtml(field)}</div>` : ''}
           <div class="${deadlineClass}">기간: ${escapeHtml(deadline)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
@@ -310,6 +312,7 @@
         sourceSummaryEl.innerHTML = `
           <span class="pill">위비티 ${sourceCounts.wevity || 0}건</span>
           <span class="pill">씽굿 ${sourceCounts.thinkcontest || 0}건</span>
+          <span class="pill">캠퍼스픽 ${sourceCounts.campuspick || 0}건</span>
         `;
 
         if (items.length === 0) {

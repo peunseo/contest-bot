@@ -62,6 +62,18 @@ function extractUploadDate(text) {
   return "";
 }
 
+function splitTitleField(text) {
+  const s = cleanText(text);
+  const parts = s.split(/\s*분야\s*[:：]\s*/);
+  const title = cleanText(parts[0].replace(/\s+SPECIAL(?:\s+IDEA)?\s*$/i, ""));
+  const field = parts[1] ? cleanText(parts[1]) : "";
+  return { title, field };
+}
+
+function isContestLike(text) {
+  return /공모|경진|해커톤|아이디어|챌린지|모집|서포터즈/i.test(String(text || ""));
+}
+
 async function fetchWithRetry(url, config = {}, retries = 2) {
   let lastError;
   for (let i = 0; i <= retries; i += 1) {
@@ -183,14 +195,15 @@ async function scrapeWevity() {
   const results = [];
 
   $(".list li").each((i, el) => {
-    const title = cleanText($(el).find(".tit").text());
+    const rawTitle = cleanText($(el).find(".tit").text());
+    const parsed = splitTitleField(rawTitle);
     const link = safeAbsolute("https://www.wevity.com", $(el).find("a").attr("href"));
     const text = $(el).text();
 
     const deadline = extractDeadline(text);
     const uploadDate = extractUploadDate(text);
 
-    if (title && link) results.push({ title, link, deadline, uploadDate });
+    if (parsed.title && link) results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
   });
 
   // 목록 텍스트에 마감일이 없을 때 상세 페이지 본문에서 한 번 더 보강합니다.
@@ -246,7 +259,7 @@ async function scrapeThinkgood() {
           const title = cleanText(item?.name);
           const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
           if (title && link.includes("contest/view.do")) {
-            results.push({ title, link, deadline: "기간 정보 없음", uploadDate: "" });
+            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "" });
           }
         }
       }
@@ -280,13 +293,46 @@ async function scrapeThinkgood() {
 }
 
 // =======================
+// 3. 캠퍼스픽
+// =======================
+async function scrapeCampuspick() {
+  const apiUrl = "https://api2.campuspick.com/find/activity/list";
+  const { data } = await axios.get(apiUrl, {
+    params: {
+      target: 1,
+      limit: 40,
+      offset: 0
+    },
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+      Referer: "https://www.campuspick.com/contest"
+    }
+  });
+
+  const activities = data?.result?.activities || [];
+
+  const results = activities
+    .filter((a) => a?.id && a?.title)
+    .map((a) => ({
+      title: cleanText(a.title),
+      field: "",
+      link: `https://www.campuspick.com/contest/view?id=${a.id}`,
+      deadline: a.endDate ? cleanText(a.endDate) : "기간 정보 없음",
+      uploadDate: a.endDate ? cleanText(a.endDate) : ""
+    }));
+
+  return results.map((item) => ({ ...item, source: "campuspick" }));
+}
+
+// =======================
 // 통합
 // =======================
 async function getAllContests() {
   // 한 사이트가 실패해도 전체 수집은 계속 진행하기 위해 allSettled를 사용합니다.
   const jobs = [
     ["wevity", scrapeWevity()],
-    ["thinkcontest", scrapeThinkgood()]
+    ["thinkcontest", scrapeThinkgood()],
+    ["campuspick", scrapeCampuspick()]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
