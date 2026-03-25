@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공모전 데일리 보드</title>
+  <style>
+    :root {
+      --bg1: #f4efe4;
+      --bg2: #dbe8d9;
+      --ink: #1f2a24;
+      --muted: #5a6b61;
+      --card: #fffef9;
+      --line: #cfd8cd;
+      --accent: #2f7d57;
+      --accent2: #1f5a3f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      background: radial-gradient(circle at 10% 10%, #fff7df 0%, transparent 40%),
+                  radial-gradient(circle at 90% 20%, #d9f2dd 0%, transparent 35%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1000px, 92vw);
+      margin: 40px auto 60px;
+    }
+
+    .hero {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 8px 30px rgba(26, 47, 35, 0.08);
+      animation: rise 0.6s ease;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 3.3vw, 38px);
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .count {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: rise 0.5s ease forwards;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(19, 54, 34, 0.12);
+    }
+
+    .source {
+      display: inline-block;
+      width: fit-content;
+      font-size: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 999px;
+      padding: 4px 9px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .deadline {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    a.btn {
+      display: inline-block;
+      width: fit-content;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 11px;
+      color: var(--ink);
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .empty {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { margin-top: 20px; }
+      .hero { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>공모전 데일리 보드</h1>
+      <p class="meta" id="updated">업데이트 정보를 불러오는 중...</p>
+      <div class="count">
+        <span class="pill" id="todayCount">오늘 0건</span>
+        <span class="pill" id="totalCount">전체 0건</span>
+      </div>
+      <p class="empty" id="status"></p>
+    </section>
+
+    <section class="grid" id="list"></section>
+  </main>
+
+  <script>
+    // GitHub Pages에서 생성된 최신 JSON 파일을 읽어 화면에 렌더링합니다.
+    async function load() {
+      const res = await fetch('./data/latest.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('latest.json 로드 실패');
+      return res.json();
+    }
+
+    function toLocalText(iso) {
+      if (!iso) return '-';
+      const d = new Date(iso);
+      return d.toLocaleString('ko-KR', { hour12: false });
+    }
+
+    function makeCard(item, idx) {
+      return `
+        <article class="card" style="animation-delay:${Math.min(idx * 40, 500)}ms">
+          <span class="source">${item.source || 'unknown'}</span>
+          <h3 class="title">${item.title || ''}</h3>
+          <div class="deadline">마감: ${item.deadline || '-'}</div>
+          <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
+        </article>
+      `;
+    }
+
+    async function init() {
+      const updatedEl = document.getElementById('updated');
+      const todayCountEl = document.getElementById('todayCount');
+      const totalCountEl = document.getElementById('totalCount');
+      const statusEl = document.getElementById('status');
+      const listEl = document.getElementById('list');
+
+      try {
+        const data = await load();
+
+        updatedEl.textContent = `마지막 갱신: ${toLocalText(data.generatedAt)}`;
+        todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
+        totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
+
+        const items = Array.isArray(data.items) ? data.items : [];
+        if (items.length === 0) {
+          statusEl.textContent = '아직 수집된 데이터가 없습니다.';
+          return;
+        }
+
+        // 최신 공고를 먼저 보여주기 위해 상위 60개만 렌더링합니다.
+        listEl.innerHTML = items.slice(0, 60).map(makeCard).join('');
+      } catch (err) {
+        updatedEl.textContent = '데이터를 불러오지 못했습니다.';
+        statusEl.textContent = err.message;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
