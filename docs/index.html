@@ -336,8 +336,8 @@
       try {
         const data = await load();
 
-        const checkedAt = new Date().toISOString();
-        updatedEl.textContent = `마지막 갱신: ${toLocalText(data.generatedAt)} (조회: ${toLocalText(checkedAt)})`;
+        const refreshedAt = new Date().toISOString();
+        updatedEl.textContent = `마지막 갱신: ${toLocalText(refreshedAt)}`;
         todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
