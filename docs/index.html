@@ -183,6 +183,24 @@
 
     .pill {
       cursor: pointer;
+        .refresh-btn {
+          display: inline-block;
+          margin-left: 8px;
+          padding: 6px 10px;
+          border: 1px solid var(--line);
+          border-radius: 6px;
+          background: #fff;
+          color: var(--ink);
+          font-size: 13px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .refresh-btn:hover {
+          background: var(--accent);
+          color: #fff;
+          border-color: var(--accent);
+        }
     }
 
     .pill.active {
@@ -212,7 +230,7 @@
   <main class="wrap">
     <section class="hero">
       <h1>공모전 데일리 보드</h1>
-      <p class="meta" id="updated">업데이트 정보를 불러오는 중...</p>
+      <p class="meta" id="updated">업데이트 정보를 불러오는 중...<button class="refresh-btn" id="refreshBtn">갱신</button></p>
       <div class="count">
         <span class="pill" id="todayCount">오늘 0건</span>
         <span class="pill" id="totalCount">전체 0건</span>
@@ -275,11 +293,28 @@
       const deadline = item.deadline || '-';
       const deadlineClass = deadline.includes('없음') ? 'deadline warn' : 'deadline';
       const parsed = splitTitleAndField(item.title);
+            // 기간 포맷: "YYYY-MM-DD ~ YYYY-MM-DD" 형태를 "MM/DD ~ MM/DD" 또는 그대로 표시
+            let formattedDeadline = deadline;
+            if (deadline.includes('~')) {
+              const parts = deadline.split('~').map(d => d.trim());
+              if (parts.length === 2) {
+                const [start, end] = parts;
+                // YYYY-MM-DD 형식이면 MM/DD 형식으로 변환
+                const formatDate = (dateStr) => {
+                  if (dateStr.match(/\d{4}-\d{2}-\d{2}/)) {
+                    const [, m, d] = dateStr.match(/(\d{2})-(\d{2})$/) || [];
+                    return m && d ? `${m}/${d}` : dateStr;
+                  }
+                  return dateStr;
+                };
+                formattedDeadline = `${formatDate(start)} ~ ${formatDate(end)}`;
+              }
+            }
       return `
         <article class="card" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <span class="source">${sourceLabel(item.source)}</span>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          <div class="${deadlineClass}">기간: ${escapeHtml(deadline)}</div>
+          <div class="${deadlineClass}">기간: ${escapeHtml(formattedDeadline)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
@@ -335,12 +370,22 @@
           let base;
           if (state.view === 'today') {
             base = todayItems.length > 0 ? todayItems : items.slice(0, 30);
-            statusEl.textContent = todayItems.length > 0
-              ? `오늘 올라온 공고 ${todayItems.length}건을 보여드립니다.`
-              : '접수중 또는 접수예정 공고를 보여드립니다.';
+            const todayCount = todayItems.length > 0 ? todayItems.length : 0;
+            statusEl.textContent = `오늘 올라온 공고는 ${todayCount}건 있습니다.`;
           } else {
             base = items;
-            statusEl.textContent = `전체 ${items.length}건을 보여드립니다.`;
+            statusEl.textContent = `전체 공고는 총 ${items.length}건 있습니다.`;
+            const refreshBtn = document.getElementById('refreshBtn');
+
+                  // 갱신 버튼 이벤트 추가
+                  refreshBtn.addEventListener('click', () => {
+                    refreshBtn.textContent = '갱신 중...';
+                    refreshBtn.disabled = true;
+                    init().finally(() => {
+                      refreshBtn.textContent = '갱신';
+                      refreshBtn.disabled = false;
+                    });
+                  });
           }
           
           const filtered = applyFilters(base, state.query, state.source);
