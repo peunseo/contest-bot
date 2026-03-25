@@ -252,7 +252,6 @@
           <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
         </div>
       </div>
-      <p class="empty" id="status"></p>
     </section>
 
     <section class="grid" id="list"></section>
@@ -330,7 +329,6 @@
       const refreshBtn = document.getElementById('refreshBtn');
       const todayCountEl = document.getElementById('todayCount');
       const totalCountEl = document.getElementById('totalCount');
-      const statusEl = document.getElementById('status');
       const listEl = document.getElementById('list');
       const sourceSummaryEl = document.getElementById('sourceSummary');
       const searchInputEl = document.getElementById('searchInput');
@@ -361,7 +359,7 @@
         `;
 
         if (items.length === 0) {
-          statusEl.textContent = '아직 수집된 데이터가 없습니다.';
+          listEl.innerHTML = '';
           return;
         }
 
@@ -372,21 +370,10 @@
           if (state.view === 'today') base = todayItems;
           else base = items;
 
-          // 상태 문구는 검색어와 무관하게 현재 보기/소스 기준 건수를 우선 표시합니다.
-          const baseBySource = applyFilters(base, '', state.source);
-          if (state.view === 'today') {
-            statusEl.textContent = `오늘 올라온 공고는 ${baseBySource.length}건 있습니다.`;
-          } else {
-            statusEl.textContent = `전체 공고는 총 ${baseBySource.length}건 있습니다.`;
-          }
-
           const filtered = applyFilters(base, state.query, state.source);
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
-            if (String(state.query || '').trim()) {
-              statusEl.textContent += ' 검색 조건에 맞는 공고가 없습니다.';
-            }
             return;
           }
 
@@ -441,8 +428,7 @@
         todayCountEl.classList.remove('active');
         render();
       } catch (err) {
-        updatedEl.textContent = '데이터를 불러오지 못했습니다.';
-        statusEl.textContent = err.message;
+        updatedEl.textContent = `데이터를 불러오지 못했습니다. (${err.message})`;
       }
     }
 
