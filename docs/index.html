@@ -366,19 +366,24 @@
 
         function render() {
           let base;
+          if (state.view === 'today') base = todayItems;
+          else base = items;
+
+          // 상태 문구는 검색어와 무관하게 현재 보기/소스 기준 건수를 우선 표시합니다.
+          const baseBySource = applyFilters(base, '', state.source);
           if (state.view === 'today') {
-            base = todayItems;
-            statusEl.textContent = `오늘 올라온 공고는 ${todayItems.length}건 있습니다.`;
+            statusEl.textContent = `오늘 올라온 공고는 ${baseBySource.length}건 있습니다.`;
           } else {
-            base = items;
-            statusEl.textContent = `전체 공고는 총 ${items.length}건 있습니다.`;
+            statusEl.textContent = `전체 공고는 총 ${baseBySource.length}건 있습니다.`;
           }
 
           const filtered = applyFilters(base, state.query, state.source);
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
-            statusEl.textContent = '검색 조건에 맞는 공고가 없습니다.';
+            if (state.query) {
+              statusEl.textContent += ' 검색 조건에 맞는 공고가 없습니다.';
+            }
             return;
           }
 
