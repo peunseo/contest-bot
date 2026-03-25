@@ -230,7 +230,7 @@
   <main class="wrap">
     <section class="hero">
       <h1>공모전 데일리 보드</h1>
-      <p class="meta" id="updated">업데이트 정보를 불러오는 중...<button class="refresh-btn" id="refreshBtn">갱신</button></p>
+      <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span><button class="refresh-btn" id="refreshBtn">갱신</button></p>
       <div class="count">
         <span class="pill" id="todayCount">오늘 0건</span>
         <span class="pill" id="totalCount">전체 0건</span>
@@ -331,6 +331,7 @@
 
     async function init() {
       const updatedEl = document.getElementById('updated');
+      const refreshBtn = document.getElementById('refreshBtn');
       const todayCountEl = document.getElementById('todayCount');
       const totalCountEl = document.getElementById('totalCount');
       const statusEl = document.getElementById('status');
@@ -346,7 +347,10 @@
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
         const items = Array.isArray(data.items) ? data.items : [];
-        const todayItems = Array.isArray(data.todayItems) ? data.todayItems : [];
+        const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
+        const todayItems = todayFromData.length > 0
+          ? todayFromData
+          : items.filter((item) => String(item.uploadDate || '') === String(data.today || ''));
 
         const sourceCounts = items.reduce((acc, item) => {
           const key = item.source || 'unknown';
@@ -364,30 +368,18 @@
           return;
         }
 
-        const state = { query: '', view: 'today', source: 'all' }; // 'today' or 'all'
+        const state = { query: '', view: 'all', source: 'all' };
 
         function render() {
           let base;
           if (state.view === 'today') {
-            base = todayItems.length > 0 ? todayItems : items.slice(0, 30);
-            const todayCount = todayItems.length > 0 ? todayItems.length : 0;
-            statusEl.textContent = `오늘 올라온 공고는 ${todayCount}건 있습니다.`;
+            base = todayItems;
+            statusEl.textContent = `오늘 올라온 공고는 ${todayItems.length}건 있습니다.`;
           } else {
             base = items;
             statusEl.textContent = `전체 공고는 총 ${items.length}건 있습니다.`;
-            const refreshBtn = document.getElementById('refreshBtn');
-
-                  // 갱신 버튼 이벤트 추가
-                  refreshBtn.addEventListener('click', () => {
-                    refreshBtn.textContent = '갱신 중...';
-                    refreshBtn.disabled = true;
-                    init().finally(() => {
-                      refreshBtn.textContent = '갱신';
-                      refreshBtn.disabled = false;
-                    });
-                  });
           }
-          
+
           const filtered = applyFilters(base, state.query, state.source);
 
           if (filtered.length === 0) {
@@ -399,52 +391,52 @@
           listEl.innerHTML = filtered.map(makeCard).join('');
         }
 
-        todayCountEl.addEventListener('click', () => {
+        todayCountEl.onclick = () => {
           state.view = 'today';
           todayCountEl.classList.add('active');
           totalCountEl.classList.remove('active');
           render();
-        });
+        };
 
-        totalCountEl.addEventListener('click', () => {
+        totalCountEl.onclick = () => {
           state.view = 'all';
           totalCountEl.classList.add('active');
           todayCountEl.classList.remove('active');
           render();
-        });
+        };
 
-        searchInputEl.addEventListener('input', () => {
+        searchInputEl.oninput = () => {
           state.query = searchInputEl.value;
           render();
-        });
+        };
 
-        // 소스 필터링 버튼 이벤트
-        sourceSummaryEl.addEventListener('click', (e) => {
-          if (e.target.classList.contains('pill')) {
-            const text = e.target.textContent;
-            let source = 'all';
-            if (text.includes('위비티')) source = 'wevity';
-            else if (text.includes('씽굿')) source = 'thinkcontest';
-            else if (text.includes('캠퍼스픽')) source = 'campuspick';
-            
-            if (state.source === source) {
-              state.source = 'all';
-            } else {
-              state.source = source;
-            }
-            
-            Array.from(sourceSummaryEl.querySelectorAll('.pill')).forEach(pill => {
-              pill.classList.remove('active');
-            });
-            if (state.source !== 'all') {
-              e.target.classList.add('active');
-            }
-            render();
-          }
-        });
+        sourceSummaryEl.onclick = (e) => {
+          if (!e.target.classList.contains('pill')) return;
+          const text = e.target.textContent;
+          let source = 'all';
+          if (text.includes('위비티')) source = 'wevity';
+          else if (text.includes('씽굿')) source = 'thinkcontest';
+          else if (text.includes('캠퍼스픽')) source = 'campuspick';
 
-        // 초기 상태: 오늘 보기 강조
-        todayCountEl.classList.add('active');
+          state.source = state.source === source ? 'all' : source;
+
+          Array.from(sourceSummaryEl.querySelectorAll('.pill')).forEach((pill) => {
+            pill.classList.remove('active');
+          });
+          if (state.source !== 'all') e.target.classList.add('active');
+          render();
+        };
+
+        refreshBtn.onclick = async () => {
+          refreshBtn.textContent = '갱신 중...';
+          refreshBtn.disabled = true;
+          await init();
+          refreshBtn.textContent = '갱신';
+          refreshBtn.disabled = false;
+        };
+
+        totalCountEl.classList.add('active');
+        todayCountEl.classList.remove('active');
         render();
       } catch (err) {
         updatedEl.textContent = '데이터를 불러오지 못했습니다.';
