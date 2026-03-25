@@ -23,6 +23,16 @@ function getIsoNow() {
 function extractDeadline(text) {
   const s = cleanText(text);
 
+  const korRange = s.match(/\d{4}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?\s*[~\-]\s*(?:\d{4}\s*년\s*)?\d{1,2}\s*월\s*\d{1,2}\s*일?/);
+  if (korRange) {
+    return korRange[0]
+      .replace(/\s*년\s*/g, "-")
+      .replace(/\s*월\s*/g, "-")
+      .replace(/\s*일\s*/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   const fullRange = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}\s*[~\-]\s*\d{4}[./-]\d{1,2}[./-]\d{1,2}/);
   if (fullRange) return fullRange[0];
 
@@ -50,6 +60,21 @@ function extractUploadDate(text) {
   }
 
   return "";
+}
+
+async function fetchWithRetry(url, config = {}, retries = 2) {
+  let lastError;
+  for (let i = 0; i <= retries; i += 1) {
+    try {
+      return await axios.get(url, config);
+    } catch (err) {
+      lastError = err;
+      if (i < retries) {
+        await new Promise((r) => setTimeout(r, 500 * (i + 1)));
+      }
+    }
+  }
+  throw lastError;
 }
 
 // 줄바꿈/중복 공백을 줄여 카드 UI에서 읽기 쉽게 정리합니다.
@@ -96,10 +121,10 @@ async function scrapeWevity() {
     if (item.deadline !== "마감일 없음") continue;
 
     try {
-      const detail = await axios.get(item.link, {
+      const detail = await fetchWithRetry(item.link, {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
-      });
+      }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
       const enrichedDeadline = extractDeadline(detailText);
       const enrichedUploadDate = extractUploadDate(detailText);
@@ -156,13 +181,13 @@ async function scrapeThinkgood() {
   // 씽굿 상세 페이지에서 실제 접수기간/마감일을 보강합니다.
   for (const item of results) {
     try {
-      const detail = await axios.get(item.link, {
+      const detail = await fetchWithRetry(item.link, {
         headers: {
           "User-Agent": "Mozilla/5.0",
           Referer: "https://www.thinkcontest.com/"
         },
         timeout: 8000
-      });
+      }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
       const enrichedDeadline = extractDeadline(detailText);
       const enrichedUploadDate = extractUploadDate(detailText);
