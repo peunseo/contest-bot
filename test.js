@@ -204,42 +204,13 @@ async function scrapeThinkgood() {
 }
 
 // =======================
-// 3. 올콘
-// =======================
-async function scrapeAllcon() {
-  const url = "https://www.all-con.co.kr/uni_contest";
-  const { data } = await axios.get(url, {
-    headers: {
-      "User-Agent": "Mozilla/5.0"
-    }
-  });
-  const $ = cheerio.load(data);
-
-  const results = [];
-
-  $(".list li").each((i, el) => {
-    const title = cleanText($(el).find(".title").text());
-    const link = safeAbsolute("https://www.all-con.co.kr", $(el).find("a").attr("href"));
-    const text = $(el).text();
-
-    const deadline = extractDeadline(text);
-    const uploadDate = extractUploadDate(text);
-
-    if (title && link) results.push({ title, link, deadline, uploadDate });
-  });
-
-  return results.map((item) => ({ ...item, source: "allcon" }));
-}
-
-// =======================
 // 통합
 // =======================
 async function getAllContests() {
   // 한 사이트가 실패해도 전체 수집은 계속 진행하기 위해 allSettled를 사용합니다.
   const jobs = [
     ["wevity", scrapeWevity()],
-    ["thinkcontest", scrapeThinkgood()],
-    ["allcon", scrapeAllcon()]
+    ["thinkcontest", scrapeThinkgood()]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
