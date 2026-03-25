@@ -140,7 +140,7 @@ function extractCampusPeriod(detailText, endDate) {
   }
 
   const endOnly = normalizeDeadline(endDate, endDate);
-  return endOnly === "기간 정보 없음" ? endOnly : `시작일 미제공 ~ ${endOnly}`;
+  return endOnly;
 }
 
 function addDaysYmd(days) {
