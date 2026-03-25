@@ -1,6 +1,13 @@
 name: Daily Scrape And Deploy
 
 on:
+  # docs 변경이 push되면 즉시 Pages를 다시 배포합니다.
+  push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - .github/workflows/daily-scrape-and-deploy.yml
   # 매일 KST 오전 9시 = UTC 00:00
   schedule:
     - cron: "0 0 * * *"
@@ -34,15 +41,19 @@ jobs:
           cache: npm
 
       - name: Install dependencies
+        if: github.event_name != 'push'
         run: npm ci
 
       - name: Run scraper
+        # push 배포에서는 스크래핑을 생략해, 로컬에서 검증한 데이터가 그대로 배포되게 합니다.
+        if: github.event_name != 'push'
         env:
           # GitHub Secrets에 값이 있으면 Discord 알림, 없으면 자동 생략됩니다.
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: npm run scrape
 
       - name: Commit updated data if changed
+        if: github.event_name != 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
