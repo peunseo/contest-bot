@@ -42,7 +42,7 @@ function extractDeadline(text) {
   const labeled = s.match(/(?:마감|마감일|접수마감)\s*[:：]?\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
   if (labeled) return labeled[1];
 
-  return "마감일 없음";
+  return "기간 정보 없음";
 }
 
 function extractUploadDate(text) {
@@ -75,6 +75,83 @@ async function fetchWithRetry(url, config = {}, retries = 2) {
     }
   }
   throw lastError;
+}
+
+function parseDateValue(value, fallbackYear) {
+  if (!value) return null;
+
+  const normalized = String(value)
+    .trim()
+    .replace(/\./g, "-")
+    .replace(/\//g, "-");
+
+  const withYear = normalized.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (withYear) {
+    const y = Number(withYear[1]);
+    const m = Number(withYear[2]);
+    const d = Number(withYear[3]);
+    return new Date(y, m - 1, d);
+  }
+
+  const short = normalized.match(/^(\d{1,2})-(\d{1,2})$/);
+  if (short) {
+    const y = fallbackYear;
+    const m = Number(short[1]);
+    const d = Number(short[2]);
+    return new Date(y, m - 1, d);
+  }
+
+  return null;
+}
+
+function getPeriodRange(deadlineText) {
+  const text = cleanText(deadlineText || "");
+  const today = new Date();
+  const currentYear = today.getFullYear();
+
+  const fullRange = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2})\s*[~\-]\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2})/);
+  if (fullRange) {
+    return {
+      start: parseDateValue(fullRange[1], currentYear),
+      end: parseDateValue(fullRange[2], currentYear)
+    };
+  }
+
+  const shortRange = text.match(/(\d{1,2}[./-]\d{1,2})\s*[~\-]\s*(\d{1,2}[./-]\d{1,2})/);
+  if (shortRange) {
+    const start = parseDateValue(shortRange[1], currentYear);
+    let end = parseDateValue(shortRange[2], currentYear);
+    if (start && end && end < start) {
+      end = new Date(currentYear + 1, end.getMonth(), end.getDate());
+    }
+    return { start, end };
+  }
+
+  const single = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
+  if (single) {
+    const d = parseDateValue(single[1], currentYear);
+    return { start: d, end: d };
+  }
+
+  return { start: null, end: null };
+}
+
+function filterActiveOrUpcoming(list) {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  return list.filter((item) => {
+    const { start, end } = getPeriodRange(item.deadline);
+
+    // 기간을 파싱할 수 없는 항목은 접수 상태를 판별할 수 없어 제외합니다.
+    if (!start && !end) return false;
+
+    // 접수중(start <= today <= end) 또는 접수예정(today < start)만 유지합니다.
+    if (start && end) return today <= end;
+    if (!start && end) return today <= end;
+    if (start && !end) return today <= start;
+    return false;
+  });
 }
 
 // 줄바꿈/중복 공백을 줄여 카드 UI에서 읽기 쉽게 정리합니다.
@@ -118,7 +195,7 @@ async function scrapeWevity() {
 
   // 목록 텍스트에 마감일이 없을 때 상세 페이지 본문에서 한 번 더 보강합니다.
   for (const item of results) {
-    if (item.deadline !== "마감일 없음") continue;
+    if (item.deadline !== "기간 정보 없음") continue;
 
     try {
       const detail = await fetchWithRetry(item.link, {
@@ -129,11 +206,10 @@ async function scrapeWevity() {
       const enrichedDeadline = extractDeadline(detailText);
       const enrichedUploadDate = extractUploadDate(detailText);
 
-      if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
+      if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
-      // 접속 제한/연결 끊김으로 상세 조회가 실패한 경우를 사용자에게 명시합니다.
-      item.deadline = "마감일 확인 필요";
+      item.deadline = "기간 정보 없음";
     }
   }
 
@@ -170,7 +246,7 @@ async function scrapeThinkgood() {
           const title = cleanText(item?.name);
           const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
           if (title && link.includes("contest/view.do")) {
-            results.push({ title, link, deadline: "마감일 확인 필요", uploadDate: "" });
+            results.push({ title, link, deadline: "기간 정보 없음", uploadDate: "" });
           }
         }
       }
@@ -193,10 +269,10 @@ async function scrapeThinkgood() {
       const enrichedDeadline = extractDeadline(detailText);
       const enrichedUploadDate = extractUploadDate(detailText);
 
-      if (enrichedDeadline !== "마감일 없음") item.deadline = enrichedDeadline;
+      if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
-      item.deadline = "마감일 확인 필요";
+      item.deadline = "기간 정보 없음";
     }
   }
 
@@ -248,16 +324,17 @@ function dedupeByTitleAndLink(list) {
 
 function buildPayload(allList) {
   const unique = dedupeByTitleAndLink(allList);
-  const todayList = filterToday(unique);
+  const activeOrUpcoming = filterActiveOrUpcoming(unique);
+  const todayList = filterToday(activeOrUpcoming);
 
   return {
     generatedAt: getIsoNow(),
     today: getToday(),
     counts: {
-      total: unique.length,
+      total: activeOrUpcoming.length,
       today: todayList.length
     },
-    items: unique,
+    items: activeOrUpcoming,
     todayItems: todayList
   };
 }
