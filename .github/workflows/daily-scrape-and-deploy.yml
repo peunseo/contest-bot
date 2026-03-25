@@ -44,6 +44,10 @@ jobs:
         if: github.event_name != 'push'
         run: npm ci
 
+      - name: Install Playwright browser
+        if: github.event_name != 'push'
+        run: npx playwright install --with-deps chromium
+
       - name: Run scraper
         # push 배포에서는 스크래핑을 생략해, 로컬에서 검증한 데이터가 그대로 배포되게 합니다.
         if: github.event_name != 'push'

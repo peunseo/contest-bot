@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 
@@ -142,6 +143,35 @@ function extractCampusPeriod(detailText, endDate) {
   return endOnly === "기간 정보 없음" ? endOnly : `시작일 미제공 ~ ${endOnly}`;
 }
 
+function addDaysYmd(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + Number(days || 0));
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+
+function inferLinkareerDeadline(titleText, cardText) {
+  const title = cleanText(titleText || "");
+  const card = cleanText(cardText || "");
+
+  const md = title.match(/\(~?\s*(\d{1,2})\/(\d{1,2})\s*\)/);
+  if (md) {
+    const now = new Date();
+    const m = Number(md[1]);
+    const d = Number(md[2]);
+    let y = now.getFullYear();
+    const candidate = new Date(y, m - 1, d);
+    if (candidate < new Date(now.getFullYear(), now.getMonth(), now.getDate() - 31)) {
+      y += 1;
+    }
+    return formatYmd(y, m, d);
+  }
+
+  const dday = card.match(/D\s*-\s*(\d{1,3})/i);
+  if (dday) return addDaysYmd(Number(dday[1]));
+
+  return "기간 정보 없음";
+}
+
 function isContestLike(text) {
   return /공모|경진|해커톤|아이디어|챌린지|모집|서포터즈/i.test(String(text || ""));
 }
@@ -257,11 +287,12 @@ function safeAbsolute(base, href) {
 // =======================
 async function scrapeWevity() {
   const url = "https://www.wevity.com/?c=find&s=1&gub=1";
-  const { data } = await axios.get(url, {
+  const { data } = await fetchWithRetry(url, {
     headers: {
       "User-Agent": "Mozilla/5.0"
-    }
-  });
+    },
+    timeout: 10000
+  }, 2);
   const $ = cheerio.load(data);
 
   const results = [];
@@ -410,6 +441,68 @@ async function scrapeCampuspick() {
 }
 
 // =======================
+// 4. 링커리어
+// =======================
+async function scrapeLinkareer() {
+  const browser = await chromium.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
+
+  try {
+    const page = await browser.newPage({
+      userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    });
+
+    await page.goto("https://linkareer.com/list/contest", {
+      waitUntil: "domcontentloaded",
+      timeout: 30000
+    });
+
+    await page.waitForTimeout(3500);
+    await page.waitForFunction(() => {
+      const clean = (s) => String(s || "").replace(/\s+/g, " ").trim();
+      const titled = Array.from(document.querySelectorAll("a[href*='/activity/']"))
+        .filter((a) => clean(a.textContent || "").length > 0);
+      return titled.length >= 10;
+    }, { timeout: 20000 });
+
+    const rows = await page.evaluate(() => {
+      const clean = (s) => String(s || "").replace(/\s+/g, " ").trim();
+      const anchors = Array.from(document.querySelectorAll("a[href*='/activity/']"));
+      return anchors.map((a) => {
+        const href = a.getAttribute("href") || "";
+        const title = clean(a.textContent || "");
+        const cardText = clean((a.parentElement && a.parentElement.textContent) || title);
+        return { href, title, cardText };
+      });
+    });
+
+    const out = [];
+    for (const row of rows) {
+      if (!row.href || !row.title) continue;
+      if (!isContestLike(row.title)) continue;
+      if (!/\/activity\/\d+/.test(row.href)) continue;
+
+      const deadline = inferLinkareerDeadline(row.title, row.cardText);
+      out.push({
+        title: cleanText(row.title),
+        field: "",
+        link: safeAbsolute("https://linkareer.com", row.href),
+        deadline,
+        uploadDate: extractUploadDate(deadline)
+      });
+    }
+
+    return dedupeByTitleAndLink(out)
+      .slice(0, 60)
+      .map((item) => ({ ...item, source: "linkareer" }));
+  } finally {
+    await browser.close();
+  }
+}
+
+// =======================
 // 통합
 // =======================
 async function getAllContests() {
@@ -417,7 +510,8 @@ async function getAllContests() {
   const jobs = [
     ["wevity", scrapeWevity()],
     ["thinkcontest", scrapeThinkgood()],
-    ["campuspick", scrapeCampuspick()]
+    ["campuspick", scrapeCampuspick()],
+    ["linkareer", scrapeLinkareer()]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 

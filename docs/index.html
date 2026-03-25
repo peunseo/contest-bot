@@ -290,6 +290,7 @@
       if (source === 'wevity') return '위비티';
       if (source === 'thinkcontest') return '씽굿';
       if (source === 'campuspick') return '캠퍼스픽';
+      if (source === 'linkareer') return '링커리어';
       return source || 'unknown';
     }
 
@@ -356,6 +357,7 @@
           <span class="pill">위비티 ${sourceCounts.wevity || 0}건</span>
           <span class="pill">씽굿 ${sourceCounts.thinkcontest || 0}건</span>
           <span class="pill">캠퍼스픽 ${sourceCounts.campuspick || 0}건</span>
+          <span class="pill">링커리어 ${sourceCounts.linkareer || 0}건</span>
         `;
 
         if (items.length === 0) {
@@ -406,6 +408,7 @@
           if (text.includes('위비티')) source = 'wevity';
           else if (text.includes('씽굿')) source = 'thinkcontest';
           else if (text.includes('캠퍼스픽')) source = 'campuspick';
+          else if (text.includes('링커리어')) source = 'linkareer';
 
           state.source = state.source === source ? 'all' : source;
 

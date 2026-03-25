@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-25T05:10:00.450Z",
+  "generatedAt": "2026-03-25T07:02:52.759Z",
   "today": "2026.03.25",
   "counts": {
-    "total": 61,
-    "today": 4
+    "total": 84,
+    "today": 6
   },
   "items": [
     {
@@ -111,11 +111,19 @@
       "source": "wevity"
     },
     {
-      "title": "2026 학교안전공제중앙회 온라인 서포터즈 2기 모집 신규",
-      "field": "대외활동/서포터즈",
-      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106018",
-      "deadline": "2026-04-01 ~ 2026-04-14",
-      "uploadDate": "2026.04.01",
+      "title": "제5기 마포구정신건강복지센터 정신건강 서포터즈 모집 신규",
+      "field": "기타",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106023",
+      "deadline": "2026-03-25 ~ 2026-04-13",
+      "uploadDate": "2026.03.25",
+      "source": "wevity"
+    },
+    {
+      "title": "2026 한국안데르센상 작품공모전 신규",
+      "field": "문학/글/시나리오",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106022",
+      "deadline": "2026-03-25 ~ 2026-05-27",
+      "uploadDate": "2026.03.25",
       "source": "wevity"
     },
     {
@@ -493,9 +501,201 @@
       "deadline": "시작일 미제공 ~ 2026-04-20",
       "uploadDate": "2026.04.20",
       "source": "campuspick"
+    },
+    {
+      "title": "추천[그린카] 롯데렌터카 G car 캐릭터 공모전(~4/13)",
+      "field": "",
+      "link": "https://linkareer.com/activity/309725",
+      "deadline": "2026-04-13",
+      "uploadDate": "2026.04.13",
+      "source": "linkareer"
+    },
+    {
+      "title": "추천2026 광화문글판 대학생 에세이 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/306120",
+      "deadline": "2026-04-05",
+      "uploadDate": "2026.04.05",
+      "source": "linkareer"
+    },
+    {
+      "title": "추천2026 광화문글판 여름편 문안 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/298600",
+      "deadline": "2026-04-05",
+      "uploadDate": "2026.04.05",
+      "source": "linkareer"
+    },
+    {
+      "title": "추천[문화체육관광부] 문화요일 영상 공모전 (~4/14)",
+      "field": "",
+      "link": "https://linkareer.com/activity/309750",
+      "deadline": "2026-04-14",
+      "uploadDate": "2026.04.14",
+      "source": "linkareer"
+    },
+    {
+      "title": "추천2026 산업안전보건 혁신 아이디어 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/299703",
+      "deadline": "2026-04-03",
+      "uploadDate": "2026.04.03",
+      "source": "linkareer"
+    },
+    {
+      "title": "청년지원공동체 소울 경기 기획전시 <Hero : 숨은 영웅들> 작가 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310845",
+      "deadline": "2026-04-23",
+      "uploadDate": "2026.04.23",
+      "source": "linkareer"
+    },
+    {
+      "title": "인천광역시 검단구 상징물 키워드 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310840",
+      "deadline": "2026-04-01",
+      "uploadDate": "2026.04.01",
+      "source": "linkareer"
+    },
+    {
+      "title": "2026년 상반기 완도 군정발전 아이디어 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310813",
+      "deadline": "2026-04-10",
+      "uploadDate": "2026.04.10",
+      "source": "linkareer"
+    },
+    {
+      "title": "시민 참여 희망연구 지원사업 참여자 모집",
+      "field": "",
+      "link": "https://linkareer.com/activity/310744",
+      "deadline": "2026-03-31",
+      "uploadDate": "2026.03.31",
+      "source": "linkareer"
+    },
+    {
+      "title": "[곰믹스] 제8회 영상 공모전 '백만 유튜버 상상이라도 해보자'(~4/30)",
+      "field": "",
+      "link": "https://linkareer.com/activity/310736",
+      "deadline": "2026-04-30",
+      "uploadDate": "2026.04.30",
+      "source": "linkareer"
+    },
+    {
+      "title": "「2026 진주 정원박람회」 가족정원 모집 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310639",
+      "deadline": "2026-04-22",
+      "uploadDate": "2026.04.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "「2026 진주 정원박람회」 푸드트럭 참여자 모집 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310637",
+      "deadline": "2026-04-22",
+      "uploadDate": "2026.04.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "「2026 진주 정원박람회」정원산업전 참여업체 모집 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310636",
+      "deadline": "2026-04-22",
+      "uploadDate": "2026.04.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "「2026 진주 정원박람회」 시민참여정원 작품 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310634",
+      "deadline": "2026-04-22",
+      "uploadDate": "2026.04.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "「2026 진주 정원박람회」 시민 문화공연팀 모집 공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310633",
+      "deadline": "2026-04-22",
+      "uploadDate": "2026.04.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "15분도시 안전통학로 명칭 시민공모",
+      "field": "",
+      "link": "https://linkareer.com/activity/310591",
+      "deadline": "2026-04-05",
+      "uploadDate": "2026.04.05",
+      "source": "linkareer"
+    },
+    {
+      "title": "제1회 워크하우스컴퍼니 시나리오 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310590",
+      "deadline": "2026-06-22",
+      "uploadDate": "2026.06.22",
+      "source": "linkareer"
+    },
+    {
+      "title": "제13회 이데일리 사진 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310587",
+      "deadline": "2026-05-15",
+      "uploadDate": "2026.05.15",
+      "source": "linkareer"
+    },
+    {
+      "title": "네이버 D2SF - 2026 캠퍼스 기술창업 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310581",
+      "deadline": "2026-05-10",
+      "uploadDate": "2026.05.10",
+      "source": "linkareer"
+    },
+    {
+      "title": "한화손보 x 좋은생각 갱년기 사연 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310573",
+      "deadline": "2026-04-30",
+      "uploadDate": "2026.04.30",
+      "source": "linkareer"
+    },
+    {
+      "title": "2026 제2회 글로벌 프런티어 뷰티 아티스트 국제 공모전 (GFBAC)",
+      "field": "",
+      "link": "https://linkareer.com/activity/310566",
+      "deadline": "2026-04-30",
+      "uploadDate": "2026.04.30",
+      "source": "linkareer"
+    },
+    {
+      "title": "2026년 감사나눔학술대회 발표 논문 공모전",
+      "field": "",
+      "link": "https://linkareer.com/activity/310562",
+      "deadline": "2026-04-18",
+      "uploadDate": "2026.04.18",
+      "source": "linkareer"
     }
   ],
   "todayItems": [
+    {
+      "title": "제5기 마포구정신건강복지센터 정신건강 서포터즈 모집 신규",
+      "field": "기타",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106023",
+      "deadline": "2026-03-25 ~ 2026-04-13",
+      "uploadDate": "2026.03.25",
+      "source": "wevity"
+    },
+    {
+      "title": "2026 한국안데르센상 작품공모전 신규",
+      "field": "문학/글/시나리오",
+      "link": "https://www.wevity.com?c=find&s=1&gub=1&gbn=view&gp=1&ix=106022",
+      "deadline": "2026-03-25 ~ 2026-05-27",
+      "uploadDate": "2026.03.25",
+      "source": "wevity"
+    },
     {
       "title": "스타트업 커리어 챌린지’ AI·블록체인 아이디어 공모전",
       "field": "",
