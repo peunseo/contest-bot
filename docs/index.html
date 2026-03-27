@@ -710,6 +710,7 @@
 
         todayCountEl.onclick = () => {
           state.view = 'today';
+          state.source = 'all';
           state.page = 1;
           todayCountEl.classList.add('active');
           urgentCountEl.classList.remove('active');
@@ -719,6 +720,7 @@
 
         urgentCountEl.onclick = () => {
           state.view = 'urgent';
+          state.source = 'all';
           state.page = 1;
           urgentCountEl.classList.add('active');
           todayCountEl.classList.remove('active');
@@ -728,6 +730,7 @@
 
         totalCountEl.onclick = () => {
           state.view = 'all';
+          state.source = 'all';
           state.page = 1;
           totalCountEl.classList.add('active');
           todayCountEl.classList.remove('active');
