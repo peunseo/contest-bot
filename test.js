@@ -318,6 +318,37 @@ function extractKeyDatesFromHtml(html) {
   return { startDate, endDate };
 }
 
+function epochToYmd(epochValue) {
+  const n = Number(epochValue);
+  if (!Number.isFinite(n) || n <= 0) return "";
+  const d = new Date(n);
+  if (Number.isNaN(d.getTime())) return "";
+  return formatYmd(d.getFullYear(), d.getMonth() + 1, d.getDate());
+}
+
+function extractLinkareerKeyDatesFromHtml(html) {
+  const source = String(html || "");
+
+  // 링크커리어 상세에는 recruitStartAt/recruitEndAt가 epoch(ms)로 노출되는 경우가 많습니다.
+  const startEpoch = source.match(/recruitStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || source.match(/applyStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || source.match(/receiptStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || "";
+  const endEpoch = source.match(/recruitEndAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || source.match(/applyEndAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || source.match(/receiptEndAt\s*[:=]\s*(\d{10,13})/i)?.[1]
+    || "";
+
+  const startFromEpoch = epochToYmd(startEpoch);
+  const endFromEpoch = epochToYmd(endEpoch);
+  if (startFromEpoch || endFromEpoch) {
+    return { startDate: startFromEpoch, endDate: endFromEpoch };
+  }
+
+  const plain = extractKeyDatesFromHtml(source);
+  return plain;
+}
+
 function addDaysYmd(days) {
   const d = new Date();
   d.setDate(d.getDate() + Number(days || 0));
@@ -803,7 +834,7 @@ async function scrapeLinkareer() {
         const text = await detailPage.evaluate(() => String(document.body?.innerText || "").replace(/\s+/g, " ").trim());
         await detailPage.close();
 
-        const keyDates = extractKeyDatesFromHtml(html);
+        const keyDates = extractLinkareerKeyDatesFromHtml(html);
         const periodFromText = extractPeriodRangeFromText(text, item.uploadDate || extractUploadDate(text));
 
         if (keyDates.startDate || periodFromText.startDate) item.startDateHint = keyDates.startDate || periodFromText.startDate;
@@ -824,6 +855,32 @@ async function scrapeLinkareer() {
     return deduped.map((item) => ({ ...item, source: "linkareer" }));
   } finally {
     await browser.close();
+  }
+}
+
+async function scrapeLinkareerWithRetry(maxAttempts = 3) {
+  let lastError;
+  for (let i = 1; i <= maxAttempts; i += 1) {
+    try {
+      return await scrapeLinkareer();
+    } catch (err) {
+      lastError = err;
+      if (i < maxAttempts) {
+        await new Promise((r) => setTimeout(r, 1200 * i));
+      }
+    }
+  }
+  throw lastError;
+}
+
+function loadPreviousSourceItems(source) {
+  try {
+    if (!fs.existsSync(OUTPUT_PATH)) return [];
+    const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf8"));
+    const items = Array.isArray(prev?.items) ? prev.items : [];
+    return items.filter((x) => x && x.source === source);
+  } catch (_) {
+    return [];
   }
 }
 
@@ -925,7 +982,7 @@ async function getAllContests() {
     ["wevity", scrapeWevity()],
     ["thinkcontest", scrapeThinkgood()],
     ["campuspick", scrapeCampuspick()],
-    ["linkareer", scrapeLinkareer()]
+    ["linkareer", scrapeLinkareerWithRetry(3)]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
@@ -942,6 +999,14 @@ async function getAllContests() {
     for (const f of failed) {
       const reason = f.result.reason?.message || String(f.result.reason);
       console.warn(`  - ${f.source}: ${reason}`);
+
+      if (f.source === "linkareer") {
+        const fallback = loadPreviousSourceItems("linkareer");
+        if (fallback.length > 0) {
+          console.warn(`  - linkareer: 이전 데이터 ${fallback.length}건으로 대체`);
+          results.push(fallback);
+        }
+      }
     }
   }
 
