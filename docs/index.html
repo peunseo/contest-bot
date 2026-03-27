@@ -366,35 +366,6 @@
       cursor: pointer;
     }
 
-    .refresh-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 12px;
-      width: 34px;
-      height: 34px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--accent2);
-      font-size: 16px;
-      line-height: 1;
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .refresh-btn:hover {
-      background: var(--accent);
-      color: #fff;
-      transform: rotate(20deg);
-    }
-
-    .refresh-btn:disabled {
-      opacity: 0.6;
-      cursor: default;
-      transform: none;
-    }
-
     .pill.active {
       background: var(--accent);
       color: #fff;
@@ -425,7 +396,7 @@
   <main class="wrap">
     <section class="hero">
       <h1>공모전 데일리 보드</h1>
-      <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span><button class="refresh-btn" id="refreshBtn" aria-label="데이터 갱신" title="데이터 갱신">↻</button></p>
+      <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span></p>
       <div class="count">
         <span class="pill" id="totalCount">전체 0건</span>
         <span class="pill" id="urgentCount">마감임박 0건</span>
@@ -636,7 +607,6 @@
     // 페이지 초기 데이터 로드, 이벤트 연결, 첫 화면 렌더링을 수행합니다.
     async function init() {
       const updatedEl = document.getElementById('updated');
-      const refreshBtn = document.getElementById('refreshBtn');
       const todayCountEl = document.getElementById('todayCount');
       const urgentCountEl = document.getElementById('urgentCount');
       const totalCountEl = document.getElementById('totalCount');
@@ -823,16 +793,6 @@
         nextPageEl.onclick = () => {
           state.page += 1;
           render();
-        };
-
-        refreshBtn.onclick = async () => {
-          // 새로고침은 init()을 재실행해 데이터/이벤트/렌더를 일괄 갱신합니다.
-          // 버튼 비활성화는 중복 클릭으로 인한 중복 호출을 막기 위한 처리입니다.
-          refreshBtn.textContent = '...';
-          refreshBtn.disabled = true;
-          await init();
-          refreshBtn.textContent = '↻';
-          refreshBtn.disabled = false;
         };
 
         if (siteDropdownEl) {
