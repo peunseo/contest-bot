@@ -112,13 +112,46 @@
       gap: 14px;
     }
 
+    .pager {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pager-btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 7px 11px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .pager-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .pager-info {
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 88px;
+      text-align: center;
+    }
+
     .card {
       border: 1px solid var(--line);
       border-radius: 14px;
       background: var(--card);
       padding: 14px;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 8px;
+      min-height: 220px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       opacity: 0;
       transform: translateY(8px);
@@ -156,17 +189,56 @@
       padding: 4px 9px;
     }
 
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 24px;
+    }
+
+    .dday-chip {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #f0c36a;
+      background: #fff2cf;
+      color: #7c5a18;
+      white-space: nowrap;
+    }
+
+    .dday-chip.urgent {
+      border-color: #e79d55;
+      background: #ffe8cf;
+      color: #8a3f08;
+      box-shadow: 0 0 0 2px rgba(231, 157, 85, 0.15);
+    }
+
+    .dday-chip.closed {
+      border-color: #b8b8b8;
+      background: #ececec;
+      color: #6d6d6d;
+      box-shadow: none;
+    }
+
     .title {
       margin: 0;
       font-size: 16px;
       line-height: 1.45;
       overflow-wrap: anywhere;
       word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 70px;
     }
 
     .deadline {
       font-size: 13px;
       color: var(--muted);
+      min-height: 34px;
     }
 
     .deadline.warn {
@@ -201,12 +273,13 @@
       background: #fff;
       font-size: 13px;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      margin-top: auto;
     }
 
     a.btn:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent2);
+      background: #eef6ef;
+      color: #2a6246;
+      border-color: #a7c3af;
     }
 
     .pill {
@@ -285,6 +358,11 @@
     </section>
 
     <section class="grid" id="list"></section>
+    <div class="pager" id="pager">
+      <button class="pager-btn" id="prevPage">이전</button>
+      <span class="pager-info" id="pageInfo">1 / 1</span>
+      <button class="pager-btn" id="nextPage">다음</button>
+    </div>
   </main>
 
   <script>
@@ -366,6 +444,12 @@
       return `D-${dday}`;
     }
 
+    function badgeClass(item) {
+      if (isClosed(item)) return 'dday-chip closed';
+      if (isUrgent(item)) return 'dday-chip urgent';
+      return 'dday-chip';
+    }
+
     function isClosed(item) {
       if (typeof item.isClosed === 'boolean') return item.isClosed;
       const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
@@ -383,13 +467,16 @@
       const closed = isClosed(item);
       const ddayText = toBadge(item);
       const deadlineClass = closed ? 'deadline closed' : (period.includes('없음') ? 'deadline warn' : 'deadline');
-      const statusText = ddayText ? ` (${ddayText})` : '';
+      const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
-          <span class="source">${sourceLabel(item.source)}</span>
+          <div class="topline">
+            <span class="source">${sourceLabel(item.source)}</span>
+            ${ddayHtml}
+          </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          <div class="${deadlineClass}">접수: ${escapeHtml(period)}${escapeHtml(statusText)}</div>
+          <div class="${deadlineClass}">접수: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
@@ -411,6 +498,10 @@
       const urgentCountEl = document.getElementById('urgentCount');
       const totalCountEl = document.getElementById('totalCount');
       const listEl = document.getElementById('list');
+      const pagerEl = document.getElementById('pager');
+      const prevPageEl = document.getElementById('prevPage');
+      const nextPageEl = document.getElementById('nextPage');
+      const pageInfoEl = document.getElementById('pageInfo');
       const statusEl = document.getElementById('status');
       const sourceSummaryEl = document.getElementById('sourceSummary');
       const searchInputEl = document.getElementById('searchInput');
@@ -447,7 +538,7 @@
           return;
         }
 
-        const state = { query: '', view: 'today', source: 'all' };
+        const state = { query: '', view: 'today', source: 'all', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
 
         function render() {
@@ -461,12 +552,25 @@
           }
 
           const filtered = applyFilters(base, state.query, state.source);
+          const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
+          if (state.page > totalPages) state.page = totalPages;
+          const start = (state.page - 1) * state.perPage;
+          const pageItems = filtered.slice(start, start + state.perPage);
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
             statusEl.textContent = '조건에 맞는 공고가 없습니다.';
+            pageInfoEl.textContent = '0 / 0';
+            prevPageEl.disabled = true;
+            nextPageEl.disabled = true;
+            pagerEl.style.display = 'none';
             return;
           }
+
+          pagerEl.style.display = 'flex';
+          pageInfoEl.textContent = `${state.page} / ${totalPages}`;
+          prevPageEl.disabled = state.page <= 1;
+          nextPageEl.disabled = state.page >= totalPages;
 
           if (state.view === 'today' && todayItems.length === 0) {
             statusEl.textContent = '오늘 등록된 공고가 없습니다.';
@@ -476,11 +580,12 @@
             statusEl.textContent = '';
           }
 
-          listEl.innerHTML = filtered.map(makeCard).join('');
+          listEl.innerHTML = pageItems.map(makeCard).join('');
         }
 
         todayCountEl.onclick = () => {
           state.view = 'today';
+          state.page = 1;
           todayCountEl.classList.add('active');
           urgentCountEl.classList.remove('active');
           totalCountEl.classList.remove('active');
@@ -489,6 +594,7 @@
 
         urgentCountEl.onclick = () => {
           state.view = 'urgent';
+          state.page = 1;
           urgentCountEl.classList.add('active');
           todayCountEl.classList.remove('active');
           totalCountEl.classList.remove('active');
@@ -497,6 +603,7 @@
 
         totalCountEl.onclick = () => {
           state.view = 'all';
+          state.page = 1;
           totalCountEl.classList.add('active');
           todayCountEl.classList.remove('active');
           urgentCountEl.classList.remove('active');
@@ -505,6 +612,7 @@
 
         searchInputEl.oninput = () => {
           state.query = searchInputEl.value;
+          state.page = 1;
           render();
         };
 
@@ -518,11 +626,23 @@
           else if (text.includes('링커리어')) source = 'linkareer';
 
           state.source = state.source === source ? 'all' : source;
+          state.page = 1;
 
           Array.from(sourceSummaryEl.querySelectorAll('.pill')).forEach((pill) => {
             pill.classList.remove('active');
           });
           if (state.source !== 'all') e.target.classList.add('active');
+          render();
+        };
+
+        prevPageEl.onclick = () => {
+          if (state.page <= 1) return;
+          state.page -= 1;
+          render();
+        };
+
+        nextPageEl.onclick = () => {
+          state.page += 1;
           render();
         };
 

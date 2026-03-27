@@ -63,6 +63,16 @@ function extractUploadDate(text) {
   return "";
 }
 
+function extractPostedDate(text) {
+  const s = cleanText(text);
+  const labeled = s.match(/(?:등록일|게시일|작성일|업로드일|게재일)\s*[:：]?\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2})/);
+  if (!labeled) return "";
+
+  const m = labeled[1].match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
+  if (!m) return "";
+  return `${m[1]}.${String(m[2]).padStart(2, "0")}.${String(m[3]).padStart(2, "0")}`;
+}
+
 function splitTitleField(text) {
   const s = cleanText(text);
   const parts = s.split(/\s*분야\s*[:：]\s*/);
@@ -244,7 +254,8 @@ function getPeriodRange(deadlineText) {
   const single = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
   if (single) {
     const d = parseDateValue(single[1], currentYear);
-    return { start: d, end: d };
+    // 단일 날짜는 대부분 마감일 표기이므로 시작일은 미정으로 둡니다.
+    return { start: null, end: d };
   }
 
   return { start: null, end: null };
@@ -364,7 +375,7 @@ async function scrapeWevity() {
     if (!parsed.title) return;
 
     const deadline = normalizeDeadline(extractDeadline(text), extractUploadDate(text));
-    const uploadDate = extractUploadDate(text);
+    const uploadDate = extractPostedDate(text);
 
     results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
   });
@@ -380,7 +391,7 @@ async function scrapeWevity() {
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
       const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
-      const enrichedUploadDate = extractUploadDate(detailText);
+      const enrichedUploadDate = extractPostedDate(detailText);
 
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
@@ -443,7 +454,7 @@ async function scrapeThinkgood() {
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
       const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
-      const enrichedUploadDate = extractUploadDate(detailText);
+      const enrichedUploadDate = extractPostedDate(detailText);
 
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
@@ -481,7 +492,7 @@ async function scrapeCampuspick() {
       field: "",
       link: `https://www.campuspick.com/contest/view?id=${a.id}`,
       deadline: a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "기간 정보 없음",
-      uploadDate: a.endDate ? extractUploadDate(cleanText(a.endDate)) : ""
+      uploadDate: ""
     }));
 
   for (const item of results) {
@@ -550,7 +561,7 @@ async function scrapeLinkareer() {
         field: "",
         link: safeAbsolute("https://linkareer.com", row.href),
         deadline,
-        uploadDate: extractUploadDate(deadline)
+        uploadDate: ""
       });
     }
 
@@ -560,6 +571,35 @@ async function scrapeLinkareer() {
   } finally {
     await browser.close();
   }
+}
+
+async function backfillUnknownPeriods(list) {
+  const targets = list
+    .filter((item) => item && item.link && item.deadline === "기간 정보 없음")
+    .slice(0, 25);
+
+  await Promise.all(targets.map(async (item) => {
+    try {
+      const detail = await fetchWithRetry(item.link, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        timeout: 8000
+      }, 1);
+      const detailText = cleanText(cheerio.load(detail.data).text());
+
+      let enriched = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+      if (item.source === "campuspick") {
+        enriched = extractCampusPeriod(detailText, item.deadline);
+      }
+      if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
+
+      const posted = extractPostedDate(detailText);
+      if (posted) item.uploadDate = posted;
+    } catch (_) {
+      // 상세 페이지 보강 실패는 무시하고 기존 데이터를 유지합니다.
+    }
+  }));
+
+  return list;
 }
 
 // =======================
@@ -591,15 +631,17 @@ async function getAllContests() {
     }
   }
 
-  return results.flat();
+  const merged = results.flat();
+  await backfillUnknownPeriods(merged);
+  return merged;
 }
 
 // =======================
 // 오늘 필터
 // =======================
 function filterToday(list) {
-  const today = getToday().slice(5);
-  return list.filter(c => c.uploadDate.includes(today));
+  const today = getToday();
+  return list.filter((c) => String(c.uploadDate || "") === today);
 }
 
 function dedupeByTitleAndLink(list) {
