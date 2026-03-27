@@ -458,7 +458,7 @@
   </main>
 
   <script>
-    // GitHub Pages에서 생성된 최신 JSON 파일을 읽어 화면에 렌더링합니다.
+    // GitHub Pages에 저장된 최신 데이터(JSON)를 불러옵니다.
     async function load() {
       // GitHub Pages 서브경로(.../contest-bot/)에서도 동작하도록 경로를 잡습니다.
       const basePath = window.location.pathname.includes('contest-bot') 
@@ -471,12 +471,14 @@
       return res.json();
     }
 
+    // UTC 시간을 브라우저의 한국어 로컬 시간 문자열로 바꿔 보여줍니다.
     function toLocalText(iso) {
       if (!iso) return '-';
       const d = new Date(iso);
       return d.toLocaleString('ko-KR', { hour12: false });
     }
 
+    // 제목/텍스트에 포함될 수 있는 HTML 특수문자를 안전하게 치환합니다.
     function escapeHtml(text) {
       return String(text || '')
         .replace(/&/g, '&amp;')
@@ -486,6 +488,7 @@
         .replace(/'/g, '&#39;');
     }
 
+    // 소스 코드값(wevity 등)을 화면에 보여줄 한글 이름으로 변환합니다.
     function sourceLabel(source) {
       if (source === 'wevity') return '위비티';
       if (source === 'thinkcontest') return '씽굿';
@@ -493,6 +496,7 @@
       return source || 'unknown';
     }
 
+    // 제목 문자열에서 부가 태그를 정리해 메인 제목/분야 텍스트로 분리합니다.
     function splitTitleAndField(rawTitle) {
       const text = String(rawTitle || '').replace(/\s+/g, ' ').trim();
       const parts = text.split(/\s*분야\s*[:：]\s*/);
@@ -501,6 +505,7 @@
       return { main, field };
     }
 
+    // YYYY-MM-DD 문자열을 Date 객체로 변환합니다.
     function parseDate(dateText) {
       if (!dateText) return null;
       const m = String(dateText).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -508,6 +513,7 @@
       return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
     }
 
+    // 마감일까지 남은 일수(D-day 계산용)를 반환합니다.
     function getDaysLeft(endDateText) {
       const end = parseDate(endDateText);
       if (!end) return null;
@@ -517,6 +523,7 @@
       return Math.floor(ms / (24 * 60 * 60 * 1000));
     }
 
+    // 아이템의 시작일/마감일을 사람이 읽기 쉬운 접수기간 문구로 만듭니다.
     function toPeriod(item) {
       const start = item.startDate || '';
       const end = item.endDate || '';
@@ -527,6 +534,7 @@
       return item.deadline || '기간 정보 없음';
     }
 
+    // D-day 뱃지에 표시할 텍스트(D-3, D-Day, 마감)를 생성합니다.
     function toBadge(item) {
       const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
       if (dday === null || Number.isNaN(dday)) return '';
@@ -535,29 +543,34 @@
       return `D-${dday}`;
     }
 
+    // D-day 상태에 따라 뱃지 스타일 클래스를 결정합니다.
     function badgeClass(item) {
       if (isClosed(item)) return 'dday-chip closed';
       if (isUrgent(item)) return 'dday-chip urgent';
       return 'dday-chip';
     }
 
+    // 공고가 마감되었는지 여부를 계산합니다.
     function isClosed(item) {
       if (typeof item.isClosed === 'boolean') return item.isClosed;
       const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
       return Number.isInteger(dday) ? dday < 0 : false;
     }
 
+    // 마감 7일 이내 공고인지 여부를 계산합니다.
     function isUrgent(item) {
       if (typeof item.isUrgent === 'boolean') return item.isUrgent;
       const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
       return Number.isInteger(dday) ? dday >= 0 && dday <= 7 : false;
     }
 
+    // 날짜 문자열을 정렬 가능한 숫자(timestamp)로 바꿉니다.
     function toDateValue(dateText) {
       const d = parseDate(dateText);
       return d ? d.getTime() : 0;
     }
 
+    // 전체 공고를 최신순으로 정렬합니다.
     function sortLatestItems(arr) {
       return [...arr].sort((a, b) => {
         const aTs = toDateValue((a.uploadDate || '').replace(/\./g, '-')) || toDateValue(a.startDate) || toDateValue(a.endDate);
@@ -567,6 +580,7 @@
       });
     }
 
+    // 마감임박 공고를 D-day 오름차순(급한 순)으로 정렬합니다.
     function sortUrgentItems(arr) {
       return [...arr].sort((a, b) => {
         const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
@@ -578,6 +592,7 @@
       });
     }
 
+    // 공고 1건을 카드 HTML 문자열로 렌더링합니다.
     function makeCard(item, idx) {
       const period = toPeriod(item);
       const closed = isClosed(item);
@@ -598,6 +613,7 @@
       `;
     }
 
+    // 검색어/사이트 필터 조건에 맞는 공고만 남깁니다.
     function applyFilters(items, query, source) {
       const q = String(query || '').toLowerCase().trim();
       return items.filter((item) => {
@@ -607,6 +623,7 @@
       });
     }
 
+    // 페이지 초기 데이터 로드, 이벤트 연결, 첫 화면 렌더링을 수행합니다.
     async function init() {
       const updatedEl = document.getElementById('updated');
       const refreshBtn = document.getElementById('refreshBtn');
@@ -647,6 +664,7 @@
         const state = { query: '', view: 'today', source: 'all', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
 
+        // 현재 탭 기준으로 소스별 건수를 다시 계산해 칩에 표시합니다.
         function renderSourceSummary(baseItems) {
           const counts = baseItems.reduce((acc, item) => {
             const key = item.source || 'unknown';
@@ -661,6 +679,7 @@
           `;
         }
 
+        // 현재 상태(탭/검색/사이트/페이지)에 맞춰 목록과 상태 문구를 다시 그립니다.
         function render() {
           let base;
           if (state.view === 'today') {

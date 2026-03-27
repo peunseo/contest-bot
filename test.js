@@ -17,10 +17,12 @@ function getToday() {
   return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
 }
 
+// 현재 시각을 ISO 문자열로 반환합니다.
 function getIsoNow() {
   return new Date().toISOString();
 }
 
+// 원문 텍스트에서 마감/기간으로 보이는 날짜 표현을 우선 추출합니다.
 function extractDeadline(text) {
   const s = cleanText(text);
 
@@ -48,6 +50,7 @@ function extractDeadline(text) {
   return "기간 정보 없음";
 }
 
+// 텍스트에서 날짜 1개를 찾아 업로드일 후보 문자열로 변환합니다.
 function extractUploadDate(text) {
   const s = cleanText(text);
   const withYear = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}/);
@@ -65,6 +68,7 @@ function extractUploadDate(text) {
   return "";
 }
 
+// "등록일/게시일/작성일"처럼 라벨이 명확한 게시일을 우선 추출합니다.
 function extractPostedDate(text) {
   const s = cleanText(text);
   const labeled = s.match(/(?:등록일|게시일|작성일|업로드일|게재일)\s*[:：]?\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2})/);
@@ -75,6 +79,7 @@ function extractPostedDate(text) {
   return `${m[1]}.${String(m[2]).padStart(2, "0")}.${String(m[3]).padStart(2, "0")}`;
 }
 
+// 제목 문자열에서 부가 태그를 제거하고 제목/분야를 분리합니다.
 function splitTitleField(text) {
   const s = cleanText(text);
   const parts = s.split(/\s*분야\s*[:：]\s*/);
@@ -83,14 +88,17 @@ function splitTitleField(text) {
   return { title, field };
 }
 
+// 숫자를 두 자리 문자열(01, 02 ...)로 맞춥니다.
 function pad2(n) {
   return String(n).padStart(2, "0");
 }
 
+// 연/월/일 숫자를 YYYY-MM-DD 포맷 문자열로 만듭니다.
 function formatYmd(year, month, day) {
   return `${year}-${pad2(month)}-${pad2(day)}`;
 }
 
+// 유효한 날짜인지 검사하면서 ISO 날짜 문자열로 변환합니다.
 function toIsoDate(year, month, day) {
   const y = Number(year);
   const m = Number(month);
@@ -102,6 +110,7 @@ function toIsoDate(year, month, day) {
   return formatYmd(y, m, d);
 }
 
+// 다양한 날짜 토큰(YYYY-MM-DD, M/D, N월 N일)을 ISO 날짜로 표준화합니다.
 function parseDateToken(token, fallbackYear) {
   const t = cleanText(String(token || "")).replace(/\([^)]*\)/g, "").trim();
   if (!t) return "";
@@ -121,6 +130,7 @@ function parseDateToken(token, fallbackYear) {
   return "";
 }
 
+// 연말~연초처럼 월이 넘어가는 기간의 연도를 보정합니다.
 function normalizePeriodYear(startIso, endIso) {
   if (!startIso || !endIso) return { startIso, endIso };
 
@@ -138,6 +148,7 @@ function normalizePeriodYear(startIso, endIso) {
   return { startIso, endIso };
 }
 
+// 본문 텍스트에서 접수 시작일/마감일 범위를 추출합니다.
 function extractPeriodRangeFromText(text, fallbackDateText) {
   const s = cleanText(text || "");
   if (!s) return { startDate: "", endDate: "" };
@@ -200,12 +211,14 @@ function extractPeriodRangeFromText(text, fallbackDateText) {
   return { startDate: "", endDate: "" };
 }
 
+// 시작/마감 힌트를 바탕으로 화면 표시에 쓸 deadline 문자열을 조합합니다.
 function composeDeadlineFromHints(startDate, endDate, fallbackDeadline) {
   if (startDate && endDate) return `${startDate} ~ ${endDate}`;
   if (endDate) return endDate;
   return fallbackDeadline || "기간 정보 없음";
 }
 
+// 기간 문자열을 일관된 포맷으로 정규화합니다.
 function normalizeDeadline(deadline, uploadDate) {
   const text = cleanText(deadline || "");
   if (!text || text === "기간 정보 없음") return "기간 정보 없음";
@@ -249,6 +262,7 @@ function normalizeDeadline(deadline, uploadDate) {
   return text;
 }
 
+// 캠퍼스픽 상세 본문에서 접수기간을 추출하는 전용 보조 함수입니다.
 function extractCampusPeriod(detailText, endDate) {
   const text = cleanText(detailText || "");
 
@@ -270,6 +284,7 @@ function extractCampusPeriod(detailText, endDate) {
   return endOnly;
 }
 
+// 캠퍼스픽 HTML에 포함된 startDate/endDate 키를 직접 추출합니다.
 function extractCampusKeyDatesFromHtml(html) {
   const source = String(html || "");
   const start = source.match(/startDate\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i)?.[1] || "";
@@ -277,6 +292,7 @@ function extractCampusKeyDatesFromHtml(html) {
   return { startDate: start, endDate: end };
 }
 
+// 소스 HTML에서 자주 쓰이는 시작/종료 키를 공통 규칙으로 추출합니다.
 function extractKeyDatesFromHtml(html) {
   const source = String(html || "");
 
@@ -318,6 +334,7 @@ function extractKeyDatesFromHtml(html) {
   return { startDate, endDate };
 }
 
+// epoch(ms) 타임스탬프를 YYYY-MM-DD로 변환합니다.
 function epochToYmd(epochValue) {
   const n = Number(epochValue);
   if (!Number.isFinite(n) || n <= 0) return "";
@@ -326,6 +343,7 @@ function epochToYmd(epochValue) {
   return formatYmd(d.getFullYear(), d.getMonth() + 1, d.getDate());
 }
 
+// 링커리어 HTML의 recruitStartAt/recruitEndAt 같은 키를 우선 추출합니다.
 function extractLinkareerKeyDatesFromHtml(html) {
   const source = String(html || "");
 
@@ -349,12 +367,14 @@ function extractLinkareerKeyDatesFromHtml(html) {
   return plain;
 }
 
+// 오늘 기준 N일 뒤 날짜를 YYYY-MM-DD로 계산합니다.
 function addDaysYmd(days) {
   const d = new Date();
   d.setDate(d.getDate() + Number(days || 0));
   return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 }
 
+// 링커리어 목록 카드 텍스트에서 마감일 후보를 추론합니다.
 function inferLinkareerDeadline(titleText, cardText) {
   const title = cleanText(titleText || "");
   const card = cleanText(cardText || "");
@@ -378,10 +398,12 @@ function inferLinkareerDeadline(titleText, cardText) {
   return "기간 정보 없음";
 }
 
+// 공모전/모집 성격의 제목인지 간단한 키워드로 판별합니다.
 function isContestLike(text) {
   return /공모|경진|해커톤|아이디어|챌린지|모집|서포터즈/i.test(String(text || ""));
 }
 
+// 네트워크 요청 실패 시 재시도하는 공통 GET 래퍼입니다.
 async function fetchWithRetry(url, config = {}, retries = 2) {
   let lastError;
   for (let i = 0; i <= retries; i += 1) {
@@ -397,6 +419,7 @@ async function fetchWithRetry(url, config = {}, retries = 2) {
   throw lastError;
 }
 
+// 문자열 날짜를 Date 객체로 변환합니다.
 function parseDateValue(value, fallbackYear) {
   if (!value) return null;
 
@@ -424,6 +447,7 @@ function parseDateValue(value, fallbackYear) {
   return null;
 }
 
+// deadline 문자열에서 시작일/마감일 Date 범위를 추출합니다.
 function getPeriodRange(deadlineText) {
   const text = cleanText(deadlineText || "");
   const today = new Date();
@@ -457,11 +481,13 @@ function getPeriodRange(deadlineText) {
   return { start: null, end: null };
 }
 
+// Date 객체를 YYYY-MM-DD 문자열로 변환합니다.
 function toYmd(dateObj) {
   if (!(dateObj instanceof Date) || Number.isNaN(dateObj.getTime())) return "";
   return `${dateObj.getFullYear()}-${pad2(dateObj.getMonth() + 1)}-${pad2(dateObj.getDate())}`;
 }
 
+// 두 날짜의 일수 차이를 계산합니다(D-day 계산용).
 function dateDiffDays(fromDate, toDate) {
   const from = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
   const to = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
@@ -469,6 +495,7 @@ function dateDiffDays(fromDate, toDate) {
   return Math.floor(ms / (24 * 60 * 60 * 1000));
 }
 
+// 각 공고에 startDate/endDate/dday/isClosed/isUrgent 필드를 채웁니다.
 function enrichPeriodFields(list) {
   const today = new Date();
   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -494,6 +521,7 @@ function enrichPeriodFields(list) {
   });
 }
 
+// 최신순 정렬에 사용할 기준 시각(timestamp)을 계산합니다.
 function parseUploadDateForSort(uploadDate, deadline) {
   const upload = parseDateValue(uploadDate, new Date().getFullYear());
   if (upload) return upload.getTime();
@@ -504,6 +532,7 @@ function parseUploadDateForSort(uploadDate, deadline) {
   return 0;
 }
 
+// 공고 목록을 최신순으로 정렬합니다.
 function sortByLatest(list) {
   return [...list].sort((a, b) => {
     const aTs = parseUploadDateForSort(a.uploadDate, a.deadline);
@@ -516,6 +545,7 @@ function sortByLatest(list) {
   });
 }
 
+// 접수중/접수예정 공고만 남기는 필터입니다.
 function filterActiveOrUpcoming(list) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -858,6 +888,7 @@ async function scrapeLinkareer() {
   }
 }
 
+// 링커리어 수집을 지정 횟수만큼 재시도합니다.
 async function scrapeLinkareerWithRetry(maxAttempts = 3) {
   let lastError;
   for (let i = 1; i <= maxAttempts; i += 1) {
@@ -873,6 +904,7 @@ async function scrapeLinkareerWithRetry(maxAttempts = 3) {
   throw lastError;
 }
 
+// 이전 저장 JSON에서 특정 소스 데이터를 불러옵니다(장애 시 백업용).
 function loadPreviousSourceItems(source) {
   try {
     if (!fs.existsSync(OUTPUT_PATH)) return [];
@@ -884,6 +916,7 @@ function loadPreviousSourceItems(source) {
   }
 }
 
+// 기간 정보가 없는 항목을 상세 페이지 재조회로 보강합니다.
 async function backfillUnknownPeriods(list) {
   const targets = list
     .filter((item) => item && item.link && item.deadline === "기간 정보 없음")
@@ -928,6 +961,7 @@ async function backfillUnknownPeriods(list) {
   return list;
 }
 
+// 단일 날짜만 있는 항목을 상세 페이지에서 시작~마감 범위로 보강합니다.
 async function backfillSingleDatePeriods(list) {
   const targets = list
     .filter((item) => item && item.link && item.deadline && item.deadline !== "기간 정보 없음" && !String(item.deadline).includes("~"))
@@ -1018,11 +1052,13 @@ function filterToday(list) {
   return list.filter((c) => String(c.uploadDate || "") === today);
 }
 
+// 동일한 제목+링크 조합의 중복 공고를 제거합니다.
 function dedupeByTitleAndLink(list) {
   // 제목만으로 중복 제거하면 충돌이 생길 수 있어 제목+링크 조합으로 키를 만듭니다.
   return Array.from(new Map(list.map((c) => [`${c.title}::${c.link}`, c])).values());
 }
 
+// 최종 API/페이지 출력용 payload(JSON)를 생성합니다.
 function buildPayload(allList) {
   const unique = dedupeByTitleAndLink(allList);
   const enriched = enrichPeriodFields(unique);
@@ -1064,6 +1100,7 @@ function format(todayList, allList) {
 ${makeLines(allList.slice(0,5))}`;
 }
 
+// payload를 docs/data/latest.json 파일로 저장합니다.
 function writeJson(payload) {
   // 저장 폴더가 없으면 생성한 뒤 JSON 파일을 갱신합니다.
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
