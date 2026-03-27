@@ -787,9 +787,41 @@ async function scrapeLinkareer() {
       });
     }
 
-    return dedupeByTitleAndLink(out)
-      .slice(0, 60)
-      .map((item) => ({ ...item, source: "linkareer" }));
+    const deduped = dedupeByTitleAndLink(out).slice(0, 60);
+
+    // 링커리어는 axios 상세 요청이 불안정할 수 있어, 이미 띄운 브라우저로 직접 상세 기간을 보강합니다.
+    for (const item of deduped.slice(0, 35)) {
+      try {
+        const detailPage = await browser.newPage({
+          userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+        });
+
+        await detailPage.goto(item.link, { waitUntil: "domcontentloaded", timeout: 30000 });
+        await detailPage.waitForTimeout(1200);
+
+        const html = await detailPage.content();
+        const text = await detailPage.evaluate(() => String(document.body?.innerText || "").replace(/\s+/g, " ").trim());
+        await detailPage.close();
+
+        const keyDates = extractKeyDatesFromHtml(html);
+        const periodFromText = extractPeriodRangeFromText(text, item.uploadDate || extractUploadDate(text));
+
+        if (keyDates.startDate || periodFromText.startDate) item.startDateHint = keyDates.startDate || periodFromText.startDate;
+        if (keyDates.endDate || periodFromText.endDate) item.endDateHint = keyDates.endDate || periodFromText.endDate;
+
+        const composed = composeDeadlineFromHints(
+          item.startDateHint,
+          item.endDateHint,
+          normalizeDeadline(extractDeadline(text), extractUploadDate(text))
+        );
+
+        if (composed && composed !== "기간 정보 없음") item.deadline = composed;
+      } catch (_) {
+        // 상세 보강 실패 시 목록 기반 데이터 유지
+      }
+    }
+
+    return deduped.map((item) => ({ ...item, source: "linkareer" }));
   } finally {
     await browser.close();
   }
