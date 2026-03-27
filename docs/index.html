@@ -427,9 +427,9 @@
       <h1>공모전 데일리 보드</h1>
       <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span><button class="refresh-btn" id="refreshBtn" aria-label="데이터 갱신" title="데이터 갱신">↻</button></p>
       <div class="count">
-        <span class="pill" id="todayCount">오늘 0건</span>
-        <span class="pill" id="urgentCount">마감임박 0건</span>
         <span class="pill" id="totalCount">전체 0건</span>
+        <span class="pill" id="urgentCount">마감임박 0건</span>
+        <span class="pill" id="todayCount">오늘 0건</span>
       </div>
       <div class="source-summary" id="sourceSummary"></div>
       <div class="controls">
@@ -458,6 +458,16 @@
   </main>
 
   <script>
+    // 이 스크립트의 큰 흐름(신입 온보딩용):
+    // 1) load()가 최신 JSON을 읽어옵니다.
+    // 2) init()이 데이터 전처리 + 상태(state) + 이벤트를 준비합니다.
+    // 3) render()가 현재 상태를 기준으로 화면 HTML을 다시 그립니다.
+    //
+    // 디버깅 시작점 추천:
+    // - 화면이 비어 있으면: load() 성공 여부와 data.items 길이 확인
+    // - 탭/필터가 이상하면: state 값과 render()의 base/filtered 확인
+    // - 카드 모양이 이상하면: makeCard() 출력 문자열 확인
+
     // GitHub Pages에 저장된 최신 데이터(JSON)를 불러옵니다.
     async function load() {
       // GitHub Pages 서브경로(.../contest-bot/)에서도 동작하도록 경로를 잡습니다.
@@ -656,13 +666,25 @@
           : allSortedItems.filter((item) => String(item.uploadDate || '') === String(data.today || ''));
         const urgentItems = sortUrgentItems(allSortedItems.filter((item) => isUrgent(item) && !isClosed(item)));
 
+        // todayItems:
+        // - 우선 서버가 계산한 todayItems를 사용
+        // - 없으면 uploadDate == today 규칙으로 프론트에서 폴백 계산
+        // urgentItems:
+        // - isUrgent && !isClosed 조건으로 마감임박만 추립니다.
+
         if (items.length === 0) {
           listEl.innerHTML = '';
           return;
         }
 
-        const state = { query: '', view: 'today', source: 'all', page: 1, perPage: 12 };
+        const state = { query: '', view: 'all', source: 'all', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
+
+        // state 필드 설명:
+        // - query: 검색어
+        // - view: 현재 탭(today/urgent/all)
+        // - source: 사이트 필터(all/wevity/thinkcontest/campuspick)
+        // - page/perPage: 페이지네이션 제어
 
         // 현재 탭 기준으로 소스별 건수를 다시 계산해 칩에 표시합니다.
         function renderSourceSummary(baseItems) {
@@ -681,6 +703,11 @@
 
         // 현재 상태(탭/검색/사이트/페이지)에 맞춰 목록과 상태 문구를 다시 그립니다.
         function render() {
+          // 탭(view)에 따라 기준 목록을 먼저 고르고,
+          // 이후 검색/사이트 필터를 적용한 다음,
+          // 마지막에 페이지 단위로 잘라서 카드 HTML로 렌더링합니다.
+          // 이 함수는 "상태를 읽어 UI를 재생성"하는 단일 진입점입니다.
+          // 따라서 상태 변경이 있으면 항상 render()를 다시 호출합니다.
           let base;
           if (state.view === 'today') {
             base = todayItems;
@@ -697,6 +724,11 @@
           if (state.page > totalPages) state.page = totalPages;
           const start = (state.page - 1) * state.perPage;
           const pageItems = filtered.slice(start, start + state.perPage);
+
+          // 페이지 계산 규칙:
+          // - totalPages는 최소 1로 유지해 분기 단순화
+          // - 현재 페이지가 범위를 넘으면 마지막 페이지로 보정
+          // - 실제 표시 목록은 slice(start, start + perPage)
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
@@ -728,6 +760,7 @@
         }
 
         todayCountEl.onclick = () => {
+          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
           state.view = 'today';
           state.source = 'all';
           state.page = 1;
@@ -738,6 +771,7 @@
         };
 
         urgentCountEl.onclick = () => {
+          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
           state.view = 'urgent';
           state.source = 'all';
           state.page = 1;
@@ -748,6 +782,7 @@
         };
 
         totalCountEl.onclick = () => {
+          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
           state.view = 'all';
           state.source = 'all';
           state.page = 1;
@@ -758,6 +793,7 @@
         };
 
         searchInputEl.oninput = () => {
+          // 검색어가 바뀌면 결과 길이가 달라지므로 1페이지부터 다시 시작합니다.
           state.query = searchInputEl.value;
           state.page = 1;
           render();
@@ -765,6 +801,7 @@
 
         sourceSummaryEl.onclick = (e) => {
           if (!e.target.classList.contains('pill')) return;
+          // 칩 텍스트를 소스 코드값으로 변환합니다.
           const text = e.target.textContent;
           let source = 'all';
           if (text.includes('위비티')) source = 'wevity';
@@ -772,6 +809,7 @@
           else if (text.includes('캠퍼스픽')) source = 'campuspick';
 
           state.source = state.source === source ? 'all' : source;
+          // 사이트 필터 변경 시에도 목록 길이가 달라질 수 있어 1페이지로 이동합니다.
           state.page = 1;
           render();
         };
@@ -788,6 +826,8 @@
         };
 
         refreshBtn.onclick = async () => {
+          // 새로고침은 init()을 재실행해 데이터/이벤트/렌더를 일괄 갱신합니다.
+          // 버튼 비활성화는 중복 클릭으로 인한 중복 호출을 막기 위한 처리입니다.
           refreshBtn.textContent = '...';
           refreshBtn.disabled = true;
           await init();
@@ -796,6 +836,10 @@
         };
 
         if (siteDropdownEl) {
+          // 드롭다운 UX 규칙:
+          // - 바깥 클릭 시 닫힘
+          // - ESC 키 입력 시 닫힘
+          // - 메뉴 항목 클릭 후 자동 닫힘
           document.addEventListener('click', (e) => {
             if (!siteDropdownEl.open) return;
             if (!siteDropdownEl.contains(e.target)) {
@@ -816,22 +860,10 @@
           });
         }
 
-        if (todayItems.length > 0) {
-          state.view = 'today';
-          todayCountEl.classList.add('active');
-          urgentCountEl.classList.remove('active');
-          totalCountEl.classList.remove('active');
-        } else if (urgentItems.length > 0) {
-          state.view = 'urgent';
-          urgentCountEl.classList.add('active');
-          todayCountEl.classList.remove('active');
-          totalCountEl.classList.remove('active');
-        } else {
-          state.view = 'all';
-          totalCountEl.classList.add('active');
-          todayCountEl.classList.remove('active');
-          urgentCountEl.classList.remove('active');
-        }
+        state.view = 'all';
+        totalCountEl.classList.add('active');
+        todayCountEl.classList.remove('active');
+        urgentCountEl.classList.remove('active');
 
         render();
       } catch (err) {
