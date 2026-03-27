@@ -250,6 +250,58 @@ function getPeriodRange(deadlineText) {
   return { start: null, end: null };
 }
 
+function toYmd(dateObj) {
+  if (!(dateObj instanceof Date) || Number.isNaN(dateObj.getTime())) return "";
+  return `${dateObj.getFullYear()}-${pad2(dateObj.getMonth() + 1)}-${pad2(dateObj.getDate())}`;
+}
+
+function dateDiffDays(fromDate, toDate) {
+  const from = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+  const to = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
+  const ms = to.getTime() - from.getTime();
+  return Math.floor(ms / (24 * 60 * 60 * 1000));
+}
+
+function enrichPeriodFields(list) {
+  const today = new Date();
+  const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  return list.map((item) => {
+    const { start, end } = getPeriodRange(item.deadline);
+    const dday = end ? dateDiffDays(todayOnly, end) : null;
+    const isClosed = end ? dday < 0 : false;
+    const isUrgent = end ? dday >= 0 && dday <= 7 : false;
+
+    return {
+      ...item,
+      startDate: toYmd(start),
+      endDate: toYmd(end),
+      dday,
+      isClosed,
+      isUrgent
+    };
+  });
+}
+
+function parseUploadDateForSort(uploadDate, deadline) {
+  const upload = parseDateValue(uploadDate, new Date().getFullYear());
+  if (upload) return upload.getTime();
+
+  const { start, end } = getPeriodRange(deadline);
+  if (start) return start.getTime();
+  if (end) return end.getTime();
+  return 0;
+}
+
+function sortByLatest(list) {
+  return [...list].sort((a, b) => {
+    const aTs = parseUploadDateForSort(a.uploadDate, a.deadline);
+    const bTs = parseUploadDateForSort(b.uploadDate, b.deadline);
+    if (bTs !== aTs) return bTs - aTs;
+    return String(a.title || "").localeCompare(String(b.title || ""), "ko");
+  });
+}
+
 function filterActiveOrUpcoming(list) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -296,17 +348,25 @@ async function scrapeWevity() {
   const $ = cheerio.load(data);
 
   const results = [];
+  const anchors = $("a[href*='ix=']");
 
-  $(".list li").each((i, el) => {
-    const rawTitle = cleanText($(el).find(".tit").text());
+  anchors.each((_, a) => {
+    const $a = $(a);
+    const href = $a.attr("href");
+    const link = safeAbsolute("https://www.wevity.com", href);
+    if (!link || !/ix=\d+/.test(link)) return;
+
+    const $card = $a.closest("li, tr, .list_box, .inner");
+    const rawTitle = cleanText($a.find(".tit").text() || $a.text());
     const parsed = splitTitleField(rawTitle);
-    const link = safeAbsolute("https://www.wevity.com", $(el).find("a").attr("href"));
-    const text = $(el).text();
+    const text = cleanText(($card.length ? $card.text() : $a.text()) || "");
+
+    if (!parsed.title) return;
 
     const deadline = normalizeDeadline(extractDeadline(text), extractUploadDate(text));
     const uploadDate = extractUploadDate(text);
 
-    if (parsed.title && link) results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
+    results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
   });
 
   // 목록 텍스트에 마감일이 없을 때 상세 페이지 본문에서 한 번 더 보강합니다.
@@ -329,7 +389,7 @@ async function scrapeWevity() {
     }
   }
 
-  return results.map((item) => ({ ...item, source: "wevity" }));
+  return dedupeByTitleAndLink(results).map((item) => ({ ...item, source: "wevity" }));
 }
 
 // =======================
@@ -549,17 +609,18 @@ function dedupeByTitleAndLink(list) {
 
 function buildPayload(allList) {
   const unique = dedupeByTitleAndLink(allList);
-  const activeOrUpcoming = filterActiveOrUpcoming(unique);
-  const todayList = filterToday(activeOrUpcoming);
+  const enriched = enrichPeriodFields(unique);
+  const sorted = sortByLatest(enriched);
+  const todayList = filterToday(sorted);
 
   return {
     generatedAt: getIsoNow(),
     today: getToday(),
     counts: {
-      total: activeOrUpcoming.length,
+      total: sorted.length,
       today: todayList.length
     },
-    items: activeOrUpcoming,
+    items: sorted,
     todayItems: todayList
   };
 }
