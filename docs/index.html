@@ -83,7 +83,7 @@
 
     .filter-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -107,7 +107,7 @@
 
     .site-dropdown {
       position: relative;
-      min-width: 140px;
+      min-width: 0;
       width: fit-content;
     }
 
@@ -115,13 +115,14 @@
       list-style: none;
       border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 8px 11px;
+      padding: 7px 9px;
       background: #fff;
       color: var(--ink);
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       user-select: none;
       white-space: nowrap;
+      line-height: 1.2;
     }
 
     .site-dropdown summary::-webkit-details-marker {
@@ -137,7 +138,7 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      min-width: 168px;
+      min-width: 128px;
       width: max-content;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -149,11 +150,12 @@
 
     .site-dropdown-menu a {
       display: block;
-      padding: 9px 11px;
+      padding: 7px 9px;
       text-decoration: none;
       color: var(--ink);
-      font-size: 13px;
+      font-size: 12px;
       border-top: 1px solid #eef2ec;
+      line-height: 1.2;
     }
 
     .site-dropdown-menu a:first-child {
@@ -413,6 +415,9 @@
     @media (max-width: 640px) {
       .wrap { margin-top: 20px; }
       .hero { padding: 18px; }
+      .site-dropdown summary {
+        padding: 6px 8px;
+      }
     }
   </style>
 </head>
@@ -616,6 +621,7 @@
       const statusEl = document.getElementById('status');
       const sourceSummaryEl = document.getElementById('sourceSummary');
       const searchInputEl = document.getElementById('searchInput');
+      const siteDropdownEl = document.querySelector('.site-dropdown');
 
       try {
         const data = await load();
@@ -766,6 +772,27 @@
           refreshBtn.textContent = '↻';
           refreshBtn.disabled = false;
         };
+
+        if (siteDropdownEl) {
+          document.addEventListener('click', (e) => {
+            if (!siteDropdownEl.open) return;
+            if (!siteDropdownEl.contains(e.target)) {
+              siteDropdownEl.open = false;
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && siteDropdownEl.open) {
+              siteDropdownEl.open = false;
+            }
+          });
+
+          siteDropdownEl.querySelectorAll('a').forEach((a) => {
+            a.addEventListener('click', () => {
+              siteDropdownEl.open = false;
+            });
+          });
+        }
 
         if (todayItems.length > 0) {
           state.view = 'today';
