@@ -103,6 +103,62 @@
       border-color: #b7c8b8;
     }
 
+    .site-dropdown {
+      position: relative;
+      min-width: 190px;
+    }
+
+    .site-dropdown summary {
+      list-style: none;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 12px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .site-dropdown summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .site-dropdown[open] summary {
+      border-color: #b7c8b8;
+      background: #f7faf6;
+    }
+
+    .site-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(20, 40, 28, 0.08);
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .site-dropdown-menu a {
+      display: block;
+      padding: 9px 11px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 13px;
+      border-top: 1px solid #eef2ec;
+    }
+
+    .site-dropdown-menu a:first-child {
+      border-top: none;
+    }
+
+    .site-dropdown-menu a:hover {
+      background: #f3f7f2;
+    }
+
     .filter-input {
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -369,7 +425,15 @@
       <div class="controls">
         <div class="filter-row">
           <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
-          <a class="external-btn" href="https://linkareer.com/list/contest" target="_blank" rel="noopener noreferrer">링커리어 바로가기</a>
+          <details class="site-dropdown">
+            <summary>사이트 바로가기</summary>
+            <div class="site-dropdown-menu">
+              <a href="https://www.wevity.com/?c=find&s=1&gub=1" target="_blank" rel="noopener noreferrer">위비티</a>
+              <a href="https://www.thinkcontest.com/thinkgood/user/contest/index.do" target="_blank" rel="noopener noreferrer">씽굿</a>
+              <a href="https://www.campuspick.com/contest" target="_blank" rel="noopener noreferrer">캠퍼스픽</a>
+              <a href="https://linkareer.com/list/contest" target="_blank" rel="noopener noreferrer">링커리어</a>
+            </div>
+          </details>
         </div>
       </div>
       <p class="empty" id="status"></p>
