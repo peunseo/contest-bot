@@ -277,6 +277,47 @@ function extractCampusKeyDatesFromHtml(html) {
   return { startDate: start, endDate: end };
 }
 
+function extractKeyDatesFromHtml(html) {
+  const source = String(html || "");
+
+  const startPatterns = [
+    /startDate\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /applyStart(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /recruitStart(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /receiptStart(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /start[_-]?date\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i
+  ];
+
+  const endPatterns = [
+    /endDate\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /applyEnd(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /recruitEnd(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /receiptEnd(?:Date)?\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i,
+    /end[_-]?date\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i
+  ];
+
+  let startDate = "";
+  let endDate = "";
+
+  for (const p of startPatterns) {
+    const hit = source.match(p)?.[1];
+    if (hit) {
+      startDate = hit;
+      break;
+    }
+  }
+
+  for (const p of endPatterns) {
+    const hit = source.match(p)?.[1];
+    if (hit) {
+      endDate = hit;
+      break;
+    }
+  }
+
+  return { startDate, endDate };
+}
+
 function addDaysYmd(days) {
   const d = new Date();
   d.setDate(d.getDate() + Number(days || 0));
@@ -437,6 +478,9 @@ function sortByLatest(list) {
     const aTs = parseUploadDateForSort(a.uploadDate, a.deadline);
     const bTs = parseUploadDateForSort(b.uploadDate, b.deadline);
     if (bTs !== aTs) return bTs - aTs;
+    const aOrder = Number.isInteger(a.collectedOrder) ? a.collectedOrder : Number.MAX_SAFE_INTEGER;
+    const bOrder = Number.isInteger(b.collectedOrder) ? b.collectedOrder : Number.MAX_SAFE_INTEGER;
+    if (aOrder !== bOrder) return aOrder - bOrder;
     return String(a.title || "").localeCompare(String(b.title || ""), "ko");
   });
 }
@@ -528,17 +572,19 @@ async function scrapeWevity() {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
       }, 2);
-      const detailText = cleanText(cheerio.load(detail.data).text());
+      const detailHtml = String(detail.data || "");
+      const detailText = cleanText(cheerio.load(detailHtml).text());
+      const keyDates = extractKeyDatesFromHtml(detailHtml);
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       const enrichedDeadline = composeDeadlineFromHints(
-        detailPeriod.startDate,
-        detailPeriod.endDate,
+        keyDates.startDate || detailPeriod.startDate,
+        keyDates.endDate || detailPeriod.endDate,
         normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
       );
       const enrichedUploadDate = extractPostedDate(detailText);
 
-      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
-      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
+      if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
@@ -598,17 +644,19 @@ async function scrapeThinkgood() {
         },
         timeout: 8000
       }, 2);
-      const detailText = cleanText(cheerio.load(detail.data).text());
+      const detailHtml = String(detail.data || "");
+      const detailText = cleanText(cheerio.load(detailHtml).text());
+      const keyDates = extractKeyDatesFromHtml(detailHtml);
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       const enrichedDeadline = composeDeadlineFromHints(
-        detailPeriod.startDate,
-        detailPeriod.endDate,
+        keyDates.startDate || detailPeriod.startDate,
+        keyDates.endDate || detailPeriod.endDate,
         normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
       );
       const enrichedUploadDate = extractPostedDate(detailText);
 
-      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
-      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
+      if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
@@ -760,7 +808,12 @@ async function backfillUnknownPeriods(list) {
       }, 1);
       const detailHtml = String(detail.data || "");
       const detailText = cleanText(cheerio.load(detailHtml).text());
-      const keyDates = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
+      const genericKeys = extractKeyDatesFromHtml(detailHtml);
+      const campusKeys = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
+      const keyDates = {
+        startDate: campusKeys.startDate || genericKeys.startDate,
+        endDate: campusKeys.endDate || genericKeys.endDate
+      };
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       let enriched = composeDeadlineFromHints(
         keyDates.startDate || detailPeriod.startDate,
@@ -799,7 +852,12 @@ async function backfillSingleDatePeriods(list) {
       }, 1);
       const detailHtml = String(detail.data || "");
       const detailText = cleanText(cheerio.load(detailHtml).text());
-      const keyDates = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
+      const genericKeys = extractKeyDatesFromHtml(detailHtml);
+      const campusKeys = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
+      const keyDates = {
+        startDate: campusKeys.startDate || genericKeys.startDate,
+        endDate: campusKeys.endDate || genericKeys.endDate
+      };
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       let enriched = composeDeadlineFromHints(
         keyDates.startDate || detailPeriod.startDate,
@@ -858,6 +916,9 @@ async function getAllContests() {
   const merged = results.flat();
   await backfillUnknownPeriods(merged);
   await backfillSingleDatePeriods(merged);
+  merged.forEach((item, idx) => {
+    item.collectedOrder = idx;
+  });
   return merged;
 }
 

@@ -462,6 +462,31 @@
       return Number.isInteger(dday) ? dday >= 0 && dday <= 7 : false;
     }
 
+    function toDateValue(dateText) {
+      const d = parseDate(dateText);
+      return d ? d.getTime() : 0;
+    }
+
+    function sortLatestItems(arr) {
+      return [...arr].sort((a, b) => {
+        const aTs = toDateValue((a.uploadDate || '').replace(/\./g, '-')) || toDateValue(a.startDate) || toDateValue(a.endDate);
+        const bTs = toDateValue((b.uploadDate || '').replace(/\./g, '-')) || toDateValue(b.startDate) || toDateValue(b.endDate);
+        if (bTs !== aTs) return bTs - aTs;
+        return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+      });
+    }
+
+    function sortUrgentItems(arr) {
+      return [...arr].sort((a, b) => {
+        const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
+        const bd = Number.isInteger(b.dday) ? b.dday : getDaysLeft(b.endDate);
+        const aVal = Number.isInteger(ad) ? ad : 999;
+        const bVal = Number.isInteger(bd) ? bd : 999;
+        if (aVal !== bVal) return aVal - bVal;
+        return toDateValue(a.endDate) - toDateValue(b.endDate);
+      });
+    }
+
     function makeCard(item, idx) {
       const period = toPeriod(item);
       const closed = isClosed(item);
@@ -515,11 +540,12 @@
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
         const items = Array.isArray(data.items) ? data.items : [];
+        const allSortedItems = sortLatestItems(items);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
           ? todayFromData
-          : items.filter((item) => String(item.uploadDate || '') === String(data.today || ''));
-        const urgentItems = items.filter((item) => isUrgent(item) && !isClosed(item));
+          : allSortedItems.filter((item) => String(item.uploadDate || '') === String(data.today || ''));
+        const urgentItems = sortUrgentItems(allSortedItems.filter((item) => isUrgent(item) && !isClosed(item)));
 
         if (items.length === 0) {
           listEl.innerHTML = '';
@@ -551,7 +577,7 @@
           } else if (state.view === 'urgent') {
             base = urgentItems;
           } else {
-            base = items;
+            base = allSortedItems;
           }
 
           renderSourceSummary(base);
