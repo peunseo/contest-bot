@@ -91,6 +91,121 @@ function formatYmd(year, month, day) {
   return `${year}-${pad2(month)}-${pad2(day)}`;
 }
 
+function toIsoDate(year, month, day) {
+  const y = Number(year);
+  const m = Number(month);
+  const d = Number(day);
+  if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d)) return "";
+  if (m < 1 || m > 12 || d < 1 || d > 31) return "";
+  const dt = new Date(y, m - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== m - 1 || dt.getDate() !== d) return "";
+  return formatYmd(y, m, d);
+}
+
+function parseDateToken(token, fallbackYear) {
+  const t = cleanText(String(token || "")).replace(/\([^)]*\)/g, "").trim();
+  if (!t) return "";
+
+  const ymd = t.match(/(\d{4})\s*[./-]\s*(\d{1,2})\s*[./-]\s*(\d{1,2})/);
+  if (ymd) return toIsoDate(ymd[1], ymd[2], ymd[3]);
+
+  const korYmd = t.match(/(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+  if (korYmd) return toIsoDate(korYmd[1], korYmd[2], korYmd[3]);
+
+  const korMd = t.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+  if (korMd) return toIsoDate(fallbackYear, korMd[1], korMd[2]);
+
+  const md = t.match(/(\d{1,2})\s*[./-]\s*(\d{1,2})/);
+  if (md) return toIsoDate(fallbackYear, md[1], md[2]);
+
+  return "";
+}
+
+function normalizePeriodYear(startIso, endIso) {
+  if (!startIso || !endIso) return { startIso, endIso };
+
+  const sy = Number(startIso.slice(0, 4));
+  const sm = Number(startIso.slice(5, 7));
+  const ey = Number(endIso.slice(0, 4));
+  const em = Number(endIso.slice(5, 7));
+  if (!Number.isInteger(sy) || !Number.isInteger(ey)) return { startIso, endIso };
+
+  if (sy === ey && em < sm) {
+    const fixedEnd = toIsoDate(ey + 1, endIso.slice(5, 7), endIso.slice(8, 10));
+    return { startIso, endIso: fixedEnd || endIso };
+  }
+
+  return { startIso, endIso };
+}
+
+function extractPeriodRangeFromText(text, fallbackDateText) {
+  const s = cleanText(text || "");
+  if (!s) return { startDate: "", endDate: "" };
+
+  const fallbackYear = Number(String(fallbackDateText || "").match(/^(\d{4})/)?.[1] || new Date().getFullYear());
+  const normalized = s.replace(/[~∼〜－]/g, "~");
+
+  const tryRange = (regex) => {
+    const m = normalized.match(regex);
+    if (!m) return null;
+    const startRaw = m[1];
+    const endRaw = m[2];
+    const parsedStart = parseDateToken(startRaw, fallbackYear);
+    let parsedEnd = parseDateToken(endRaw, fallbackYear);
+    if (!parsedStart || !parsedEnd) return null;
+
+    let startIso = parsedStart;
+    let endIso = parsedEnd;
+    const bothNoYear = !/(\d{4})/.test(startRaw) && !/(\d{4})/.test(endRaw);
+    if (bothNoYear) {
+      const startDate = new Date(startIso);
+      const endDate = new Date(endIso);
+      if (endDate < startDate) {
+        const shifted = toIsoDate(Number(endIso.slice(0, 4)) + 1, endIso.slice(5, 7), endIso.slice(8, 10));
+        if (shifted) endIso = shifted;
+      }
+    }
+
+    return normalizePeriodYear(startIso, endIso);
+  };
+
+  const rangePatterns = [
+    /(?:접수|모집|신청|응모|공모)\s*(?:기간|일정)?\s*[:：]?\s*([0-9년월일./()\- ]+?)\s*~\s*([0-9년월일./()\- ]+)/,
+    /([0-9]{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?)\s*~\s*([0-9]{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?)/,
+    /([0-9]{1,2}[./-]\d{1,2}(?:\([^)]*\))?)\s*~\s*([0-9]{1,2}[./-]\d{1,2}(?:\([^)]*\))?)/,
+    /(\d{1,2}\s*월\s*\d{1,2}\s*일?(?:\([^)]*\))?)\s*~\s*(\d{1,2}\s*월\s*\d{1,2}\s*일?(?:\([^)]*\))?)/
+  ];
+
+  for (const p of rangePatterns) {
+    const hit = tryRange(p);
+    if (hit && hit.startIso && hit.endIso) {
+      return { startDate: hit.startIso, endDate: hit.endIso };
+    }
+  }
+
+  const startLabeled = normalized.match(/(?:시작|접수시작|모집시작|신청시작)\s*[:：]?\s*([0-9년월일./()\- ]+)/);
+  const endLabeled = normalized.match(/(?:마감|종료|접수마감|신청마감)\s*[:：]?\s*([0-9년월일./()\- ]+)/);
+  if (startLabeled || endLabeled) {
+    const startDate = parseDateToken(startLabeled?.[1] || "", fallbackYear);
+    const endDate = parseDateToken(endLabeled?.[1] || "", fallbackYear);
+    if (startDate || endDate) return { startDate, endDate };
+  }
+
+  const endOnlyLabeled = normalized.match(/(?:마감|종료|접수마감)\s*[:：]?\s*([0-9년월일./()\- ]+)/);
+  if (endOnlyLabeled) {
+    const endDate = parseDateToken(endOnlyLabeled[1], fallbackYear);
+    if (endDate) return { startDate: "", endDate };
+  }
+
+  return { startDate: "", endDate: "" };
+}
+
+function composeDeadlineFromHints(startDate, endDate, fallbackDeadline) {
+  if (startDate && endDate) return `${startDate} ~ ${endDate}`;
+  if (endDate) return endDate;
+  return fallbackDeadline || "기간 정보 없음";
+}
+
 function normalizeDeadline(deadline, uploadDate) {
   const text = cleanText(deadline || "");
   if (!text || text === "기간 정보 없음") return "기간 정보 없음";
@@ -280,7 +395,11 @@ function enrichPeriodFields(list) {
   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
   return list.map((item) => {
-    const { start, end } = getPeriodRange(item.deadline);
+    const hintedStart = parseDateValue(item.startDateHint, new Date().getFullYear());
+    const hintedEnd = parseDateValue(item.endDateHint, new Date().getFullYear());
+    const parsed = getPeriodRange(item.deadline);
+    const start = hintedStart || parsed.start;
+    const end = hintedEnd || parsed.end;
     const dday = end ? dateDiffDays(todayOnly, end) : null;
     const isClosed = end ? dday < 0 : false;
     const isUrgent = end ? dday >= 0 && dday <= 7 : false;
@@ -376,29 +495,47 @@ async function scrapeWevity() {
 
     if (!parsed.title) return;
 
-    const deadline = normalizeDeadline(extractDeadline(text), extractUploadDate(text));
+    const listPeriod = extractPeriodRangeFromText(text, extractUploadDate(text));
+    const deadline = composeDeadlineFromHints(
+      listPeriod.startDate,
+      listPeriod.endDate,
+      normalizeDeadline(extractDeadline(text), extractUploadDate(text))
+    );
     const uploadDate = extractPostedDate(text);
 
-    results.push({ title: parsed.title, field: parsed.field, link, deadline, uploadDate });
+    results.push({
+      title: parsed.title,
+      field: parsed.field,
+      link,
+      deadline,
+      uploadDate,
+      startDateHint: listPeriod.startDate,
+      endDateHint: listPeriod.endDate
+    });
   });
 
-  // 목록 텍스트에 마감일이 없을 때 상세 페이지 본문에서 한 번 더 보강합니다.
+  // 위비티는 상세 페이지에 기간 정보가 더 정확한 경우가 많아 항상 보강을 시도합니다.
   for (const item of results) {
-    if (item.deadline !== "기간 정보 없음") continue;
-
     try {
       const detail = await fetchWithRetry(item.link, {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+      const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
+      const enrichedDeadline = composeDeadlineFromHints(
+        detailPeriod.startDate,
+        detailPeriod.endDate,
+        normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
+      );
       const enrichedUploadDate = extractPostedDate(detailText);
 
+      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
-      item.deadline = "기간 정보 없음";
+      // 상세 보강 실패는 기존 목록 데이터 유지
     }
   }
 
@@ -435,7 +572,7 @@ async function scrapeThinkgood() {
           const title = cleanText(item?.name);
           const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
           if (title && link.includes("contest/view.do")) {
-            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "" });
+            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "", startDateHint: "", endDateHint: "" });
           }
         }
       }
@@ -455,9 +592,16 @@ async function scrapeThinkgood() {
         timeout: 8000
       }, 2);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      const enrichedDeadline = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+      const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
+      const enrichedDeadline = composeDeadlineFromHints(
+        detailPeriod.startDate,
+        detailPeriod.endDate,
+        normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
+      );
       const enrichedUploadDate = extractPostedDate(detailText);
 
+      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
     } catch (_) {
@@ -489,13 +633,18 @@ async function scrapeCampuspick() {
 
   const results = activities
     .filter((a) => a?.id && a?.title)
-    .map((a) => ({
-      title: cleanText(a.title),
-      field: "",
-      link: `https://www.campuspick.com/contest/view?id=${a.id}`,
-      deadline: a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "기간 정보 없음",
-      uploadDate: ""
-    }));
+    .map((a) => {
+      const endHint = a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "";
+      return {
+        title: cleanText(a.title),
+        field: "",
+        link: `https://www.campuspick.com/contest/view?id=${a.id}`,
+        deadline: endHint || "기간 정보 없음",
+        uploadDate: "",
+        startDateHint: "",
+        endDateHint: endHint || ""
+      };
+    });
 
   for (const item of results) {
     try {
@@ -504,7 +653,14 @@ async function scrapeCampuspick() {
         timeout: 8000
       }, 1);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      item.deadline = extractCampusPeriod(detailText, item.deadline);
+      const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
+      const campusPeriod = extractCampusPeriod(detailText, item.deadline);
+      const campusParsed = getPeriodRange(campusPeriod);
+      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (!item.startDateHint && campusParsed.start) item.startDateHint = toYmd(campusParsed.start);
+      if (!item.endDateHint && campusParsed.end) item.endDateHint = toYmd(campusParsed.end);
+      item.deadline = composeDeadlineFromHints(item.startDateHint, item.endDateHint, campusPeriod);
     } catch (_) {
       item.deadline = normalizeDeadline(item.deadline, item.uploadDate);
     }
@@ -563,7 +719,9 @@ async function scrapeLinkareer() {
         field: "",
         link: safeAbsolute("https://linkareer.com", row.href),
         deadline,
-        uploadDate: ""
+        uploadDate: "",
+        startDateHint: "",
+        endDateHint: normalizeDeadline(deadline, "")
       });
     }
 
@@ -587,11 +745,19 @@ async function backfillUnknownPeriods(list) {
         timeout: 8000
       }, 1);
       const detailText = cleanText(cheerio.load(detail.data).text());
-
-      let enriched = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+      const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
+      let enriched = composeDeadlineFromHints(
+        detailPeriod.startDate,
+        detailPeriod.endDate,
+        normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
+      );
       if (item.source === "campuspick") {
-        enriched = extractCampusPeriod(detailText, item.deadline);
+        const campus = extractCampusPeriod(detailText, item.deadline);
+        enriched = composeDeadlineFromHints(detailPeriod.startDate, detailPeriod.endDate, campus);
       }
+
+      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
       if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
 
       const posted = extractPostedDate(detailText);
@@ -616,15 +782,21 @@ async function backfillSingleDatePeriods(list) {
         timeout: 8000
       }, 1);
       const detailText = cleanText(cheerio.load(detail.data).text());
-      let enriched = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+      const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
+      let enriched = composeDeadlineFromHints(
+        detailPeriod.startDate,
+        detailPeriod.endDate,
+        normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
+      );
 
       if (item.source === "campuspick") {
-        enriched = extractCampusPeriod(detailText, item.deadline);
+        const campus = extractCampusPeriod(detailText, item.deadline);
+        enriched = composeDeadlineFromHints(detailPeriod.startDate, detailPeriod.endDate, campus);
       }
 
-      if (enriched && enriched !== "기간 정보 없음" && String(enriched).includes("~")) {
-        item.deadline = enriched;
-      }
+      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
 
       const posted = extractPostedDate(detailText);
       if (posted) item.uploadDate = posted;

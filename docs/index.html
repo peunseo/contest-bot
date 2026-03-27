@@ -564,8 +564,8 @@
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
-            const hasExtraFilter = state.query.trim() !== '' || state.source !== 'all';
-            if (hasExtraFilter) {
+            const hasSearchQuery = state.query.trim() !== '';
+            if (hasSearchQuery) {
               statusEl.textContent = '조건에 맞는 공고가 없습니다.';
             } else if (state.view === 'today') {
               statusEl.textContent = '오늘의 공고가 없습니다.';
