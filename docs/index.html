@@ -135,9 +135,8 @@
     }
 
     .site-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
+      display: none;
+      margin-top: 6px;
       min-width: 112px;
       width: max-content;
       border: 1px solid var(--line);
@@ -145,7 +144,10 @@
       background: #fff;
       box-shadow: 0 8px 18px rgba(20, 40, 28, 0.08);
       overflow: hidden;
-      z-index: 20;
+    }
+
+    .site-dropdown[open] .site-dropdown-menu {
+      display: block;
     }
 
     .site-dropdown-menu a {
