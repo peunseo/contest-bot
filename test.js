@@ -24,6 +24,8 @@ function getIsoNow() {
 function extractDeadline(text) {
   const s = cleanText(text);
 
+  const stripDecor = (v) => String(v || "").replace(/\([^)]*\)/g, "").replace(/\s+/g, " ").trim();
+
   const korRange = s.match(/\d{4}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?\s*[~\-]\s*(?:\d{4}\s*년\s*)?\d{1,2}\s*월\s*\d{1,2}\s*일?/);
   if (korRange) {
     return korRange[0]
@@ -34,14 +36,14 @@ function extractDeadline(text) {
       .trim();
   }
 
-  const fullRange = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}\s*[~\-]\s*\d{4}[./-]\d{1,2}[./-]\d{1,2}/);
-  if (fullRange) return fullRange[0];
+  const fullRange = s.match(/\d{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?\s*[~\-]\s*\d{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?/);
+  if (fullRange) return stripDecor(fullRange[0]);
 
-  const shortRange = s.match(/\d{1,2}[./-]\d{1,2}\s*[~\-]\s*\d{1,2}[./-]\d{1,2}/);
-  if (shortRange) return shortRange[0];
+  const shortRange = s.match(/\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?\s*[~\-]\s*\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?/);
+  if (shortRange) return stripDecor(shortRange[0]);
 
   const labeled = s.match(/(?:마감|마감일|접수마감)\s*[:：]?\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
-  if (labeled) return labeled[1];
+  if (labeled) return stripDecor(labeled[1]);
 
   return "기간 정보 없음";
 }
@@ -135,7 +137,7 @@ function normalizeDeadline(deadline, uploadDate) {
 function extractCampusPeriod(detailText, endDate) {
   const text = cleanText(detailText || "");
 
-  const fullRange = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2})\s*[~\-]\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2})/);
+  const fullRange = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?)\s*[~\-]\s*(\d{4}[./-]\d{1,2}[./-]\d{1,2}(?:\([^)]*\))?)/);
   if (fullRange) return normalizeDeadline(`${fullRange[1]} ~ ${fullRange[2]}`, endDate);
 
   const korMdRange = text.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일(?:\([^)]*\))?\s*[~\-]\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/);
@@ -254,8 +256,8 @@ function getPeriodRange(deadlineText) {
   const single = text.match(/(\d{4}[./-]\d{1,2}[./-]\d{1,2}|\d{1,2}[./-]\d{1,2})/);
   if (single) {
     const d = parseDateValue(single[1], currentYear);
-    // 단일 날짜는 대부분 마감일 표기이므로 시작일은 미정으로 둡니다.
-    return { start: null, end: d };
+    // 단일 날짜만 확보된 항목은 동일 시작/마감으로 처리해 화면에서 시작일을 명확히 표시합니다.
+    return { start: d, end: d };
   }
 
   return { start: null, end: null };
@@ -602,6 +604,38 @@ async function backfillUnknownPeriods(list) {
   return list;
 }
 
+async function backfillSingleDatePeriods(list) {
+  const targets = list
+    .filter((item) => item && item.link && item.deadline && item.deadline !== "기간 정보 없음" && !String(item.deadline).includes("~"))
+    .slice(0, 30);
+
+  await Promise.all(targets.map(async (item) => {
+    try {
+      const detail = await fetchWithRetry(item.link, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        timeout: 8000
+      }, 1);
+      const detailText = cleanText(cheerio.load(detail.data).text());
+      let enriched = normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText));
+
+      if (item.source === "campuspick") {
+        enriched = extractCampusPeriod(detailText, item.deadline);
+      }
+
+      if (enriched && enriched !== "기간 정보 없음" && String(enriched).includes("~")) {
+        item.deadline = enriched;
+      }
+
+      const posted = extractPostedDate(detailText);
+      if (posted) item.uploadDate = posted;
+    } catch (_) {
+      // 상세 보강 실패는 무시합니다.
+    }
+  }));
+
+  return list;
+}
+
 // =======================
 // 통합
 // =======================
@@ -633,6 +667,7 @@ async function getAllContests() {
 
   const merged = results.flat();
   await backfillUnknownPeriods(merged);
+  await backfillSingleDatePeriods(merged);
   return merged;
 }
 

@@ -151,7 +151,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      min-height: 220px;
+      min-height: 178px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       opacity: 0;
       transform: translateY(8px);
@@ -229,16 +229,16 @@
       overflow-wrap: anywhere;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 70px;
+      min-height: 48px;
     }
 
     .deadline {
       font-size: 13px;
       color: var(--muted);
-      min-height: 34px;
+      min-height: 18px;
     }
 
     .deadline.warn {
@@ -521,18 +521,6 @@
           : items.filter((item) => String(item.uploadDate || '') === String(data.today || ''));
         const urgentItems = items.filter((item) => isUrgent(item) && !isClosed(item));
 
-        const sourceCounts = items.reduce((acc, item) => {
-          const key = item.source || 'unknown';
-          acc[key] = (acc[key] || 0) + 1;
-          return acc;
-        }, {});
-        sourceSummaryEl.innerHTML = `
-          <span class="pill">위비티 ${sourceCounts.wevity || 0}건</span>
-          <span class="pill">씽굿 ${sourceCounts.thinkcontest || 0}건</span>
-          <span class="pill">캠퍼스픽 ${sourceCounts.campuspick || 0}건</span>
-          <span class="pill">링커리어 ${sourceCounts.linkareer || 0}건</span>
-        `;
-
         if (items.length === 0) {
           listEl.innerHTML = '';
           return;
@@ -540,6 +528,21 @@
 
         const state = { query: '', view: 'today', source: 'all', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
+
+        function renderSourceSummary(baseItems) {
+          const counts = baseItems.reduce((acc, item) => {
+            const key = item.source || 'unknown';
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          }, {});
+
+          sourceSummaryEl.innerHTML = `
+            <span class="pill ${state.source === 'wevity' ? 'active' : ''}">위비티 ${counts.wevity || 0}건</span>
+            <span class="pill ${state.source === 'thinkcontest' ? 'active' : ''}">씽굿 ${counts.thinkcontest || 0}건</span>
+            <span class="pill ${state.source === 'campuspick' ? 'active' : ''}">캠퍼스픽 ${counts.campuspick || 0}건</span>
+            <span class="pill ${state.source === 'linkareer' ? 'active' : ''}">링커리어 ${counts.linkareer || 0}건</span>
+          `;
+        }
 
         function render() {
           let base;
@@ -551,6 +554,8 @@
             base = items;
           }
 
+          renderSourceSummary(base);
+
           const filtered = applyFilters(base, state.query, state.source);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
@@ -559,7 +564,16 @@
 
           if (filtered.length === 0) {
             listEl.innerHTML = '';
-            statusEl.textContent = '조건에 맞는 공고가 없습니다.';
+            const hasExtraFilter = state.query.trim() !== '' || state.source !== 'all';
+            if (hasExtraFilter) {
+              statusEl.textContent = '조건에 맞는 공고가 없습니다.';
+            } else if (state.view === 'today') {
+              statusEl.textContent = '오늘의 공고가 없습니다.';
+            } else if (state.view === 'urgent') {
+              statusEl.textContent = '마감임박한 공고가 없습니다.';
+            } else {
+              statusEl.textContent = '공고가 없습니다.';
+            }
             pageInfoEl.textContent = '0 / 0';
             prevPageEl.disabled = true;
             nextPageEl.disabled = true;
@@ -572,13 +586,7 @@
           prevPageEl.disabled = state.page <= 1;
           nextPageEl.disabled = state.page >= totalPages;
 
-          if (state.view === 'today' && todayItems.length === 0) {
-            statusEl.textContent = '오늘 등록된 공고가 없습니다.';
-          } else if (state.view === 'urgent') {
-            statusEl.textContent = '마감 7일 이내 공고입니다.';
-          } else {
-            statusEl.textContent = '';
-          }
+          statusEl.textContent = '';
 
           listEl.innerHTML = pageItems.map(makeCard).join('');
         }
@@ -627,11 +635,6 @@
 
           state.source = state.source === source ? 'all' : source;
           state.page = 1;
-
-          Array.from(sourceSummaryEl.querySelectorAll('.pill')).forEach((pill) => {
-            pill.classList.remove('active');
-          });
-          if (state.source !== 'all') e.target.classList.add('active');
           render();
         };
 
