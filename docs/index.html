@@ -86,6 +86,23 @@
       align-items: center;
     }
 
+    .external-btn {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 12px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .external-btn:hover {
+      background: #f3f6f2;
+      border-color: #b7c8b8;
+    }
+
     .filter-input {
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -352,6 +369,7 @@
       <div class="controls">
         <div class="filter-row">
           <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
+          <a class="external-btn" href="https://linkareer.com/list/contest" target="_blank" rel="noopener noreferrer">링커리어 바로가기</a>
         </div>
       </div>
       <p class="empty" id="status"></p>
@@ -398,7 +416,6 @@
       if (source === 'wevity') return '위비티';
       if (source === 'thinkcontest') return '씽굿';
       if (source === 'campuspick') return '캠퍼스픽';
-      if (source === 'linkareer') return '링커리어';
       return source || 'unknown';
     }
 
@@ -566,7 +583,6 @@
             <span class="pill ${state.source === 'wevity' ? 'active' : ''}">위비티 ${counts.wevity || 0}건</span>
             <span class="pill ${state.source === 'thinkcontest' ? 'active' : ''}">씽굿 ${counts.thinkcontest || 0}건</span>
             <span class="pill ${state.source === 'campuspick' ? 'active' : ''}">캠퍼스픽 ${counts.campuspick || 0}건</span>
-            <span class="pill ${state.source === 'linkareer' ? 'active' : ''}">링커리어 ${counts.linkareer || 0}건</span>
           `;
         }
 
@@ -657,7 +673,6 @@
           if (text.includes('위비티')) source = 'wevity';
           else if (text.includes('씽굿')) source = 'thinkcontest';
           else if (text.includes('캠퍼스픽')) source = 'campuspick';
-          else if (text.includes('링커리어')) source = 'linkareer';
 
           state.source = state.source === source ? 'all' : source;
           state.page = 1;

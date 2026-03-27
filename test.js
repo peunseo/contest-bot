@@ -981,8 +981,7 @@ async function getAllContests() {
   const jobs = [
     ["wevity", scrapeWevity()],
     ["thinkcontest", scrapeThinkgood()],
-    ["campuspick", scrapeCampuspick()],
-    ["linkareer", scrapeLinkareerWithRetry(3)]
+    ["campuspick", scrapeCampuspick()]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
@@ -999,14 +998,6 @@ async function getAllContests() {
     for (const f of failed) {
       const reason = f.result.reason?.message || String(f.result.reason);
       console.warn(`  - ${f.source}: ${reason}`);
-
-      if (f.source === "linkareer") {
-        const fallback = loadPreviousSourceItems("linkareer");
-        if (fallback.length > 0) {
-          console.warn(`  - linkareer: 이전 데이터 ${fallback.length}건으로 대체`);
-          results.push(fallback);
-        }
-      }
     }
   }
 
