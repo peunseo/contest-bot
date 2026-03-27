@@ -270,6 +270,13 @@ function extractCampusPeriod(detailText, endDate) {
   return endOnly;
 }
 
+function extractCampusKeyDatesFromHtml(html) {
+  const source = String(html || "");
+  const start = source.match(/startDate\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i)?.[1] || "";
+  const end = source.match(/endDate\s*[:=]\s*[\"'](\d{4}-\d{2}-\d{2})[\"']/i)?.[1] || "";
+  return { startDate: start, endDate: end };
+}
+
 function addDaysYmd(days) {
   const d = new Date();
   d.setDate(d.getDate() + Number(days || 0));
@@ -652,12 +659,19 @@ async function scrapeCampuspick() {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
       }, 1);
-      const detailText = cleanText(cheerio.load(detail.data).text());
+      const detailHtml = String(detail.data || "");
+      const detailText = cleanText(cheerio.load(detailHtml).text());
+      const keyDates = extractCampusKeyDatesFromHtml(detailHtml);
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       const campusPeriod = extractCampusPeriod(detailText, item.deadline);
       const campusParsed = getPeriodRange(campusPeriod);
-      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
-      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+
+      if (keyDates.startDate) item.startDateHint = keyDates.startDate;
+      else if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
+
+      if (keyDates.endDate) item.endDateHint = keyDates.endDate;
+      else if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+
       if (!item.startDateHint && campusParsed.start) item.startDateHint = toYmd(campusParsed.start);
       if (!item.endDateHint && campusParsed.end) item.endDateHint = toYmd(campusParsed.end);
       item.deadline = composeDeadlineFromHints(item.startDateHint, item.endDateHint, campusPeriod);
@@ -744,20 +758,22 @@ async function backfillUnknownPeriods(list) {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
       }, 1);
-      const detailText = cleanText(cheerio.load(detail.data).text());
+      const detailHtml = String(detail.data || "");
+      const detailText = cleanText(cheerio.load(detailHtml).text());
+      const keyDates = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       let enriched = composeDeadlineFromHints(
-        detailPeriod.startDate,
-        detailPeriod.endDate,
+        keyDates.startDate || detailPeriod.startDate,
+        keyDates.endDate || detailPeriod.endDate,
         normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
       );
       if (item.source === "campuspick") {
         const campus = extractCampusPeriod(detailText, item.deadline);
-        enriched = composeDeadlineFromHints(detailPeriod.startDate, detailPeriod.endDate, campus);
+        enriched = composeDeadlineFromHints(keyDates.startDate || detailPeriod.startDate, keyDates.endDate || detailPeriod.endDate, campus);
       }
 
-      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
-      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
+      if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
 
       const posted = extractPostedDate(detailText);
@@ -781,21 +797,23 @@ async function backfillSingleDatePeriods(list) {
         headers: { "User-Agent": "Mozilla/5.0" },
         timeout: 8000
       }, 1);
-      const detailText = cleanText(cheerio.load(detail.data).text());
+      const detailHtml = String(detail.data || "");
+      const detailText = cleanText(cheerio.load(detailHtml).text());
+      const keyDates = item.source === "campuspick" ? extractCampusKeyDatesFromHtml(detailHtml) : { startDate: "", endDate: "" };
       const detailPeriod = extractPeriodRangeFromText(detailText, item.uploadDate || extractUploadDate(detailText));
       let enriched = composeDeadlineFromHints(
-        detailPeriod.startDate,
-        detailPeriod.endDate,
+        keyDates.startDate || detailPeriod.startDate,
+        keyDates.endDate || detailPeriod.endDate,
         normalizeDeadline(extractDeadline(detailText), extractUploadDate(detailText))
       );
 
       if (item.source === "campuspick") {
         const campus = extractCampusPeriod(detailText, item.deadline);
-        enriched = composeDeadlineFromHints(detailPeriod.startDate, detailPeriod.endDate, campus);
+        enriched = composeDeadlineFromHints(keyDates.startDate || detailPeriod.startDate, keyDates.endDate || detailPeriod.endDate, campus);
       }
 
-      if (detailPeriod.startDate) item.startDateHint = detailPeriod.startDate;
-      if (detailPeriod.endDate) item.endDateHint = detailPeriod.endDate;
+      if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
+      if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
 
       const posted = extractPostedDate(detailText);
