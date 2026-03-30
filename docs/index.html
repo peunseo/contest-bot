@@ -187,35 +187,6 @@
       min-width: 130px;
     }
 
-    .toggle-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 10px;
-      background: #fff;
-      font-size: 13px;
-      color: var(--ink);
-      user-select: none;
-      cursor: pointer;
-    }
-
-    .reset-btn {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 10px;
-      background: #fff;
-      color: var(--ink);
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .reset-btn:hover {
-      background: #eef6ef;
-      border-color: #a7c3af;
-    }
-
     .field-chips {
       margin-top: 10px;
       display: flex;
@@ -389,6 +360,34 @@
       word-break: break-word;
     }
 
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1;
+      border: 1px solid var(--line);
+      background: #f8fbf7;
+      color: #365342;
+      white-space: nowrap;
+    }
+
+    .meta-chip.views {
+      border-color: #b8d1c1;
+      background: #edf6f0;
+      color: #284e3a;
+      font-weight: 600;
+    }
+
     a.btn {
       display: inline-block;
       width: fit-content;
@@ -456,14 +455,8 @@
           <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
           <select class="filter-select" id="sortSelect">
             <option value="latest">최신순</option>
-            <option value="urgent">마감임박순</option>
             <option value="popular">인기순(조회수)</option>
           </select>
-          <label class="toggle-wrap" for="openOnlyInput">
-            <input id="openOnlyInput" type="checkbox" />
-            접수중/접수예정만
-          </label>
-          <button class="reset-btn" id="resetFiltersBtn" type="button">필터 초기화</button>
           <details class="site-dropdown">
             <summary>사이트 바로가기</summary>
             <div class="site-dropdown-menu">
@@ -688,19 +681,21 @@
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
           <div class="${deadlineClass}">접수: ${escapeHtml(period)}</div>
-          <div class="field">분야: ${escapeHtml(fieldText)} · 조회수: ${escapeHtml(viewText)}</div>
+          <div class="meta-row">
+            <span class="meta-chip">분야 ${escapeHtml(fieldText)}</span>
+            <span class="meta-chip views">조회 ${escapeHtml(viewText)}</span>
+          </div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
     }
 
     // 검색어/사이트 필터 조건에 맞는 공고만 남깁니다.
-    function applyFilters(items, query, source, field, onlyOpen) {
+    function applyFilters(items, query, source, field) {
       const q = String(query || '').toLowerCase().trim();
       return items.filter((item) => {
         if (source && source !== 'all' && item.source !== source) return false;
         if (field && field !== 'all' && (item.field || inferFieldFromTitle(item.title)) !== field) return false;
-        if (onlyOpen && isClosed(item)) return false;
         if (!q) return true;
 
         const fieldText = String(item.field || inferFieldFromTitle(item.title) || '').toLowerCase();
@@ -726,8 +721,6 @@
       const fieldChipsEl = document.getElementById('fieldChips');
       const searchInputEl = document.getElementById('searchInput');
       const sortSelectEl = document.getElementById('sortSelect');
-      const openOnlyInputEl = document.getElementById('openOnlyInput');
-      const resetFiltersBtnEl = document.getElementById('resetFiltersBtn');
       const siteDropdownEl = document.querySelector('.site-dropdown');
 
       try {
@@ -738,7 +731,7 @@
         todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
-        const items = (Array.isArray(data.items) ? data.items : []).map((item) => {
+        const normalizedItems = (Array.isArray(data.items) ? data.items : []).map((item) => {
           const parsed = splitTitleAndField(item.title || '');
           const field = item.field || parsed.field || inferFieldFromTitle(parsed.main || item.title || '');
           return {
@@ -747,6 +740,7 @@
             viewCount: normalizeViewCount(item.viewCount)
           };
         });
+        const items = normalizedItems.filter((item) => !isClosed(item));
         const allSortedItems = sortLatestItems(items);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
@@ -765,7 +759,7 @@
           return;
         }
 
-        const state = { query: '', view: 'all', source: 'all', field: 'all', sort: 'latest', onlyOpen: false, page: 1, perPage: 12 };
+        const state = { query: '', view: 'all', source: 'all', field: 'all', sort: 'latest', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
 
         const fieldSet = new Set(['all']);
@@ -830,11 +824,15 @@
             base = allSortedItems;
           }
 
-          renderSourceSummary(base);
-          renderFieldChips(base);
+          const sourceScoped = state.source === 'all'
+            ? base
+            : base.filter((item) => item.source === state.source);
 
-          const sortedBase = sortByMode(base, state.sort);
-          const filtered = applyFilters(sortedBase, state.query, state.source, state.field, state.onlyOpen);
+          renderSourceSummary(base);
+          renderFieldChips(sourceScoped);
+
+          const sortedBase = sortByMode(sourceScoped, state.sort);
+          const filtered = applyFilters(sortedBase, state.query, 'all', state.field);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
           const start = (state.page - 1) * state.perPage;
@@ -921,12 +919,6 @@
           render();
         };
 
-        openOnlyInputEl.onchange = () => {
-          state.onlyOpen = openOnlyInputEl.checked;
-          state.page = 1;
-          render();
-        };
-
         fieldChipsEl.onclick = (e) => {
           if (!e.target.classList.contains('pill')) return;
           const selected = e.target.getAttribute('data-field') || 'all';
@@ -946,22 +938,9 @@
           else if (text.includes('링커리어')) source = 'linkareer';
 
           state.source = state.source === source ? 'all' : source;
+          state.field = 'all';
           // 사이트 필터 변경 시에도 목록 길이가 달라질 수 있어 1페이지로 이동합니다.
           state.page = 1;
-          render();
-        };
-
-        resetFiltersBtnEl.onclick = () => {
-          state.query = '';
-          state.source = 'all';
-          state.field = 'all';
-          state.sort = 'latest';
-          state.onlyOpen = false;
-          state.page = 1;
-
-          searchInputEl.value = '';
-          sortSelectEl.value = 'latest';
-          openOnlyInputEl.checked = false;
           render();
         };
 
