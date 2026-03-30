@@ -190,16 +190,17 @@
     .field-chips {
       margin-top: 10px;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: nowrap;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: thin;
+      overflow: hidden;
+      padding-bottom: 2px;
     }
 
     .field-chips .pill {
       white-space: nowrap;
       flex: 0 0 auto;
+      padding: 5px 9px;
+      font-size: 12px;
     }
 
     .pill {
@@ -442,6 +443,9 @@
       .hero { padding: 18px; }
       .site-dropdown summary {
         padding: 6px 8px;
+      }
+      .field-chips {
+        flex-wrap: wrap;
       }
     }
   </style>
@@ -807,7 +811,23 @@
             return acc;
           }, {});
 
-          fieldChipsEl.innerHTML = allFields.map((f) => {
+          // 칩 과밀을 줄이기 위해 노출 가능한 분야 중 최소 건수 1개를 숨깁니다.
+          const onlyFields = allFields.filter((f) => f !== 'all' && (counts[f] || 0) > 0);
+          const sortedByCountAsc = [...onlyFields].sort((a, b) => {
+            const diff = (counts[a] || 0) - (counts[b] || 0);
+            if (diff !== 0) return diff;
+            return String(a).localeCompare(String(b), 'ko');
+          });
+
+          let hiddenField = '';
+          if (sortedByCountAsc.length > 1) {
+            hiddenField = sortedByCountAsc[0];
+            if (hiddenField === state.field) hiddenField = sortedByCountAsc[1] || '';
+          }
+
+          const visibleFields = ['all', ...onlyFields.filter((f) => f !== hiddenField)];
+
+          fieldChipsEl.innerHTML = visibleFields.map((f) => {
             const count = f === 'all'
               ? baseItems.length
               : (counts[f] || 0);
