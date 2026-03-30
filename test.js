@@ -9,6 +9,21 @@ const WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 // GitHub Pages가 읽을 최신 데이터 파일 경로입니다.
 const OUTPUT_PATH = path.join(__dirname, "docs", "data", "latest.json");
 
+// 파일 읽는 순서 안내(신입 온보딩용):
+// 1) 사이트별 scrape* 함수가 원본 목록을 수집합니다.
+//    - 여기서는 "최대한 많이" 가져오는 것이 목표입니다.
+//    - 날짜가 일부 부정확해도 다음 단계에서 보강합니다.
+// 2) backfill* 함수가 상세 페이지를 다시 읽어 날짜 정보를 보강합니다.
+//    - 목록에서 빠진 시작일/마감일을 상세 본문에서 다시 찾습니다.
+//    - 네트워크 실패가 나도 전체 수집은 중단하지 않습니다.
+// 3) buildPayload가 중복 제거/정렬/파생 필드 계산 후 공통 JSON을 만듭니다.
+// 4) run이 JSON 저장 + Discord 전송까지 실행합니다.
+//
+// 문제를 추적할 때는 아래 순서로 보면 빠릅니다:
+// - "데이터가 아예 없음" -> getAllContests / scrape* 로그 확인
+// - "기간이 이상함" -> backfill* + enrichPeriodFields 확인
+// - "화면 정렬이 이상함" -> buildPayload 결과(items) 확인
+
 // =======================
 // 날짜
 // =======================
@@ -343,11 +358,91 @@ function epochToYmd(epochValue) {
   return formatYmd(d.getFullYear(), d.getMonth() + 1, d.getDate());
 }
 
-// 링커리어 HTML의 recruitStartAt/recruitEndAt 같은 키를 우선 추출합니다.
-function extractLinkareerKeyDatesFromHtml(html) {
-  const source = String(html || "");
+// JSON 문자열을 안전하게 파싱합니다.
+function parseJsonSafe(raw) {
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
 
-  // 링크커리어 상세에는 recruitStartAt/recruitEndAt가 epoch(ms)로 노출되는 경우가 많습니다.
+// 중첩 객체를 순회하며 링커리어 기간/조회수 후보 객체를 모읍니다.
+function collectLinkareerMetaCandidates(node, out = []) {
+  if (!node || typeof node !== "object") return out;
+
+  const toLinkareerIsoDate = (value) => {
+    if (value === undefined || value === null) return "";
+    const raw = String(value).trim();
+    if (!raw) return "";
+
+    if (/^\d{10,13}$/.test(raw)) return epochToYmd(raw);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+
+    const parsed = parseDateToken(raw, new Date().getFullYear());
+    return parsed || "";
+  };
+
+  const startRaw = node.recruitStartAt || node.applyStartAt || node.receiptStartAt || node.startDate || "";
+  const endRaw = node.recruitEndAt || node.applyEndAt || node.receiptEndAt || node.endDate || "";
+  const startDate = toLinkareerIsoDate(startRaw);
+  const endDate = toLinkareerIsoDate(endRaw);
+  const hasDateHint = Boolean(startDate || endDate || node.startDate || node.endDate);
+  const hasViewHint = node.viewCount !== undefined || node.hits !== undefined || node.view_count !== undefined;
+
+  if (hasDateHint || hasViewHint) {
+    out.push(node);
+  }
+
+  if (Array.isArray(node)) {
+    for (const v of node) collectLinkareerMetaCandidates(v, out);
+    return out;
+  }
+
+  for (const v of Object.values(node)) {
+    collectLinkareerMetaCandidates(v, out);
+  }
+  return out;
+}
+
+// 링커리어 상세 HTML에서 activity 기준 기간/조회수를 추출합니다.
+function extractLinkareerMetaFromHtml(html, activityId = "") {
+  const source = String(html || "");
+  const toLinkareerIsoDate = (value) => {
+    if (value === undefined || value === null) return "";
+    const raw = String(value).trim();
+    if (!raw) return "";
+
+    if (/^\d{10,13}$/.test(raw)) return epochToYmd(raw);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+
+    const parsed = parseDateToken(raw, new Date().getFullYear());
+    return parsed || "";
+  };
+  const nextDataRaw = source.match(/<script[^>]*id=["']__NEXT_DATA__["'][^>]*>([\s\S]*?)<\/script>/i)?.[1] || "";
+  const nextData = nextDataRaw ? parseJsonSafe(nextDataRaw) : null;
+  const candidates = collectLinkareerMetaCandidates(nextData || {}, []);
+
+  const targetId = String(activityId || "");
+  const scored = candidates.map((obj) => {
+    const objText = JSON.stringify(obj);
+    const idMatched = targetId && new RegExp(`(?:^|[^0-9])${targetId}(?:[^0-9]|$)`).test(objText);
+
+    const startRaw = obj.recruitStartAt || obj.applyStartAt || obj.receiptStartAt || obj.startDate || "";
+    const endRaw = obj.recruitEndAt || obj.applyEndAt || obj.receiptEndAt || obj.endDate || "";
+    const startDate = toLinkareerIsoDate(startRaw);
+    const endDate = toLinkareerIsoDate(endRaw);
+
+    const viewCount = normalizeViewCount(obj.viewCount ?? obj.hits ?? obj.view_count ?? 0);
+    const score = (idMatched ? 1000 : 0) + (startDate ? 20 : 0) + (endDate ? 25 : 0) + (viewCount > 0 ? 5 : 0);
+    return { startDate, endDate, viewCount, score };
+  }).sort((a, b) => b.score - a.score);
+
+  if (scored.length > 0 && scored[0].score > 0) {
+    return scored[0];
+  }
+
+  // __NEXT_DATA__ 파싱 실패 시 정규식 폴백
   const startEpoch = source.match(/recruitStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
     || source.match(/applyStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
     || source.match(/receiptStartAt\s*[:=]\s*(\d{10,13})/i)?.[1]
@@ -356,15 +451,19 @@ function extractLinkareerKeyDatesFromHtml(html) {
     || source.match(/applyEndAt\s*[:=]\s*(\d{10,13})/i)?.[1]
     || source.match(/receiptEndAt\s*[:=]\s*(\d{10,13})/i)?.[1]
     || "";
+  const viewRaw = source.match(/(?:viewCount|hits|view_count)\s*[:=]\s*([0-9][0-9,]*)/i)?.[1] || "0";
 
-  const startFromEpoch = epochToYmd(startEpoch);
-  const endFromEpoch = epochToYmd(endEpoch);
-  if (startFromEpoch || endFromEpoch) {
-    return { startDate: startFromEpoch, endDate: endFromEpoch };
-  }
+  return {
+    startDate: epochToYmd(startEpoch),
+    endDate: epochToYmd(endEpoch),
+    viewCount: normalizeViewCount(viewRaw)
+  };
+}
 
-  const plain = extractKeyDatesFromHtml(source);
-  return plain;
+// 링커리어 기존 호출부 호환용 래퍼입니다.
+function extractLinkareerKeyDatesFromHtml(html, activityId = "") {
+  const meta = extractLinkareerMetaFromHtml(html, activityId);
+  return { startDate: meta.startDate || "", endDate: meta.endDate || "" };
 }
 
 // 오늘 기준 N일 뒤 날짜를 YYYY-MM-DD로 계산합니다.
@@ -395,12 +494,60 @@ function inferLinkareerDeadline(titleText, cardText) {
   const dday = card.match(/D\s*-\s*(\d{1,3})/i);
   if (dday) return addDaysYmd(Number(dday[1]));
 
+  const cardMd = card.match(/(?:마감|까지|접수)\s*[:：]?\s*(\d{1,2})\s*[./-]\s*(\d{1,2})/i)
+    || card.match(/(\d{1,2})\s*[./-]\s*(\d{1,2})\s*(?:마감|까지|접수)/i);
+  if (cardMd) {
+    const now = new Date();
+    const m = Number(cardMd[1]);
+    const d = Number(cardMd[2]);
+    let y = now.getFullYear();
+    const candidate = new Date(y, m - 1, d);
+    if (candidate < new Date(now.getFullYear(), now.getMonth(), now.getDate() - 31)) y += 1;
+    return formatYmd(y, m, d);
+  }
+
   return "기간 정보 없음";
 }
 
 // 공모전/모집 성격의 제목인지 간단한 키워드로 판별합니다.
 function isContestLike(text) {
   return /공모|경진|해커톤|아이디어|챌린지|모집|서포터즈/i.test(String(text || ""));
+}
+
+// 제목 키워드 기반으로 분야명을 추론합니다(비어 있는 field 보강용).
+function inferFieldFromTitle(title) {
+  const t = String(title || "").toLowerCase();
+  if (!t) return "기타";
+
+  if (/디자인|브랜드|광고|포스터|영상|사진|웹툰|캐릭터/.test(t)) return "디자인/콘텐츠";
+  if (/개발|코딩|sw|it|ai|데이터|해커톤|앱|웹/.test(t)) return "IT/개발";
+  if (/창업|비즈니스|사업|스타트업|마케팅|기획/.test(t)) return "창업/기획";
+  if (/문학|글|에세이|시|소설|독후감|작문/.test(t)) return "문학/글쓰기";
+  if (/서포터즈|기자단|홍보단|체험단|대외활동/.test(t)) return "대외활동";
+  if (/음악|춤|공연|연기|미술|예술/.test(t)) return "예술/공연";
+  if (/환경|기후|탄소|에너지|지속가능/.test(t)) return "환경/사회";
+
+  return "기타";
+}
+
+// 텍스트에서 조회수 숫자를 찾아 정수로 반환합니다.
+function extractViewCount(text) {
+  const s = cleanText(text || "");
+  if (!s) return 0;
+
+  const hit = s.match(/(?:조회(?:수)?|views?)\s*[:：]?\s*([0-9][0-9,]*)/i)
+    || s.match(/([0-9][0-9,]*)\s*(?:회\s*조회|views?)/i);
+  if (!hit) return 0;
+
+  const n = Number(String(hit[1] || "").replace(/,/g, ""));
+  return Number.isFinite(n) ? n : 0;
+}
+
+// 조회수 값이 문자열로 들어와도 정수로 정규화합니다.
+function normalizeViewCount(value) {
+  if (Number.isFinite(value)) return Math.max(0, Math.trunc(value));
+  const n = Number(String(value || "").replace(/,/g, ""));
+  return Number.isFinite(n) ? Math.max(0, Math.trunc(n)) : 0;
 }
 
 // 네트워크 요청 실패 시 재시도하는 공통 GET 래퍼입니다.
@@ -512,6 +659,8 @@ function enrichPeriodFields(list) {
 
     return {
       ...item,
+      field: cleanText(item.field || "") || inferFieldFromTitle(item.title),
+      viewCount: normalizeViewCount(item.viewCount),
       startDate: toYmd(start),
       endDate: toYmd(end),
       dday,
@@ -622,7 +771,8 @@ async function scrapeWevity() {
       deadline,
       uploadDate,
       startDateHint: listPeriod.startDate,
-      endDateHint: listPeriod.endDate
+      endDateHint: listPeriod.endDate,
+      viewCount: extractViewCount(text)
     });
   });
 
@@ -648,6 +798,7 @@ async function scrapeWevity() {
       if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
+      item.viewCount = Math.max(item.viewCount || 0, extractViewCount(detailText));
     } catch (_) {
       // 상세 보강 실패는 기존 목록 데이터 유지
     }
@@ -686,7 +837,7 @@ async function scrapeThinkgood() {
           const title = cleanText(item?.name);
           const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
           if (title && link.includes("contest/view.do")) {
-            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "", startDateHint: "", endDateHint: "" });
+            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "", startDateHint: "", endDateHint: "", viewCount: 0 });
           }
         }
       }
@@ -720,6 +871,7 @@ async function scrapeThinkgood() {
       if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enrichedDeadline !== "기간 정보 없음") item.deadline = enrichedDeadline;
       if (enrichedUploadDate) item.uploadDate = enrichedUploadDate;
+      item.viewCount = Math.max(item.viewCount || 0, extractViewCount(detailText));
     } catch (_) {
       item.deadline = "기간 정보 없음";
     }
@@ -758,7 +910,8 @@ async function scrapeCampuspick() {
         deadline: endHint || "기간 정보 없음",
         uploadDate: "",
         startDateHint: "",
-        endDateHint: endHint || ""
+        endDateHint: endHint || "",
+        viewCount: 0
       };
     });
 
@@ -784,6 +937,7 @@ async function scrapeCampuspick() {
       if (!item.startDateHint && campusParsed.start) item.startDateHint = toYmd(campusParsed.start);
       if (!item.endDateHint && campusParsed.end) item.endDateHint = toYmd(campusParsed.end);
       item.deadline = composeDeadlineFromHints(item.startDateHint, item.endDateHint, campusPeriod);
+      item.viewCount = Math.max(item.viewCount || 0, extractViewCount(detailText));
     } catch (_) {
       item.deadline = normalizeDeadline(item.deadline, item.uploadDate);
     }
@@ -837,6 +991,7 @@ async function scrapeLinkareer() {
       if (!/\/activity\/\d+/.test(row.href)) continue;
 
       const deadline = inferLinkareerDeadline(row.title, row.cardText);
+      const normalizedEnd = normalizeDeadline(deadline, "");
       out.push({
         title: cleanText(row.title),
         field: "",
@@ -844,7 +999,8 @@ async function scrapeLinkareer() {
         deadline,
         uploadDate: "",
         startDateHint: "",
-        endDateHint: normalizeDeadline(deadline, "")
+        endDateHint: normalizedEnd && normalizedEnd !== "기간 정보 없음" && !normalizedEnd.includes("~") ? normalizedEnd : "",
+        viewCount: extractViewCount(row.cardText)
       });
     }
 
@@ -864,11 +1020,25 @@ async function scrapeLinkareer() {
         const text = await detailPage.evaluate(() => String(document.body?.innerText || "").replace(/\s+/g, " ").trim());
         await detailPage.close();
 
-        const keyDates = extractLinkareerKeyDatesFromHtml(html);
+        const activityId = item.link.match(/\/activity\/(\d+)/)?.[1] || "";
+        const meta = extractLinkareerMetaFromHtml(html, activityId);
+        const keyDates = { startDate: meta.startDate || "", endDate: meta.endDate || "" };
         const periodFromText = extractPeriodRangeFromText(text, item.uploadDate || extractUploadDate(text));
 
         if (keyDates.startDate || periodFromText.startDate) item.startDateHint = keyDates.startDate || periodFromText.startDate;
         if (keyDates.endDate || periodFromText.endDate) item.endDateHint = keyDates.endDate || periodFromText.endDate;
+
+        if (!item.endDateHint) {
+          const normalized = normalizeDeadline(item.deadline, "");
+          if (normalized && normalized !== "기간 정보 없음" && !normalized.includes("~")) {
+            item.endDateHint = normalized;
+          }
+        }
+
+        if (!item.startDateHint && item.endDateHint) {
+          // 시작일이 끝까지 비는 경우 화면에서 "기간 없음"이 되지 않도록 최소한 동일일로 보정합니다.
+          item.startDateHint = item.endDateHint;
+        }
 
         const composed = composeDeadlineFromHints(
           item.startDateHint,
@@ -877,6 +1047,7 @@ async function scrapeLinkareer() {
         );
 
         if (composed && composed !== "기간 정보 없음") item.deadline = composed;
+        item.viewCount = Math.max(item.viewCount || 0, meta.viewCount || 0, extractViewCount(text));
       } catch (_) {
         // 상세 보강 실패 시 목록 기반 데이터 유지
       }
@@ -950,6 +1121,7 @@ async function backfillUnknownPeriods(list) {
       if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
       if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
+      item.viewCount = Math.max(item.viewCount || 0, extractViewCount(detailText));
 
       const posted = extractPostedDate(detailText);
       if (posted) item.uploadDate = posted;
@@ -996,6 +1168,7 @@ async function backfillSingleDatePeriods(list) {
       if (keyDates.startDate || detailPeriod.startDate) item.startDateHint = keyDates.startDate || detailPeriod.startDate;
       if (keyDates.endDate || detailPeriod.endDate) item.endDateHint = keyDates.endDate || detailPeriod.endDate;
       if (enriched && enriched !== "기간 정보 없음") item.deadline = enriched;
+      item.viewCount = Math.max(item.viewCount || 0, extractViewCount(detailText));
 
       const posted = extractPostedDate(detailText);
       if (posted) item.uploadDate = posted;
@@ -1011,11 +1184,18 @@ async function backfillSingleDatePeriods(list) {
 // 통합
 // =======================
 async function getAllContests() {
+  const withTimeout = (promise, ms, label) => Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`${label} timeout(${ms}ms)`)), ms))
+  ]);
+
   // 한 사이트가 실패해도 전체 수집은 계속 진행하기 위해 allSettled를 사용합니다.
+  // Promise.all을 쓰면 1개 실패 시 전체가 실패하므로 운영 안정성이 떨어집니다.
   const jobs = [
-    ["wevity", scrapeWevity()],
-    ["thinkcontest", scrapeThinkgood()],
-    ["campuspick", scrapeCampuspick()]
+    ["wevity", withTimeout(scrapeWevity(), 90000, "wevity")],
+    ["thinkcontest", withTimeout(scrapeThinkgood(), 90000, "thinkcontest")],
+    ["campuspick", withTimeout(scrapeCampuspick(), 90000, "campuspick")],
+    ["linkareer", withTimeout(scrapeLinkareerWithRetry(2), 120000, "linkareer")]
   ];
   const settled = await Promise.allSettled(jobs.map(([, p]) => p));
 
@@ -1028,6 +1208,7 @@ async function getAllContests() {
     .filter((x) => x.result.status === "rejected");
 
   if (failed.length > 0) {
+    // 실패한 사이트만 경고로 남기고, 성공한 사이트 데이터로 결과를 만듭니다.
     console.warn(`⚠ 일부 사이트 수집 실패: ${failed.length}개`);
     for (const f of failed) {
       const reason = f.result.reason?.message || String(f.result.reason);
@@ -1035,9 +1216,23 @@ async function getAllContests() {
     }
   }
 
+  // 장애가 난 소스는 이전 성공 데이터로 폴백해 "공고 전체 비어 보임"을 줄입니다.
+  for (const f of failed) {
+    const fallback = loadPreviousSourceItems(f.source);
+    if (fallback.length > 0) {
+      console.warn(`↺ ${f.source} 이전 데이터 폴백 사용: ${fallback.length}건`);
+      results.push(fallback);
+    }
+  }
+
   const merged = results.flat();
+  // 1차 수집에서 놓친 날짜를 상세 페이지 재조회로 보강합니다.
+  // 대상은 "기간 정보 없음" 항목 중심이며, 과도한 요청을 막기 위해 상한(slice)을 둡니다.
   await backfillUnknownPeriods(merged);
+  // 단일 날짜만 있는 항목은 시작~마감 범위로 최대한 확장합니다.
+  // 예: "2026-03-31" -> "2026-03-01 ~ 2026-03-31" 형태로 복원 시도
   await backfillSingleDatePeriods(merged);
+  // 수집 순서를 남겨두면 동일 날짜일 때 정렬 안정성이 올라갑니다.
   merged.forEach((item, idx) => {
     item.collectedOrder = idx;
   });
@@ -1060,6 +1255,8 @@ function dedupeByTitleAndLink(list) {
 
 // 최종 API/페이지 출력용 payload(JSON)를 생성합니다.
 function buildPayload(allList) {
+  // 중복 제거 -> 기간 계산 보강 -> 최신순 정렬 -> 오늘 목록 분리 순서입니다.
+  // 프론트는 이 payload만 소비하므로, 화면 규칙 변경 시 이 함수 출력부터 점검하면 됩니다.
   const unique = dedupeByTitleAndLink(allList);
   const enriched = enrichPeriodFields(unique);
   const sorted = sortByLatest(enriched);
@@ -1124,6 +1321,10 @@ async function send(msg) {
 // 실행
 // =======================
 async function run() {
+  // 스크립트 전체 실행 흐름(신입용):
+  // 수집 -> 정규화 payload 생성 -> JSON 저장 -> Discord 전송
+  // 참고: Discord 전송은 WEBHOOK_URL이 있을 때만 동작합니다.
+  // 운영상 가장 중요한 산출물은 docs/data/latest.json 입니다.
   const all = await getAllContests();
   const payload = buildPayload(all);
 

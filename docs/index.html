@@ -177,6 +177,52 @@
       flex: 1;
     }
 
+    .filter-select {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      min-width: 130px;
+    }
+
+    .toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      font-size: 13px;
+      color: var(--ink);
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      background: #eef6ef;
+      border-color: #a7c3af;
+    }
+
+    .field-chips {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .pill {
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -310,6 +356,7 @@
       word-break: break-word;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       min-height: 48px;
@@ -403,9 +450,20 @@
         <span class="pill" id="todayCount">오늘 0건</span>
       </div>
       <div class="source-summary" id="sourceSummary"></div>
+      <div class="field-chips" id="fieldChips"></div>
       <div class="controls">
         <div class="filter-row">
           <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
+          <select class="filter-select" id="sortSelect">
+            <option value="latest">최신순</option>
+            <option value="urgent">마감임박순</option>
+            <option value="popular">인기순(조회수)</option>
+          </select>
+          <label class="toggle-wrap" for="openOnlyInput">
+            <input id="openOnlyInput" type="checkbox" />
+            접수중/접수예정만
+          </label>
+          <button class="reset-btn" id="resetFiltersBtn" type="button">필터 초기화</button>
           <details class="site-dropdown">
             <summary>사이트 바로가기</summary>
             <div class="site-dropdown-menu">
@@ -474,7 +532,27 @@
       if (source === 'wevity') return '위비티';
       if (source === 'thinkcontest') return '씽굿';
       if (source === 'campuspick') return '캠퍼스픽';
+      if (source === 'linkareer') return '링커리어';
       return source || 'unknown';
+    }
+
+    // 비어 있는 field를 제목 키워드로 보강해 분야 필터가 동작하도록 합니다.
+    function inferFieldFromTitle(title) {
+      const t = String(title || '').toLowerCase();
+      if (!t) return '기타';
+      if (/디자인|브랜드|광고|포스터|영상|사진|웹툰|캐릭터/.test(t)) return '디자인/콘텐츠';
+      if (/개발|코딩|sw|it|ai|데이터|해커톤|앱|웹/.test(t)) return 'IT/개발';
+      if (/창업|비즈니스|사업|스타트업|마케팅|기획/.test(t)) return '창업/기획';
+      if (/문학|글|에세이|시|소설|독후감|작문/.test(t)) return '문학/글쓰기';
+      if (/서포터즈|기자단|홍보단|체험단|대외활동/.test(t)) return '대외활동';
+      if (/음악|춤|공연|연기|미술|예술/.test(t)) return '예술/공연';
+      if (/환경|기후|탄소|에너지|지속가능/.test(t)) return '환경/사회';
+      return '기타';
+    }
+
+    function normalizeViewCount(value) {
+      const n = Number(String(value ?? '').replace(/,/g, ''));
+      return Number.isFinite(n) ? Math.max(0, Math.trunc(n)) : 0;
     }
 
     // 제목 문자열에서 부가 태그를 정리해 메인 제목/분야 텍스트로 분리합니다.
@@ -573,6 +651,25 @@
       });
     }
 
+    // 조회수 내림차순 + 동률 시 최신순으로 정렬합니다.
+    function sortPopularItems(arr) {
+      return [...arr].sort((a, b) => {
+        const av = normalizeViewCount(a.viewCount);
+        const bv = normalizeViewCount(b.viewCount);
+        if (bv !== av) return bv - av;
+
+        const aTs = toDateValue((a.uploadDate || '').replace(/\./g, '-')) || toDateValue(a.startDate) || toDateValue(a.endDate);
+        const bTs = toDateValue((b.uploadDate || '').replace(/\./g, '-')) || toDateValue(b.startDate) || toDateValue(b.endDate);
+        return bTs - aTs;
+      });
+    }
+
+    function sortByMode(arr, mode) {
+      if (mode === 'urgent') return sortUrgentItems(arr);
+      if (mode === 'popular') return sortPopularItems(arr);
+      return sortLatestItems(arr);
+    }
+
     // 공고 1건을 카드 HTML 문자열로 렌더링합니다.
     function makeCard(item, idx) {
       const period = toPeriod(item);
@@ -581,6 +678,8 @@
       const deadlineClass = closed ? 'deadline closed' : (period.includes('없음') ? 'deadline warn' : 'deadline');
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
+      const fieldText = item.field || inferFieldFromTitle(parsed.main || item.title || '');
+      const viewText = normalizeViewCount(item.viewCount).toLocaleString('ko-KR');
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <div class="topline">
@@ -589,18 +688,25 @@
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
           <div class="${deadlineClass}">접수: ${escapeHtml(period)}</div>
+          <div class="field">분야: ${escapeHtml(fieldText)} · 조회수: ${escapeHtml(viewText)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
     }
 
     // 검색어/사이트 필터 조건에 맞는 공고만 남깁니다.
-    function applyFilters(items, query, source) {
+    function applyFilters(items, query, source, field, onlyOpen) {
       const q = String(query || '').toLowerCase().trim();
       return items.filter((item) => {
         if (source && source !== 'all' && item.source !== source) return false;
+        if (field && field !== 'all' && (item.field || inferFieldFromTitle(item.title)) !== field) return false;
+        if (onlyOpen && isClosed(item)) return false;
         if (!q) return true;
-        return String(item.title || '').toLowerCase().includes(q);
+
+        const fieldText = String(item.field || inferFieldFromTitle(item.title) || '').toLowerCase();
+        const sourceText = String(sourceLabel(item.source) || '').toLowerCase();
+        const titleText = String(item.title || '').toLowerCase();
+        return titleText.includes(q) || fieldText.includes(q) || sourceText.includes(q);
       });
     }
 
@@ -617,7 +723,11 @@
       const pageInfoEl = document.getElementById('pageInfo');
       const statusEl = document.getElementById('status');
       const sourceSummaryEl = document.getElementById('sourceSummary');
+      const fieldChipsEl = document.getElementById('fieldChips');
       const searchInputEl = document.getElementById('searchInput');
+      const sortSelectEl = document.getElementById('sortSelect');
+      const openOnlyInputEl = document.getElementById('openOnlyInput');
+      const resetFiltersBtnEl = document.getElementById('resetFiltersBtn');
       const siteDropdownEl = document.querySelector('.site-dropdown');
 
       try {
@@ -628,7 +738,15 @@
         todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
         totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
-        const items = Array.isArray(data.items) ? data.items : [];
+        const items = (Array.isArray(data.items) ? data.items : []).map((item) => {
+          const parsed = splitTitleAndField(item.title || '');
+          const field = item.field || parsed.field || inferFieldFromTitle(parsed.main || item.title || '');
+          return {
+            ...item,
+            field,
+            viewCount: normalizeViewCount(item.viewCount)
+          };
+        });
         const allSortedItems = sortLatestItems(items);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
@@ -647,8 +765,15 @@
           return;
         }
 
-        const state = { query: '', view: 'all', source: 'all', page: 1, perPage: 12 };
+        const state = { query: '', view: 'all', source: 'all', field: 'all', sort: 'latest', onlyOpen: false, page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
+
+        const fieldSet = new Set(['all']);
+        items.forEach((item) => {
+          const f = String(item.field || '').trim();
+          if (f) fieldSet.add(f);
+        });
+        const allFields = [...fieldSet];
 
         // state 필드 설명:
         // - query: 검색어
@@ -668,7 +793,25 @@
             <span class="pill ${state.source === 'wevity' ? 'active' : ''}">위비티 ${counts.wevity || 0}건</span>
             <span class="pill ${state.source === 'thinkcontest' ? 'active' : ''}">씽굿 ${counts.thinkcontest || 0}건</span>
             <span class="pill ${state.source === 'campuspick' ? 'active' : ''}">캠퍼스픽 ${counts.campuspick || 0}건</span>
+            <span class="pill ${state.source === 'linkareer' ? 'active' : ''}">링커리어 ${counts.linkareer || 0}건</span>
           `;
+        }
+
+        function renderFieldChips(baseItems) {
+          const counts = baseItems.reduce((acc, item) => {
+            const key = String(item.field || inferFieldFromTitle(item.title || '')).trim() || '기타';
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          }, {});
+
+          fieldChipsEl.innerHTML = allFields.map((f) => {
+            const count = f === 'all'
+              ? baseItems.length
+              : (counts[f] || 0);
+            const label = f === 'all' ? '전체 분야' : f;
+            const active = state.field === f ? 'active' : '';
+            return `<span class="pill ${active}" data-field="${escapeHtml(f)}">${escapeHtml(label)} ${count}건</span>`;
+          }).join('');
         }
 
         // 현재 상태(탭/검색/사이트/페이지)에 맞춰 목록과 상태 문구를 다시 그립니다.
@@ -688,8 +831,10 @@
           }
 
           renderSourceSummary(base);
+          renderFieldChips(base);
 
-          const filtered = applyFilters(base, state.query, state.source);
+          const sortedBase = sortByMode(base, state.sort);
+          const filtered = applyFilters(sortedBase, state.query, state.source, state.field, state.onlyOpen);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
           const start = (state.page - 1) * state.perPage;
@@ -724,7 +869,8 @@
           prevPageEl.disabled = state.page <= 1;
           nextPageEl.disabled = state.page >= totalPages;
 
-          statusEl.textContent = '';
+          const baseCount = base.length;
+          statusEl.textContent = `현재 ${filtered.length}건 표시 중 (기준 ${baseCount}건)`;
 
           listEl.innerHTML = pageItems.map(makeCard).join('');
         }
@@ -769,6 +915,26 @@
           render();
         };
 
+        sortSelectEl.onchange = () => {
+          state.sort = sortSelectEl.value;
+          state.page = 1;
+          render();
+        };
+
+        openOnlyInputEl.onchange = () => {
+          state.onlyOpen = openOnlyInputEl.checked;
+          state.page = 1;
+          render();
+        };
+
+        fieldChipsEl.onclick = (e) => {
+          if (!e.target.classList.contains('pill')) return;
+          const selected = e.target.getAttribute('data-field') || 'all';
+          state.field = state.field === selected ? 'all' : selected;
+          state.page = 1;
+          render();
+        };
+
         sourceSummaryEl.onclick = (e) => {
           if (!e.target.classList.contains('pill')) return;
           // 칩 텍스트를 소스 코드값으로 변환합니다.
@@ -777,10 +943,25 @@
           if (text.includes('위비티')) source = 'wevity';
           else if (text.includes('씽굿')) source = 'thinkcontest';
           else if (text.includes('캠퍼스픽')) source = 'campuspick';
+          else if (text.includes('링커리어')) source = 'linkareer';
 
           state.source = state.source === source ? 'all' : source;
           // 사이트 필터 변경 시에도 목록 길이가 달라질 수 있어 1페이지로 이동합니다.
           state.page = 1;
+          render();
+        };
+
+        resetFiltersBtnEl.onclick = () => {
+          state.query = '';
+          state.source = 'all';
+          state.field = 'all';
+          state.sort = 'latest';
+          state.onlyOpen = false;
+          state.page = 1;
+
+          searchInputEl.value = '';
+          sortSelectEl.value = 'latest';
+          openOnlyInputEl.checked = false;
           render();
         };
 
