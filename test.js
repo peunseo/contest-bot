@@ -532,15 +532,53 @@ function inferFieldFromTitle(title) {
 
 // 텍스트에서 조회수 숫자를 찾아 정수로 반환합니다.
 function extractViewCount(text) {
+  const all = extractViewCountCandidates(text);
+  if (all.length === 0) return 0;
+  return Math.max(...all);
+}
+
+// 라벨 기반 조회수 후보를 모두 추출합니다(링커리어처럼 본문에 다수 라벨이 있을 때 사용).
+function extractViewCountCandidates(text) {
   const s = cleanText(text || "");
-  if (!s) return 0;
+  if (!s) return [];
 
-  const hit = s.match(/(?:조회(?:수)?|views?)\s*[:：]?\s*([0-9][0-9,]*)/i)
-    || s.match(/([0-9][0-9,]*)\s*(?:회\s*조회|views?)/i);
-  if (!hit) return 0;
+  const parseViewNumber = (raw, unit) => {
+    const base = Number(String(raw || "").replace(/,/g, ""));
+    if (!Number.isFinite(base)) return 0;
+    if (unit === "만") return Math.round(base * 10000);
+    if (unit === "천") return Math.round(base * 1000);
+    return Math.round(base);
+  };
 
-  const n = Number(String(hit[1] || "").replace(/,/g, ""));
-  return Number.isFinite(n) ? n : 0;
+  const patterns = [
+    /(?:조회(?:수)?|views?)\s*[:：]?\s*([0-9]+(?:\.[0-9]+)?(?:,[0-9]{3})*)\s*(만|천)?/gi,
+    /([0-9]+(?:\.[0-9]+)?(?:,[0-9]{3})*)\s*(만|천)?\s*(?:회\s*조회|views?)/gi
+  ];
+
+  const out = [];
+  for (const regex of patterns) {
+    let m;
+    while ((m = regex.exec(s)) !== null) {
+      const n = parseViewNumber(m[1], m[2] || "");
+      if (n > 0) out.push(n);
+    }
+  }
+  return out;
+}
+
+// 노이즈가 많은 본문에서 조회수 1개를 고르는 규칙입니다.
+function pickBestViewCountFromText(text) {
+  const all = extractViewCountCandidates(text);
+  if (all.length === 0) return 0;
+
+  // 상단 영역에 있는 값을 우선 보되, 전체 후보 최댓값도 함께 고려합니다.
+  const top = cleanText(String(text || "").slice(0, 1400));
+  const topValues = extractViewCountCandidates(top);
+  if (topValues.length > 0) {
+    return Math.max(Math.max(...topValues), Math.max(...all));
+  }
+
+  return Math.max(...all);
 }
 
 // 조회수 값이 문자열로 들어와도 정수로 정규화합니다.
@@ -911,7 +949,7 @@ async function scrapeCampuspick() {
         uploadDate: "",
         startDateHint: "",
         endDateHint: endHint || "",
-        viewCount: 0
+        viewCount: normalizeViewCount(a.viewCount)
       };
     });
 
@@ -1047,7 +1085,8 @@ async function scrapeLinkareer() {
         );
 
         if (composed && composed !== "기간 정보 없음") item.deadline = composed;
-        item.viewCount = Math.max(item.viewCount || 0, meta.viewCount || 0, extractViewCount(text));
+        const reliableView = pickBestViewCountFromText(text);
+        item.viewCount = Math.max(item.viewCount || 0, meta.viewCount || 0, reliableView || 0);
       } catch (_) {
         // 상세 보강 실패 시 목록 기반 데이터 유지
       }

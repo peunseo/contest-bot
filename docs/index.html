@@ -637,8 +637,9 @@
       return [...arr].sort((a, b) => {
         const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
         const bd = Number.isInteger(b.dday) ? b.dday : getDaysLeft(b.endDate);
-        const aVal = Number.isInteger(ad) ? ad : 999;
-        const bVal = Number.isInteger(bd) ? bd : 999;
+        // D-Day(0) -> D-7(7) 순서로 고정합니다.
+        const aVal = Number.isInteger(ad) && ad >= 0 && ad <= 7 ? ad : 999;
+        const bVal = Number.isInteger(bd) && bd >= 0 && bd <= 7 ? bd : 999;
         if (aVal !== bVal) return aVal - bVal;
         return toDateValue(a.endDate) - toDateValue(b.endDate);
       });
@@ -831,7 +832,9 @@
           renderSourceSummary(base);
           renderFieldChips(sourceScoped);
 
-          const sortedBase = sortByMode(sourceScoped, state.sort);
+          const sortedBase = state.view === 'urgent'
+            ? sortUrgentItems(sourceScoped)
+            : sortByMode(sourceScoped, state.sort);
           const filtered = applyFilters(sortedBase, state.query, 'all', state.field);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
