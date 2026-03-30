@@ -191,7 +191,15 @@
       margin-top: 10px;
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .field-chips .pill {
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .pill {
@@ -730,7 +738,6 @@
         const refreshedAt = new Date().toISOString();
         updatedEl.textContent = `마지막 갱신: ${toLocalText(refreshedAt)}`;
         todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
-        totalCountEl.textContent = `전체 ${data?.counts?.total ?? 0}건`;
 
         const normalizedItems = (Array.isArray(data.items) ? data.items : []).map((item) => {
           const parsed = splitTitleAndField(item.title || '');
@@ -742,6 +749,7 @@
           };
         });
         const items = normalizedItems.filter((item) => !isClosed(item));
+        totalCountEl.textContent = `전체 ${items.length}건`;
         const allSortedItems = sortLatestItems(items);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
