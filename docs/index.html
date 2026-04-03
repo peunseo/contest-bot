@@ -98,12 +98,8 @@
     .search-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex: 1;
-      min-width: 240px;
-      border-radius: 10px;
-      background: #fff;
-      padding: 0 10px;
+      flex: 0 1 360px;
+      min-width: 220px;
     }
 
     .search-icon {
@@ -191,17 +187,19 @@
     }
 
     .filter-input {
-      border: none;
-      padding: 9px 0;
-      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 7px 9px;
+      background: #fff;
       color: var(--ink);
-      font-size: 13px;
+      font-size: 12px;
       flex: 1;
       min-width: 0;
     }
 
     .filter-input:focus {
       outline: none;
+      border-color: #b7c8b8;
       background: #f7faf6;
     }
 
@@ -234,7 +232,7 @@
     }
 
     .field-chips {
-      margin-top: 10px;
+      margin-top: 6px;
       display: flex;
       gap: 6px;
       flex-wrap: nowrap;
@@ -446,18 +444,18 @@
     }
 
     a.btn {
-      display: inline-block;
+      display: block;
       text-decoration: none;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 8px 10px;
       color: var(--ink);
       background: #eef6ef;
       font-size: 12px;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin: auto auto 0;
+      text-align: center;
+      width: 100%;
+      margin-top: auto;
     }
 
     a.btn:hover {
@@ -477,9 +475,10 @@
     }
 
     .empty {
-      margin-top: 14px;
+      margin-top: 6px;
       color: var(--muted);
       font-size: 14px;
+      display: none;
     }
 
     @keyframes rise {
@@ -856,6 +855,7 @@
             } else {
               statusEl.textContent = '공고가 없습니다.';
             }
+            statusEl.style.display = 'block';
             pageInfoEl.textContent = '0 / 0';
             prevPageEl.disabled = true;
             nextPageEl.disabled = true;
@@ -868,8 +868,8 @@
           prevPageEl.disabled = state.page <= 1;
           nextPageEl.disabled = state.page >= totalPages;
 
-          const baseCount = base.length;
           statusEl.textContent = '';
+          statusEl.style.display = 'none';
 
           listEl.innerHTML = pageItems.map(makeCard).join('');
         }
