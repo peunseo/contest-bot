@@ -99,7 +99,7 @@
     .search-wrap {
       display: flex;
       align-items: center;
-      flex: 0 1 340px;
+      flex: 1;
       min-width: 220px;
     }
 
@@ -238,8 +238,10 @@
       display: flex;
       gap: 6px;
       flex-wrap: nowrap;
-      overflow: hidden;
+      overflow: visible;
       padding-bottom: 2px;
+      position: relative;
+      z-index: 2;
     }
 
     .field-chips .pill {
@@ -304,21 +306,24 @@
     .card {
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: var(--card);
+      background: linear-gradient(135deg, var(--card) 0%, #fafbf9 100%);
       padding: 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       min-height: 178px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
       opacity: 0;
       transform: translateY(8px);
       animation: rise 0.5s ease forwards;
+      position: relative;
+      overflow: visible;
     }
 
     .card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(19, 54, 34, 0.12);
+      box-shadow: 0 8px 24px rgba(19, 54, 34, 0.15);
+      background: linear-gradient(135deg, var(--card) 0%, #f5faf4 100%);
     }
 
     .card.closed {
@@ -413,12 +418,13 @@
     .field {
       font-size: 13px;
       color: var(--muted);
-      background: var(--chip-bg);
+      background: linear-gradient(135deg, var(--chip-bg), #f5fdf3);
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 6px 8px;
       overflow-wrap: anywhere;
       word-break: break-word;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
     .meta-row {
@@ -448,22 +454,24 @@
     a.btn {
       display: block;
       text-decoration: none;
-      border: 1px solid var(--line);
+      border: 1px solid #d0e1d3;
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--ink);
-      background: #eef6ef;
+      background: linear-gradient(135deg, #eef6ef, #e6f2e8);
       font-size: 12px;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       text-align: center;
       width: 100%;
       margin-top: auto;
+      font-weight: 500;
     }
 
     a.btn:hover {
-      background: #eef6ef;
-      color: #2a6246;
-      border-color: #a7c3af;
+      background: linear-gradient(135deg, #e6f2e8, #dceae2);
+      color: #1f5a3f;
+      border-color: #2f7d57;
+      box-shadow: 0 2px 8px rgba(47, 125, 87, 0.12);
     }
 
     .pill {
