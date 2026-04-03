@@ -425,7 +425,8 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 2px;
+      margin-top: auto;
+      align-items: flex-end;
     }
 
     .meta-chip {
@@ -440,11 +441,12 @@
       background: #f8fbf7;
       color: #365342;
       white-space: nowrap;
+      flex: 1;
+      min-width: 0;
     }
 
     a.btn {
       display: inline-block;
-      width: fit-content;
       text-decoration: none;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -453,7 +455,8 @@
       background: #fff;
       font-size: 13px;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      margin-top: auto;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     a.btn:hover {
@@ -514,7 +517,6 @@
               <span class="search-icon">검색</span>
               <input class="filter-input" id="searchInput" type="text" placeholder="제목/분야/사이트 검색 (예: 디자인, 서포터즈, 창업)" />
             </div>
-            <button class="control-btn" id="clearSearch" type="button">검색 초기화</button>
             <details class="site-dropdown">
               <summary>사이트 바로가기</summary>
               <div class="site-dropdown-menu">
@@ -525,7 +527,6 @@
               </div>
             </details>
           </div>
-          <div class="sort-lock">정렬 규칙: 최신순</div>
         </div>
       </div>
       <div class="field-chips" id="fieldChips"></div>
@@ -752,7 +753,6 @@
       const statusEl = document.getElementById('status');
       const fieldChipsEl = document.getElementById('fieldChips');
       const searchInputEl = document.getElementById('searchInput');
-      const clearSearchEl = document.getElementById('clearSearch');
       const siteDropdownEl = document.querySelector('.site-dropdown');
 
       try {
@@ -827,12 +827,9 @@
           const visibleFields = ['all', ...onlyFields.filter((f) => f !== hiddenField)];
 
           fieldChipsEl.innerHTML = visibleFields.map((f) => {
-            const count = f === 'all'
-              ? baseItems.length
-              : (counts[f] || 0);
             const label = f === 'all' ? '전체 분야' : f;
             const active = state.field === f ? 'active' : '';
-            return `<span class="pill ${active}" data-field="${escapeHtml(f)}">${escapeHtml(label)} ${count}건</span>`;
+            return `<span class="pill ${active}" data-field="${escapeHtml(f)}">${escapeHtml(label)}</span>`;
           }).join('');
         }
 
@@ -892,16 +889,6 @@
           state.page = 1;
           render();
         };
-
-        if (clearSearchEl) {
-          clearSearchEl.onclick = () => {
-            searchInputEl.value = '';
-            state.query = '';
-            state.page = 1;
-            render();
-            searchInputEl.focus();
-          };
-        }
 
         fieldChipsEl.onclick = (e) => {
           if (!e.target.classList.contains('pill')) return;
