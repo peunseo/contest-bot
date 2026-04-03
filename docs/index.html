@@ -101,7 +101,6 @@
       gap: 8px;
       flex: 1;
       min-width: 240px;
-      border: 1px solid var(--line);
       border-radius: 10px;
       background: #fff;
       padding: 0 10px;
@@ -192,9 +191,10 @@
     }
 
     .filter-input {
-      border: none;
-      padding: 10px 0;
-      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: #fff;
       color: var(--ink);
       font-size: 13px;
       flex: 1;
@@ -203,6 +203,8 @@
 
     .filter-input:focus {
       outline: none;
+      border-color: #9bc5a7;
+      background: #f7faf6;
     }
 
     .control-btn {
@@ -449,11 +451,11 @@
       display: inline-block;
       text-decoration: none;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 11px;
+      border-radius: 8px;
+      padding: 6px 10px;
       color: var(--ink);
       background: #fff;
-      font-size: 13px;
+      font-size: 12px;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
       white-space: nowrap;
       flex-shrink: 0;
@@ -473,7 +475,6 @@
       background: var(--accent);
       color: #fff;
       border-color: var(--accent);
-      box-shadow: 0 6px 14px rgba(47, 125, 87, 0.25);
     }
 
     .empty {
@@ -632,15 +633,11 @@
       return Math.floor(ms / (24 * 60 * 60 * 1000));
     }
 
-    // 아이템의 시작일/마감일을 사람이 읽기 쉬운 접수기간 문구로 만듭니다.
+    // 아이템의 마감일을 사람이 읽기 쉬운 문구로 만듭니다.
     function toPeriod(item) {
-      const start = item.startDate || '';
       const end = item.endDate || '';
-
-      if (start && end) return `${start} ~ ${end}`;
-      if (!start && end) return `시작일 미정 ~ ${end}`;
-      if (start && !end) return `${start} ~ 마감일 미정`;
-      return item.deadline || '기간 정보 없음';
+      if (end) return end;
+      return item.deadline || '마감일 미정';
     }
 
     // D-day 뱃지에 표시할 텍스트(D-3, D-Day, 마감)를 생성합니다.
@@ -707,10 +704,9 @@
       const period = toPeriod(item);
       const closed = isClosed(item);
       const ddayText = toBadge(item);
-      const deadlineClass = closed ? 'deadline closed' : (period.includes('없음') ? 'deadline warn' : 'deadline');
+      const deadlineClass = closed ? 'deadline closed' : (period.includes('미정') ? 'deadline warn' : 'deadline');
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
-      const fieldText = item.field || inferFieldFromTitle(parsed.main || item.title || '');
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <div class="topline">
@@ -718,10 +714,7 @@
             ${ddayHtml}
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          <div class="${deadlineClass}">접수: ${escapeHtml(period)}</div>
-          <div class="meta-row">
-            <span class="meta-chip">분야 ${escapeHtml(fieldText)}</span>
-          </div>
+          <div class="${deadlineClass}">마감: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
       `;
