@@ -822,11 +822,9 @@
     // 인기가 많은 공고(HOT)인지 판단합니다.
     function isHot(item) {
       const title = String(item.title || '').toLowerCase();
-      const field = String(item.field || '').toLowerCase();
-      const source = String(sourceLabel(item.source) || '').toLowerCase();
-      const text = `${title} ${field} ${source}`;
-      // 키워드 기반은 유지하되 범위를 넓혀 HOT가 과도하게 적게 뜨는 문제를 완화합니다.
-      return /서포터즈|기자단|홍보단|체험단|앰버서더|챌린지|challenge|경진대회|해커톤|아이디어|슬로건|네이밍|영상/.test(text);
+      // 모집형 공고는 제외하고, 경쟁성이 강한 공모/대회형 공고만 HOT로 표시합니다.
+      if (/모집|기자단|서포터즈|홍보단|체험단|앰버서더|봉사단|동아리/.test(title)) return false;
+      return /공모전|경진대회|해커톤|아이디어톤|챌린지|콘테스트|경연|공모제|공모사업|공모대전|대회/.test(title);
     }
 
     // 마감 임박 공고(DEADLINE) 기준을 반환합니다.
@@ -865,12 +863,14 @@
     }
 
     // 마감일 기준 내림차순(먼 마감 -> 가까운 마감) 정렬입니다.
-    function sortDeadlineDesc(arr) {
+    function sortDeadlineSoonItems(arr) {
       return [...arr].sort((a, b) => {
-        const aTs = toDateValue(a.endDate);
-        const bTs = toDateValue(b.endDate);
-        if (bTs !== aTs) return bTs - aTs;
-        return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+        const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
+        const bd = Number.isInteger(b.dday) ? b.dday : getDaysLeft(b.endDate);
+        const aVal = Number.isInteger(ad) && ad >= 0 && ad <= 7 ? ad : 999;
+        const bVal = Number.isInteger(bd) && bd >= 0 && bd <= 7 ? bd : 999;
+        if (aVal !== bVal) return aVal - bVal;
+        return toDateValue(a.endDate) - toDateValue(b.endDate);
       });
     }
 
@@ -925,9 +925,8 @@
     // HOT/NEW/DEADLINE 빠른 필터를 적용합니다.
     function applySignalFilter(items, signal) {
       if (!signal || signal === 'all') return items;
-      if (signal === 'new') return items.filter((item) => isNew(item) && !isClosed(item));
       if (signal === 'hot') return items.filter((item) => isHot(item) && !isClosed(item));
-      if (signal === 'deadline') return items.filter((item) => isDeadlineSoon(item) && !isClosed(item));
+      if (signal === 'deadline') return sortDeadlineSoonItems(items.filter((item) => isDeadlineSoon(item) && !isClosed(item)));
       return items;
     }
 
@@ -1029,11 +1028,10 @@
 
         function renderSignalChips() {
           const chipDefs = [
-            { key: 'all', label: 'ALL' },
-            { key: 'hot', label: 'HOT' },
-            { key: 'new', label: 'NEW' },
-            { key: 'deadline', label: 'DEADLINE' }
-          ];
+              { key: 'all', label: 'ALL' },
+              { key: 'hot', label: 'HOT' },
+              { key: 'deadline', label: 'DEADLINE' }
+            ];
           signalChipsEl.innerHTML = chipDefs.map((chip) => {
             const active = state.signal === chip.key ? 'active' : '';
             return `<span class="signal-pill ${active}" data-signal="${chip.key}">${chip.label}</span>`;
@@ -1055,10 +1053,7 @@
 
           const sortedBase = sortLatestItems(base);
           const fieldFiltered = applyFilters(sortedBase, state.query, 'all', state.field);
-          let filtered = applySignalFilter(fieldFiltered, state.signal);
-          if (state.signal === 'deadline') {
-            filtered = sortDeadlineDesc(filtered);
-          }
+          const filtered = applySignalFilter(fieldFiltered, state.signal);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
           const start = (state.page - 1) * state.perPage;
