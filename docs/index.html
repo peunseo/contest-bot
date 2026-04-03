@@ -81,11 +81,36 @@
       grid-template-columns: 1fr;
     }
 
+    .controls-panel {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
     .filter-row {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       align-items: center;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 240px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 0 10px;
+    }
+
+    .search-icon {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
     }
 
     .external-btn {
@@ -167,24 +192,45 @@
     }
 
     .filter-input {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 9px 10px;
-      background: #fff;
+      border: none;
+      padding: 10px 0;
+      background: transparent;
       color: var(--ink);
       font-size: 13px;
-      min-width: 220px;
       flex: 1;
+      min-width: 0;
     }
 
-    .filter-select {
+    .filter-input:focus {
+      outline: none;
+    }
+
+    .control-btn {
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 9px 10px;
       background: #fff;
       color: var(--ink);
       font-size: 13px;
-      min-width: 130px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .control-btn:hover {
+      background: #f1f7f2;
+      border-color: #b7c8b8;
+    }
+
+    .sort-lock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px dashed #b7c8b8;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #f4faf4;
+      color: #355b45;
+      font-size: 12px;
     }
 
     .field-chips {
@@ -209,6 +255,12 @@
       padding: 7px 12px;
       font-size: 14px;
       background: #fff;
+      transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      border-color: #b7c8b8;
     }
 
     .grid {
@@ -390,13 +442,6 @@
       white-space: nowrap;
     }
 
-    .meta-chip.views {
-      border-color: #b8d1c1;
-      background: #edf6f0;
-      color: #284e3a;
-      font-weight: 600;
-    }
-
     a.btn {
       display: inline-block;
       width: fit-content;
@@ -425,6 +470,7 @@
       background: var(--accent);
       color: #fff;
       border-color: var(--accent);
+      box-shadow: 0 6px 14px rgba(47, 125, 87, 0.25);
     }
 
     .empty {
@@ -447,6 +493,12 @@
       .field-chips {
         flex-wrap: wrap;
       }
+      .controls-panel {
+        padding: 9px;
+      }
+      .search-wrap {
+        min-width: 0;
+      }
     }
   </style>
 </head>
@@ -463,21 +515,24 @@
       <div class="source-summary" id="sourceSummary"></div>
       <div class="field-chips" id="fieldChips"></div>
       <div class="controls">
-        <div class="filter-row">
-          <input class="filter-input" id="searchInput" type="text" placeholder="제목 검색 (예: 디자인, 서포터즈, 창업)" />
-          <select class="filter-select" id="sortSelect">
-            <option value="latest">최신순</option>
-            <option value="popular">인기순(조회수)</option>
-          </select>
-          <details class="site-dropdown">
-            <summary>사이트 바로가기</summary>
-            <div class="site-dropdown-menu">
-              <a href="https://www.wevity.com/?c=find&s=1&gub=1" target="_blank" rel="noopener noreferrer">위비티</a>
-              <a href="https://www.thinkcontest.com/thinkgood/user/contest/index.do" target="_blank" rel="noopener noreferrer">씽굿</a>
-              <a href="https://www.campuspick.com/contest" target="_blank" rel="noopener noreferrer">캠퍼스픽</a>
-              <a href="https://linkareer.com/list/contest" target="_blank" rel="noopener noreferrer">링커리어</a>
+        <div class="controls-panel">
+          <div class="filter-row">
+            <div class="search-wrap">
+              <span class="search-icon">검색</span>
+              <input class="filter-input" id="searchInput" type="text" placeholder="제목/분야/사이트 검색 (예: 디자인, 서포터즈, 창업)" />
             </div>
-          </details>
+            <button class="control-btn" id="clearSearch" type="button">검색 초기화</button>
+            <details class="site-dropdown">
+              <summary>사이트 바로가기</summary>
+              <div class="site-dropdown-menu">
+                <a href="https://www.wevity.com/?c=find&s=1&gub=1" target="_blank" rel="noopener noreferrer">위비티</a>
+                <a href="https://www.thinkcontest.com/thinkgood/user/contest/index.do" target="_blank" rel="noopener noreferrer">씽굿</a>
+                <a href="https://www.campuspick.com/contest" target="_blank" rel="noopener noreferrer">캠퍼스픽</a>
+                <a href="https://linkareer.com/list/contest" target="_blank" rel="noopener noreferrer">링커리어</a>
+              </div>
+            </details>
+          </div>
+          <div class="sort-lock">정렬 규칙: 전체/오늘 최신순, 마감임박 남은기간 내림차순</div>
         </div>
       </div>
       <p class="empty" id="status"></p>
@@ -553,11 +608,6 @@
       if (/음악|춤|공연|연기|미술|예술/.test(t)) return '예술/공연';
       if (/환경|기후|탄소|에너지|지속가능/.test(t)) return '환경/사회';
       return '기타';
-    }
-
-    function normalizeViewCount(value) {
-      const n = Number(String(value ?? '').replace(/,/g, ''));
-      return Number.isFinite(n) ? Math.max(0, Math.trunc(n)) : 0;
     }
 
     // 제목 문자열에서 부가 태그를 정리해 메인 제목/분야 텍스트로 분리합니다.
@@ -644,36 +694,17 @@
       });
     }
 
-    // 마감임박 공고를 D-day 오름차순(급한 순)으로 정렬합니다.
+    // 마감임박 공고를 남은 기간(D-day) 내림차순으로 정렬합니다.
     function sortUrgentItems(arr) {
       return [...arr].sort((a, b) => {
         const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
         const bd = Number.isInteger(b.dday) ? b.dday : getDaysLeft(b.endDate);
-        // D-Day(0) -> D-7(7) 순서로 고정합니다.
+        // D-7(7) -> D-Day(0) 순서로 고정합니다.
         const aVal = Number.isInteger(ad) && ad >= 0 && ad <= 7 ? ad : 999;
         const bVal = Number.isInteger(bd) && bd >= 0 && bd <= 7 ? bd : 999;
-        if (aVal !== bVal) return aVal - bVal;
+        if (aVal !== bVal) return bVal - aVal;
         return toDateValue(a.endDate) - toDateValue(b.endDate);
       });
-    }
-
-    // 조회수 내림차순 + 동률 시 최신순으로 정렬합니다.
-    function sortPopularItems(arr) {
-      return [...arr].sort((a, b) => {
-        const av = normalizeViewCount(a.viewCount);
-        const bv = normalizeViewCount(b.viewCount);
-        if (bv !== av) return bv - av;
-
-        const aTs = toDateValue((a.uploadDate || '').replace(/\./g, '-')) || toDateValue(a.startDate) || toDateValue(a.endDate);
-        const bTs = toDateValue((b.uploadDate || '').replace(/\./g, '-')) || toDateValue(b.startDate) || toDateValue(b.endDate);
-        return bTs - aTs;
-      });
-    }
-
-    function sortByMode(arr, mode) {
-      if (mode === 'urgent') return sortUrgentItems(arr);
-      if (mode === 'popular') return sortPopularItems(arr);
-      return sortLatestItems(arr);
     }
 
     // 공고 1건을 카드 HTML 문자열로 렌더링합니다.
@@ -685,7 +716,6 @@
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
       const fieldText = item.field || inferFieldFromTitle(parsed.main || item.title || '');
-      const viewText = normalizeViewCount(item.viewCount).toLocaleString('ko-KR');
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <div class="topline">
@@ -696,7 +726,6 @@
           <div class="${deadlineClass}">접수: ${escapeHtml(period)}</div>
           <div class="meta-row">
             <span class="meta-chip">분야 ${escapeHtml(fieldText)}</span>
-            <span class="meta-chip views">조회 ${escapeHtml(viewText)}</span>
           </div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
@@ -733,7 +762,7 @@
       const sourceSummaryEl = document.getElementById('sourceSummary');
       const fieldChipsEl = document.getElementById('fieldChips');
       const searchInputEl = document.getElementById('searchInput');
-      const sortSelectEl = document.getElementById('sortSelect');
+      const clearSearchEl = document.getElementById('clearSearch');
       const siteDropdownEl = document.querySelector('.site-dropdown');
 
       try {
@@ -748,8 +777,7 @@
           const field = item.field || parsed.field || inferFieldFromTitle(parsed.main || item.title || '');
           return {
             ...item,
-            field,
-            viewCount: normalizeViewCount(item.viewCount)
+            field
           };
         });
         const items = normalizedItems.filter((item) => !isClosed(item));
@@ -772,7 +800,7 @@
           return;
         }
 
-        const state = { query: '', view: 'all', source: 'all', field: 'all', sort: 'latest', page: 1, perPage: 12 };
+        const state = { query: '', view: 'all', source: 'all', field: 'all', page: 1, perPage: 12 };
         urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
 
         const fieldSet = new Set(['all']);
@@ -862,7 +890,7 @@
 
           const sortedBase = state.view === 'urgent'
             ? sortUrgentItems(sourceScoped)
-            : sortByMode(sourceScoped, state.sort);
+            : sortLatestItems(sourceScoped);
           const filtered = applyFilters(sortedBase, state.query, 'all', state.field);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
@@ -944,11 +972,15 @@
           render();
         };
 
-        sortSelectEl.onchange = () => {
-          state.sort = sortSelectEl.value;
-          state.page = 1;
-          render();
-        };
+        if (clearSearchEl) {
+          clearSearchEl.onclick = () => {
+            searchInputEl.value = '';
+            state.query = '';
+            state.page = 1;
+            render();
+            searchInputEl.focus();
+          };
+        }
 
         fieldChipsEl.onclick = (e) => {
           if (!e.target.classList.contains('pill')) return;
