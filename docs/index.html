@@ -82,10 +82,10 @@
     }
 
     .controls-panel {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      background: transparent;
     }
 
     .filter-row {
@@ -93,12 +93,13 @@
       gap: 6px;
       flex-wrap: wrap;
       align-items: center;
+      width: 100%;
     }
 
     .search-wrap {
       display: flex;
       align-items: center;
-      flex: 0 1 360px;
+      flex: 0 1 340px;
       min-width: 220px;
     }
 
@@ -129,6 +130,7 @@
       position: relative;
       min-width: 0;
       width: fit-content;
+      margin-left: auto;
     }
 
     .site-dropdown summary {
