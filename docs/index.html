@@ -233,15 +233,25 @@
       font-size: 12px;
     }
 
-    .field-chips {
+    .field-row {
       margin-top: 6px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+
+    .field-chips {
+      margin-top: 0;
       display: flex;
       gap: 6px;
       flex-wrap: nowrap;
       overflow: visible;
       padding-bottom: 2px;
-      position: relative;
-      z-index: 2;
+      min-width: 0;
+      flex: 1;
     }
 
     .field-chips .pill {
@@ -249,6 +259,40 @@
       flex: 0 0 auto;
       padding: 5px 9px;
       font-size: 12px;
+    }
+
+    .signal-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      margin-left: auto;
+    }
+
+    .signal-pill {
+      border: 1px solid #d4ddd2;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      background: #fbfdfb;
+      color: #5d6f64;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .signal-pill:hover {
+      border-color: #b7c8b8;
+      color: #2f4f3f;
+      background: #f3f8f3;
+    }
+
+    .signal-pill.active {
+      border-color: #2f7d57;
+      color: #1f5a3f;
+      background: #eaf5ee;
+      font-weight: 700;
     }
 
     .pill {
@@ -562,8 +606,15 @@
       .site-dropdown summary {
         padding: 6px 8px;
       }
+      .field-row {
+        flex-wrap: wrap;
+      }
       .field-chips {
         flex-wrap: wrap;
+      }
+      .signal-chips {
+        width: 100%;
+        margin-left: 0;
       }
       .controls-panel {
         padding: 9px;
@@ -597,7 +648,10 @@
           </div>
         </div>
       </div>
-      <div class="field-chips" id="fieldChips"></div>
+      <div class="field-row">
+        <div class="field-chips" id="fieldChips"></div>
+        <div class="signal-chips" id="signalChips"></div>
+      </div>
       <p class="empty" id="status"></p>
     </section>
 
@@ -768,6 +822,12 @@
       return /서포터즈|기자단|홍보단|체험단|앰버서더/.test(title + field);
     }
 
+    // 마감 임박 공고(DEADLINE) 기준을 반환합니다.
+    function isDeadlineSoon(item) {
+      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      return Number.isInteger(dday) && dday >= 0 && dday <= 7;
+    }
+
     // 날짜 문자열을 정렬 가능한 숫자(timestamp)로 바꿉니다.
     function toDateValue(dateText) {
       const d = parseDate(dateText);
@@ -845,6 +905,15 @@
       });
     }
 
+    // HOT/NEW/DEADLINE 빠른 필터를 적용합니다.
+    function applySignalFilter(items, signal) {
+      if (!signal || signal === 'all') return items;
+      if (signal === 'new') return items.filter((item) => isNew(item) && !isClosed(item));
+      if (signal === 'hot') return items.filter((item) => isHot(item) && !isClosed(item));
+      if (signal === 'deadline') return items.filter((item) => isDeadlineSoon(item) && !isClosed(item));
+      return items;
+    }
+
     // 페이지 초기 데이터 로드, 이벤트 연결, 첫 화면 렌더링을 수행합니다.
     async function init() {
       const updatedEl = document.getElementById('updated');
@@ -855,6 +924,7 @@
       const pageInfoEl = document.getElementById('pageInfo');
       const statusEl = document.getElementById('status');
       const fieldChipsEl = document.getElementById('fieldChips');
+      const signalChipsEl = document.getElementById('signalChips');
       const searchInputEl = document.getElementById('searchInput');
       const siteDropdownEl = document.querySelector('.site-dropdown');
 
@@ -891,7 +961,7 @@
           return;
         }
 
-        const state = { query: '', view: 'all', source: 'all', field: 'all', page: 1, perPage: 12 };
+        const state = { query: '', view: 'all', source: 'all', field: 'all', signal: 'all', page: 1, perPage: 12 };
 
         const fieldSet = new Set(['all']);
         items.forEach((item) => {
@@ -936,6 +1006,19 @@
           }).join('');
         }
 
+        function renderSignalChips() {
+          const chipDefs = [
+            { key: 'all', label: 'ALL' },
+            { key: 'hot', label: 'HOT' },
+            { key: 'new', label: 'NEW' },
+            { key: 'deadline', label: 'DEADLINE' }
+          ];
+          signalChipsEl.innerHTML = chipDefs.map((chip) => {
+            const active = state.signal === chip.key ? 'active' : '';
+            return `<span class="signal-pill ${active}" data-signal="${chip.key}">${chip.label}</span>`;
+          }).join('');
+        }
+
         // 현재 상태(탭/검색/사이트/페이지)에 맞춰 목록과 상태 문구를 다시 그립니다.
         function render() {
           // 탭(view)에 따라 기준 목록을 먼저 고르고,
@@ -947,9 +1030,11 @@
           const base = allSortedItems;
 
           renderFieldChips(base);
+          renderSignalChips();
 
           const sortedBase = sortLatestItems(base);
-          const filtered = applyFilters(sortedBase, state.query, 'all', state.field);
+          const fieldFiltered = applyFilters(sortedBase, state.query, 'all', state.field);
+          const filtered = applySignalFilter(fieldFiltered, state.signal);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
           const start = (state.page - 1) * state.perPage;
@@ -998,6 +1083,14 @@
           if (!e.target.classList.contains('pill')) return;
           const selected = e.target.getAttribute('data-field') || 'all';
           state.field = state.field === selected ? 'all' : selected;
+          state.page = 1;
+          render();
+        };
+
+        signalChipsEl.onclick = (e) => {
+          if (!e.target.classList.contains('signal-pill')) return;
+          const selected = e.target.getAttribute('data-signal') || 'all';
+          state.signal = state.signal === selected ? 'all' : selected;
           state.page = 1;
           render();
         };
