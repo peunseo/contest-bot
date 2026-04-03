@@ -446,63 +446,7 @@
     }
 
     .field {
-      font-size: 13px;
-      color: var(--muted);
-      background: linear-gradient(135deg, var(--chip-bg), #f5fdf3);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 6px 8px;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .field[data-field-color="design"] {
-      background: linear-gradient(135deg, #f3e5f5, #ede7f6);
-      border-color: #ce93d8;
-      color: #6a1b9a;
-    }
-
-    .field[data-field-color="it"] {
-      background: linear-gradient(135deg, #e3f2fd, #e1f5fe);
-      border-color: #64b5f6;
-      color: #01579b;
-    }
-
-    .field[data-field-color="startup"] {
-      background: linear-gradient(135deg, #ffe0b2, #fff3e0);
-      border-color: #ffb74d;
-      color: #e65100;
-    }
-
-    .field[data-field-color="writing"] {
-      background: linear-gradient(135deg, #fff9c4, #fffde7);
-      border-color: #fdd835;
-      color: #f57f17;
-    }
-
-    .field[data-field-color="external"] {
-      background: linear-gradient(135deg, #c8e6c9, #e8f5e9);
-      border-color: #81c784;
-      color: #1b5e20;
-    }
-
-    .field[data-field-color="arts"] {
-      background: linear-gradient(135deg, #ffccbc, #ffab91);
-      border-color: #ff7043;
-      color: #bf360c;
-    }
-
-    .field[data-field-color="env"] {
-      background: linear-gradient(135deg, #b2dfdb, #e0f2f1);
-      border-color: #4db6ac;
-      color: #00363a;
-    }
-
-    .field[data-field-color="etc"] {
-      background: linear-gradient(135deg, #eeeeee, #f5f5f5);
-      border-color: #bdbdbd;
-      color: #424242;
+      display: none;
     }
 
     .meta-row {
@@ -774,14 +718,6 @@
 
     // 분야별 색상 클래스를 반환합니다.
     function getFieldColorClass(field) {
-      const f = String(field || '').toLowerCase();
-      if (/디자인|브랜드|광고|포스터|영상|사진|웹툰|캐릭터|콘텐츠/.test(f)) return 'design';
-      if (/개발|코딩|sw|it|ai|데이터|해커톤|앱|웹/.test(f)) return 'it';
-      if (/창업|비즈니스|사업|스타트업|마케팅|기획/.test(f)) return 'startup';
-      if (/문학|글|에세이|시|소설|독후감|작문/.test(f)) return 'writing';
-      if (/서포터즈|기자단|홍보단|체험단|대외활동/.test(f)) return 'external';
-      if (/음악|춤|공연|연기|미술|예술/.test(f)) return 'arts';
-      if (/환경|기후|탄소|에너지|지속가능/.test(f)) return 'env';
       return 'etc';
     }
 
@@ -822,8 +758,6 @@
       const deadlineClass = closed ? 'deadline closed' : (period.includes('미정') ? 'deadline warn' : 'deadline');
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
-      const itemField = item.field || inferFieldFromTitle(parsed.main || item.title || '');
-      const fieldColorClass = getFieldColorClass(itemField);
       
       // NEW/HOT 배지 생성
       let badgeHtml = '';
@@ -842,7 +776,6 @@
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
           ${badgeHtml ? `<div style="font-size: 12px; margin: -2px 0 4px 0;">${badgeHtml}</div>` : ''}
-          <div class="field" data-field-color="${fieldColorClass}">${escapeHtml(itemField)}</div>
           <div class="${deadlineClass}">마감: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
