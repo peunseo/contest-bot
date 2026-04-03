@@ -822,9 +822,25 @@
     // 인기가 많은 공고(HOT)인지 판단합니다.
     function isHot(item) {
       const title = String(item.title || '').toLowerCase();
-      // 모집형 공고는 제외하고, 경쟁성이 강한 공모/대회형 공고만 HOT로 표시합니다.
+      const viewCount = Number(item.viewCount || 0);
+      const hotViewThreshold = 10000;
+      // 모집형 공고는 제외하고, 조회수가 충분히 높은 공모/대회형 공고만 HOT로 표시합니다.
+      if (viewCount < hotViewThreshold) return false;
       if (/모집|기자단|서포터즈|홍보단|체험단|앰버서더|봉사단|동아리/.test(title)) return false;
-      return /공모전|경진대회|해커톤|아이디어톤|챌린지|콘테스트|경연|공모제|공모사업|공모대전|대회/.test(title);
+      return /공모전|경진대회|해커톤|아이디어톤|챌린지|콘테스트|경연|공모제|공모사업|공모대전/.test(title);
+    }
+
+    // 조회수 기준으로 HOT 항목을 내림차순 정렬합니다.
+    function sortHotItems(arr) {
+      return [...arr].sort((a, b) => {
+        const aView = Number(a.viewCount || 0);
+        const bView = Number(b.viewCount || 0);
+        if (bView !== aView) return bView - aView;
+        const aTs = toDateValue(a.endDate) || toDateValue(a.startDate);
+        const bTs = toDateValue(b.endDate) || toDateValue(b.startDate);
+        if (bTs !== aTs) return bTs - aTs;
+        return String(a.title || '').localeCompare(String(b.title || ''), 'ko');
+      });
     }
 
     // 마감 임박 공고(DEADLINE) 기준을 반환합니다.
@@ -925,7 +941,7 @@
     // HOT/NEW/DEADLINE 빠른 필터를 적용합니다.
     function applySignalFilter(items, signal) {
       if (!signal || signal === 'all') return items;
-      if (signal === 'hot') return items.filter((item) => isHot(item) && !isClosed(item));
+      if (signal === 'hot') return sortHotItems(items.filter((item) => isHot(item) && !isClosed(item)));
       if (signal === 'deadline') return sortDeadlineSoonItems(items.filter((item) => isDeadlineSoon(item) && !isClosed(item)));
       return items;
     }
