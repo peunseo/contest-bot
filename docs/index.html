@@ -385,6 +385,34 @@
       box-shadow: none;
     }
 
+    .badge-new {
+      display: inline-block;
+      background: linear-gradient(135deg, #4a90e2, #357abd);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.25);
+    }
+
+    .badge-hot {
+      display: inline-block;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(231, 76, 60, 0.25);
+    }
+
     .title {
       margin: 0;
       font-size: 16px;
@@ -403,11 +431,13 @@
       font-size: 13px;
       color: var(--muted);
       min-height: 18px;
+      transition: color 0.2s ease;
     }
 
     .deadline.warn {
-      color: var(--warn);
-      font-weight: 600;
+      color: #c0392b;
+      font-weight: 700;
+      text-shadow: 0 0 1px rgba(192, 57, 43, 0.2);
     }
 
     .deadline.closed {
@@ -424,7 +454,55 @@
       padding: 6px 8px;
       overflow-wrap: anywhere;
       word-break: break-word;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field[data-field-color="design"] {
+      background: linear-gradient(135deg, #f3e5f5, #ede7f6);
+      border-color: #ce93d8;
+      color: #6a1b9a;
+    }
+
+    .field[data-field-color="it"] {
+      background: linear-gradient(135deg, #e3f2fd, #e1f5fe);
+      border-color: #64b5f6;
+      color: #01579b;
+    }
+
+    .field[data-field-color="startup"] {
+      background: linear-gradient(135deg, #ffe0b2, #fff3e0);
+      border-color: #ffb74d;
+      color: #e65100;
+    }
+
+    .field[data-field-color="writing"] {
+      background: linear-gradient(135deg, #fff9c4, #fffde7);
+      border-color: #fdd835;
+      color: #f57f17;
+    }
+
+    .field[data-field-color="external"] {
+      background: linear-gradient(135deg, #c8e6c9, #e8f5e9);
+      border-color: #81c784;
+      color: #1b5e20;
+    }
+
+    .field[data-field-color="arts"] {
+      background: linear-gradient(135deg, #ffccbc, #ffab91);
+      border-color: #ff7043;
+      color: #bf360c;
+    }
+
+    .field[data-field-color="env"] {
+      background: linear-gradient(135deg, #b2dfdb, #e0f2f1);
+      border-color: #4db6ac;
+      color: #00363a;
+    }
+
+    .field[data-field-color="etc"] {
+      background: linear-gradient(135deg, #eeeeee, #f5f5f5);
+      border-color: #bdbdbd;
+      color: #424242;
     }
 
     .meta-row {
@@ -677,6 +755,36 @@
       return Number.isInteger(dday) ? dday >= 0 && dday <= 7 : false;
     }
 
+    // 최근에 올라온 공고(오늘 또는 어제)인지 판단합니다.
+    function isNew(item) {
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+      const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+      const yesterdayStr = `${yesterday.getFullYear()}.${String(yesterday.getMonth() + 1).padStart(2, '0')}.${String(yesterday.getDate()).padStart(2, '0')}`;
+      return item.uploadDate === todayStr || item.uploadDate === yesterdayStr;
+    }
+
+    // 인기가 많은 공고(HOT)인지 판단합니다.
+    function isHot(item) {
+      const title = String(item.title || '').toLowerCase();
+      const field = String(item.field || '').toLowerCase();
+      // 서포터즈, 기자단, 홍보단 같은 인기 키워드가 있으면 HOT 표시
+      return /서포터즈|기자단|홍보단|체험단|앰버서더/.test(title + field);
+    }
+
+    // 분야별 색상 클래스를 반환합니다.
+    function getFieldColorClass(field) {
+      const f = String(field || '').toLowerCase();
+      if (/디자인|브랜드|광고|포스터|영상|사진|웹툰|캐릭터|콘텐츠/.test(f)) return 'design';
+      if (/개발|코딩|sw|it|ai|데이터|해커톤|앱|웹/.test(f)) return 'it';
+      if (/창업|비즈니스|사업|스타트업|마케팅|기획/.test(f)) return 'startup';
+      if (/문학|글|에세이|시|소설|독후감|작문/.test(f)) return 'writing';
+      if (/서포터즈|기자단|홍보단|체험단|대외활동/.test(f)) return 'external';
+      if (/음악|춤|공연|연기|미술|예술/.test(f)) return 'arts';
+      if (/환경|기후|탄소|에너지|지속가능/.test(f)) return 'env';
+      return 'etc';
+    }
+
     // 날짜 문자열을 정렬 가능한 숫자(timestamp)로 바꿉니다.
     function toDateValue(dateText) {
       const d = parseDate(dateText);
@@ -714,6 +822,18 @@
       const deadlineClass = closed ? 'deadline closed' : (period.includes('미정') ? 'deadline warn' : 'deadline');
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
+      const itemField = item.field || inferFieldFromTitle(parsed.main || item.title || '');
+      const fieldColorClass = getFieldColorClass(itemField);
+      
+      // NEW/HOT 배지 생성
+      let badgeHtml = '';
+      if (isNew(item) && !closed) {
+        badgeHtml += '<span class="badge-new">NEW</span> ';
+      }
+      if (isHot(item)) {
+        badgeHtml += '<span class="badge-hot">HOT</span>';
+      }
+      
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
           <div class="topline">
@@ -721,6 +841,8 @@
             ${ddayHtml}
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
+          ${badgeHtml ? `<div style="font-size: 12px; margin: -2px 0 4px 0;">${badgeHtml}</div>` : ''}
+          <div class="field" data-field-color="${fieldColorClass}">${escapeHtml(itemField)}</div>
           <div class="${deadlineClass}">마감: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
