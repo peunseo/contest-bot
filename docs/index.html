@@ -378,6 +378,20 @@
       box-shadow: 0 0 0 2px rgba(231, 157, 85, 0.15);
     }
 
+    .dday-chip.imminent {
+      border-color: #dc7f45;
+      background: #ffdcca;
+      color: #843107;
+      box-shadow: 0 0 0 2px rgba(220, 127, 69, 0.22);
+    }
+
+    .dday-chip.critical {
+      border-color: #c95b4f;
+      background: #ffd1cc;
+      color: #7c1f1c;
+      box-shadow: 0 0 0 3px rgba(201, 91, 79, 0.22);
+    }
+
     .dday-chip.closed {
       border-color: #b8b8b8;
       background: #ececec;
@@ -385,32 +399,40 @@
       box-shadow: none;
     }
 
-    .badge-new {
-      display: inline-block;
-      background: linear-gradient(135deg, #4a90e2, #357abd);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.25);
+    .badge-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin: -1px 0 3px;
+      min-height: 20px;
     }
 
-    .badge-hot {
-      display: inline-block;
-      background: linear-gradient(135deg, #e74c3c, #c0392b);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 4px 10px;
-      font-size: 11px;
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 20px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.08em;
+      line-height: 1;
       white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(231, 76, 60, 0.25);
+      text-transform: uppercase;
+    }
+
+    .badge-tag.new {
+      border-color: #8cb3d7;
+      background: #edf4fb;
+      color: #2d5f8a;
+    }
+
+    .badge-tag.hot {
+      border-color: #d7a08c;
+      background: #fbf0ed;
+      color: #8a3d2d;
     }
 
     .title {
@@ -443,6 +465,22 @@
     .deadline.closed {
       color: #7a7a7a;
       font-weight: 700;
+    }
+
+    .deadline.urgent {
+      color: #8a3f08;
+      font-weight: 700;
+    }
+
+    .deadline.imminent {
+      color: #9b3200;
+      font-weight: 700;
+    }
+
+    .deadline.critical {
+      color: #9e1f1a;
+      font-weight: 800;
+      text-shadow: 0 0 1px rgba(158, 31, 26, 0.2);
     }
 
     .field {
@@ -680,9 +718,23 @@
 
     // D-day 상태에 따라 뱃지 스타일 클래스를 결정합니다.
     function badgeClass(item) {
+      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
       if (isClosed(item)) return 'dday-chip closed';
+      if (Number.isInteger(dday) && dday <= 1) return 'dday-chip critical';
+      if (Number.isInteger(dday) && dday <= 3) return 'dday-chip imminent';
       if (isUrgent(item)) return 'dday-chip urgent';
       return 'dday-chip';
+    }
+
+    // D-day 임박도에 맞는 마감 텍스트 색상 클래스를 결정합니다.
+    function deadlineClassByDday(item, period) {
+      if (isClosed(item)) return 'deadline closed';
+      if (String(period || '').includes('미정')) return 'deadline warn';
+      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      if (Number.isInteger(dday) && dday <= 1) return 'deadline critical';
+      if (Number.isInteger(dday) && dday <= 3) return 'deadline imminent';
+      if (Number.isInteger(dday) && dday <= 7) return 'deadline urgent';
+      return 'deadline';
     }
 
     // 공고가 마감되었는지 여부를 계산합니다.
@@ -714,11 +766,6 @@
       const field = String(item.field || '').toLowerCase();
       // 서포터즈, 기자단, 홍보단 같은 인기 키워드가 있으면 HOT 표시
       return /서포터즈|기자단|홍보단|체험단|앰버서더/.test(title + field);
-    }
-
-    // 분야별 색상 클래스를 반환합니다.
-    function getFieldColorClass(field) {
-      return 'etc';
     }
 
     // 날짜 문자열을 정렬 가능한 숫자(timestamp)로 바꿉니다.
@@ -755,18 +802,19 @@
       const period = toPeriod(item);
       const closed = isClosed(item);
       const ddayText = toBadge(item);
-      const deadlineClass = closed ? 'deadline closed' : (period.includes('미정') ? 'deadline warn' : 'deadline');
+      const deadlineClass = deadlineClassByDday(item, period);
       const ddayHtml = ddayText ? `<span class="${badgeClass(item)}">${escapeHtml(ddayText)}</span>` : '';
       const parsed = splitTitleAndField(item.title);
       
       // NEW/HOT 배지 생성
-      let badgeHtml = '';
+      const tags = [];
       if (isNew(item) && !closed) {
-        badgeHtml += '<span class="badge-new">NEW</span> ';
+        tags.push('<span class="badge-tag new">new</span>');
       }
       if (isHot(item)) {
-        badgeHtml += '<span class="badge-hot">HOT</span>';
+        tags.push('<span class="badge-tag hot">hot</span>');
       }
+      const badgeHtml = tags.length > 0 ? `<div class="badge-row">${tags.join('')}</div>` : '';
       
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
@@ -775,7 +823,7 @@
             ${ddayHtml}
           </div>
           <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
-          ${badgeHtml ? `<div style="font-size: 12px; margin: -2px 0 4px 0;">${badgeHtml}</div>` : ''}
+          ${badgeHtml}
           <div class="${deadlineClass}">마감: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
         </article>
