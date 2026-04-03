@@ -712,6 +712,10 @@
       return source || 'unknown';
     }
 
+    function normalizeDisplayTitle(title) {
+      return String(title || '').replace(/^추천\s*/, '').trim();
+    }
+
     // 비어 있는 field를 제목 키워드로 보강해 분야 필터가 동작하도록 합니다.
     function inferFieldFromTitle(title) {
       const t = String(title || '').toLowerCase();
@@ -728,7 +732,7 @@
 
     // 제목 문자열에서 부가 태그를 정리해 메인 제목/분야 텍스트로 분리합니다.
     function splitTitleAndField(rawTitle) {
-      const text = String(rawTitle || '').replace(/\s+/g, ' ').trim();
+      const text = normalizeDisplayTitle(String(rawTitle || '').replace(/\s+/g, ' ').trim());
       const parts = text.split(/\s*분야\s*[:：]\s*/);
       const main = parts[0].replace(/\s+SPECIAL(?:\s+IDEA)?\s*$/i, '').trim();
       const field = parts[1] ? parts[1].trim() : '';
@@ -755,14 +759,57 @@
 
     // 아이템의 마감일을 사람이 읽기 쉬운 문구로 만듭니다.
     function toPeriod(item) {
-      const end = item.endDate || '';
+      const end = getPreferredEndDate(item) || item.endDate || '';
       if (end) return end;
       return item.deadline || '마감일 미정';
     }
 
+    // 제목에 직접 적힌 마감일(예: (~4/14))을 우선 추출합니다.
+    function extractDeadlineFromTitle(titleText) {
+      const title = String(titleText || '').replace(/\s+/g, ' ').trim();
+      if (!title) return '';
+
+      const now = new Date();
+      const year = now.getFullYear();
+
+      const range = title.match(/(?:\(|\[)?\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*(?:\)|\])?/);
+      if (range) {
+        const start = new Date(year, Number(range[1]) - 1, Number(range[2]));
+        const end = new Date(year, Number(range[3]) - 1, Number(range[4]));
+        if (!Number.isNaN(end.getTime())) return `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDate()).padStart(2, '0')}`;
+      }
+
+      const single = title.match(/(?:\(|\[)?\s*(?:~|마감|까지)?\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*(?:\)|\])?/);
+      if (single) {
+        const candidate = new Date(year, Number(single[1]) - 1, Number(single[2]));
+        if (!Number.isNaN(candidate.getTime())) {
+          if (candidate < new Date(now.getFullYear(), now.getMonth(), now.getDate() - 31)) {
+            candidate.setFullYear(candidate.getFullYear() + 1);
+          }
+          return `${candidate.getFullYear()}-${String(candidate.getMonth() + 1).padStart(2, '0')}-${String(candidate.getDate()).padStart(2, '0')}`;
+        }
+      }
+
+      return '';
+    }
+
+    function getPreferredEndDate(item) {
+      const titleDeadline = extractDeadlineFromTitle(item.title);
+      if (item && item.source === 'linkareer' && titleDeadline) return titleDeadline;
+      return String(item?.endDate || '').trim();
+    }
+
+    function getPreferredDday(item) {
+      const preferredEnd = getPreferredEndDate(item);
+      const computed = preferredEnd ? getDaysLeft(preferredEnd) : null;
+      if (item && item.source === 'linkareer' && Number.isInteger(computed)) return computed;
+      if (Number.isInteger(item?.dday)) return item.dday;
+      return computed;
+    }
+
     // D-day 뱃지에 표시할 텍스트(D-3, D-Day, 마감)를 생성합니다.
     function toBadge(item) {
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       if (dday === null || Number.isNaN(dday)) return '';
       if (dday < 0) return '마감';
       if (dday === 0) return 'D-Day';
@@ -771,7 +818,7 @@
 
     // D-day 상태에 따라 뱃지 스타일 클래스를 결정합니다.
     function badgeClass(item) {
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       if (isClosed(item)) return 'dday-chip closed';
       if (Number.isInteger(dday) && dday <= 1) return 'dday-chip critical';
       if (Number.isInteger(dday) && dday <= 3) return 'dday-chip imminent';
@@ -783,7 +830,7 @@
     function deadlineClassByDday(item, period) {
       if (isClosed(item)) return 'deadline closed';
       if (String(period || '').includes('미정')) return 'deadline warn';
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       if (Number.isInteger(dday) && dday <= 1) return 'deadline critical';
       if (Number.isInteger(dday) && dday <= 3) return 'deadline imminent';
       if (Number.isInteger(dday) && dday <= 7) return 'deadline urgent';
@@ -793,14 +840,14 @@
     // 공고가 마감되었는지 여부를 계산합니다.
     function isClosed(item) {
       if (typeof item.isClosed === 'boolean') return item.isClosed;
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       return Number.isInteger(dday) ? dday < 0 : false;
     }
 
     // 마감 7일 이내 공고인지 여부를 계산합니다.
     function isUrgent(item) {
       if (typeof item.isUrgent === 'boolean') return item.isUrgent;
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       return Number.isInteger(dday) ? dday >= 0 && dday <= 7 : false;
     }
 
@@ -820,12 +867,51 @@
     }
 
     // 인기가 많은 공고(HOT)인지 판단합니다.
+    let hotContext = {
+      avgBySource: {},
+      rankByItemKey: new Map()
+    };
+
+    function hotItemKey(item) {
+      return `${String(item.source || '')}::${String(item.link || '')}::${String(item.title || '')}`;
+    }
+
+    function buildHotContext(items) {
+      const groups = {};
+      for (const item of items) {
+        const source = String(item.source || 'unknown');
+        const viewCount = Number(item.viewCount || 0);
+        if (!Number.isFinite(viewCount) || viewCount <= 0) continue;
+        if (!groups[source]) groups[source] = [];
+        groups[source].push(item);
+      }
+
+      const avgBySource = {};
+      const rankByItemKey = new Map();
+
+      Object.entries(groups).forEach(([source, list]) => {
+        const sorted = [...list].sort((a, b) => Number(b.viewCount || 0) - Number(a.viewCount || 0));
+        const avg = sorted.reduce((sum, item) => sum + Number(item.viewCount || 0), 0) / sorted.length;
+        avgBySource[source] = avg;
+        sorted.forEach((item, index) => {
+          rankByItemKey.set(hotItemKey(item), index + 1);
+        });
+      });
+
+      return { avgBySource, rankByItemKey };
+    }
+
     function isHot(item) {
       const title = String(item.title || '').toLowerCase();
       const viewCount = Number(item.viewCount || 0);
-      const hotViewThreshold = 10000;
-      // 모집형 공고는 제외하고, 조회수가 충분히 높은 공모/대회형 공고만 HOT로 표시합니다.
-      if (viewCount < hotViewThreshold) return false;
+      const source = String(item.source || 'unknown');
+      const avg = Number(hotContext.avgBySource[source] || 0);
+      const rank = Number(hotContext.rankByItemKey.get(hotItemKey(item)) || Number.MAX_SAFE_INTEGER);
+
+      // 모집형 공고는 제외하고, 사이트별 평균 이상이면서 상위 3개 안에 드는 공모/대회형 공고만 HOT로 표시합니다.
+      if (viewCount <= 0) return false;
+      if (rank > 3) return false;
+      if (avg > 0 && viewCount < avg) return false;
       if (/모집|기자단|서포터즈|홍보단|체험단|앰버서더|봉사단|동아리/.test(title)) return false;
       return /공모전|경진대회|해커톤|아이디어톤|챌린지|콘테스트|경연|공모제|공모사업|공모대전/.test(title);
     }
@@ -845,7 +931,7 @@
 
     // 마감 임박 공고(DEADLINE) 기준을 반환합니다.
     function isDeadlineSoon(item) {
-      const dday = Number.isInteger(item.dday) ? item.dday : getDaysLeft(item.endDate);
+      const dday = getPreferredDday(item);
       return Number.isInteger(dday) && dday >= 0 && dday <= 7;
     }
 
@@ -881,12 +967,12 @@
     // 마감일 기준 내림차순(먼 마감 -> 가까운 마감) 정렬입니다.
     function sortDeadlineSoonItems(arr) {
       return [...arr].sort((a, b) => {
-        const ad = Number.isInteger(a.dday) ? a.dday : getDaysLeft(a.endDate);
-        const bd = Number.isInteger(b.dday) ? b.dday : getDaysLeft(b.endDate);
+        const ad = getPreferredDday(a);
+        const bd = getPreferredDday(b);
         const aVal = Number.isInteger(ad) && ad >= 0 && ad <= 7 ? ad : 999;
         const bVal = Number.isInteger(bd) && bd >= 0 && bd <= 7 ? bd : 999;
         if (aVal !== bVal) return aVal - bVal;
-        return toDateValue(a.endDate) - toDateValue(b.endDate);
+        return toDateValue(getPreferredEndDate(a)) - toDateValue(getPreferredEndDate(b));
       });
     }
 
@@ -908,6 +994,7 @@
         tags.push('<span class="badge-tag hot">hot</span>');
       }
       const badgeHtml = tags.length > 0 ? `<div class="badge-row">${tags.join('')}</div>` : '';
+      const displayTitle = normalizeDisplayTitle(parsed.main || item.title || '');
       
       return `
         <article class="card ${closed ? 'closed' : ''}" style="animation-delay:${Math.min(idx * 40, 500)}ms">
@@ -915,7 +1002,7 @@
             <span class="source">${sourceLabel(item.source)}</span>
             ${ddayHtml}
           </div>
-          <h3 class="title">${escapeHtml(parsed.main || item.title || '')}</h3>
+          <h3 class="title">${escapeHtml(displayTitle)}</h3>
           ${badgeHtml}
           <div class="${deadlineClass}">마감: ${escapeHtml(period)}</div>
           <a class="btn" href="${item.link}" target="_blank" rel="noopener noreferrer">공고 보기</a>
@@ -980,6 +1067,7 @@
           // uploadDate가 비어 있으면 최신순 상위 8개를 NEW로 표시합니다.
           item._isRecentFallback = idx < 8;
         });
+        hotContext = buildHotContext(allSortedItems);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
           ? todayFromData

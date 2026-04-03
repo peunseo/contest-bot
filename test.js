@@ -96,11 +96,34 @@ function extractPostedDate(text) {
 
 // 제목 문자열에서 부가 태그를 제거하고 제목/분야를 분리합니다.
 function splitTitleField(text) {
-  const s = cleanText(text);
+  const s = cleanText(text).replace(/^추천\s*/,'');
   const parts = s.split(/\s*분야\s*[:：]\s*/);
   const title = cleanText(parts[0].replace(/\s+SPECIAL(?:\s+IDEA)?\s*$/i, ""));
   const field = parts[1] ? cleanText(parts[1]) : "";
   return { title, field };
+}
+
+// 링커리어 제목에 직접 적힌 마감일만 추출합니다.
+function extractExplicitLinkareerDeadlineFromTitle(titleText) {
+  const title = cleanText(titleText || "");
+  if (!title) return "";
+
+  const range = title.match(/(?:\(|\[)?\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*(?:\)|\])?/);
+  if (range) {
+    const year = new Date().getFullYear();
+    const start = toIsoDate(year, range[1], range[2]);
+    const end = toIsoDate(year, range[3], range[4]);
+    if (start && end) return `${start} ~ ${end}`;
+  }
+
+  const single = title.match(/(?:\(|\[)?\s*(?:~|마감|까지)?\s*(\d{1,2})\s*[./-]\s*(\d{1,2})\s*(?:\)|\])?/);
+  if (single) {
+    const year = new Date().getFullYear();
+    const iso = toIsoDate(year, single[1], single[2]);
+    if (iso) return iso;
+  }
+
+  return "";
 }
 
 // 숫자를 두 자리 문자열(01, 02 ...)로 맞춥니다.
@@ -958,16 +981,18 @@ async function scrapeLinkareer() {
       if (!isContestLike(row.title)) continue;
       if (!/\/activity\/\d+/.test(row.href)) continue;
 
-      const deadline = inferLinkareerDeadline(row.title, row.cardText);
+      const titleDeadlineHint = extractExplicitLinkareerDeadlineFromTitle(row.title);
+      const deadline = titleDeadlineHint || inferLinkareerDeadline(row.title, row.cardText);
       const normalizedEnd = normalizeDeadline(deadline, "");
       out.push({
-        title: cleanText(row.title),
+        title: cleanText(row.title).replace(/^추천\s*/, ""),
         field: "",
         link: safeAbsolute("https://linkareer.com", row.href),
         deadline,
         uploadDate: "",
         startDateHint: "",
-        endDateHint: normalizedEnd && normalizedEnd !== "기간 정보 없음" && !normalizedEnd.includes("~") ? normalizedEnd : ""
+        endDateHint: normalizedEnd && normalizedEnd !== "기간 정보 없음" && !normalizedEnd.includes("~") ? normalizedEnd : "",
+        titleDeadlineHint
       });
     }
 
@@ -994,6 +1019,13 @@ async function scrapeLinkareer() {
 
         if (keyDates.startDate || periodFromText.startDate) item.startDateHint = keyDates.startDate || periodFromText.startDate;
         if (keyDates.endDate || periodFromText.endDate) item.endDateHint = keyDates.endDate || periodFromText.endDate;
+
+        if (item.titleDeadlineHint) {
+          item.endDateHint = item.titleDeadlineHint;
+          if (!item.deadline || item.deadline === "기간 정보 없음") {
+            item.deadline = item.titleDeadlineHint;
+          }
+        }
 
         if (!item.endDateHint) {
           const normalized = normalizeDeadline(item.deadline, "");
