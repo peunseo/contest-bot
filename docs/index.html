@@ -191,10 +191,9 @@
     }
 
     .filter-input {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 9px 10px;
-      background: #fff;
+      border: none;
+      padding: 9px 0;
+      background: transparent;
       color: var(--ink);
       font-size: 13px;
       flex: 1;
@@ -203,7 +202,6 @@
 
     .filter-input:focus {
       outline: none;
-      border-color: #9bc5a7;
       background: #f7faf6;
     }
 
@@ -454,11 +452,12 @@
       border-radius: 8px;
       padding: 6px 10px;
       color: var(--ink);
-      background: #fff;
+      background: #eef6ef;
       font-size: 12px;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
       white-space: nowrap;
       flex-shrink: 0;
+      margin: auto auto 0;
     }
 
     a.btn:hover {
@@ -515,7 +514,6 @@
         <div class="controls-panel">
           <div class="filter-row">
             <div class="search-wrap">
-              <span class="search-icon">검색</span>
               <input class="filter-input" id="searchInput" type="text" placeholder="제목/분야/사이트 검색 (예: 디자인, 서포터즈, 창업)" />
             </div>
             <details class="site-dropdown">
@@ -871,7 +869,7 @@
           nextPageEl.disabled = state.page >= totalPages;
 
           const baseCount = base.length;
-          statusEl.textContent = `현재 ${filtered.length}건 표시 중 (기준 ${baseCount}건)`;
+          statusEl.textContent = '';
 
           listEl.innerHTML = pageItems.map(makeCard).join('');
         }
