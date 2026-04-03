@@ -507,13 +507,6 @@
     <section class="hero">
       <h1>공모전 데일리 보드</h1>
       <p class="meta"><span id="updated">업데이트 정보를 불러오는 중...</span></p>
-      <div class="count">
-        <span class="pill" id="totalCount">전체 0건</span>
-        <span class="pill" id="urgentCount">마감임박 0건</span>
-        <span class="pill" id="todayCount">오늘 0건</span>
-      </div>
-      <div class="source-summary" id="sourceSummary"></div>
-      <div class="field-chips" id="fieldChips"></div>
       <div class="controls">
         <div class="controls-panel">
           <div class="filter-row">
@@ -532,9 +525,10 @@
               </div>
             </details>
           </div>
-          <div class="sort-lock">정렬 규칙: 전체/오늘 최신순, 마감임박 남은기간 내림차순</div>
+          <div class="sort-lock">정렬 규칙: 최신순</div>
         </div>
       </div>
+      <div class="field-chips" id="fieldChips"></div>
       <p class="empty" id="status"></p>
     </section>
 
@@ -750,16 +744,12 @@
     // 페이지 초기 데이터 로드, 이벤트 연결, 첫 화면 렌더링을 수행합니다.
     async function init() {
       const updatedEl = document.getElementById('updated');
-      const todayCountEl = document.getElementById('todayCount');
-      const urgentCountEl = document.getElementById('urgentCount');
-      const totalCountEl = document.getElementById('totalCount');
       const listEl = document.getElementById('list');
       const pagerEl = document.getElementById('pager');
       const prevPageEl = document.getElementById('prevPage');
       const nextPageEl = document.getElementById('nextPage');
       const pageInfoEl = document.getElementById('pageInfo');
       const statusEl = document.getElementById('status');
-      const sourceSummaryEl = document.getElementById('sourceSummary');
       const fieldChipsEl = document.getElementById('fieldChips');
       const searchInputEl = document.getElementById('searchInput');
       const clearSearchEl = document.getElementById('clearSearch');
@@ -770,7 +760,6 @@
 
         const refreshedAt = new Date().toISOString();
         updatedEl.textContent = `마지막 갱신: ${toLocalText(refreshedAt)}`;
-        todayCountEl.textContent = `오늘 ${data?.counts?.today ?? 0}건`;
 
         const normalizedItems = (Array.isArray(data.items) ? data.items : []).map((item) => {
           const parsed = splitTitleAndField(item.title || '');
@@ -781,7 +770,6 @@
           };
         });
         const items = normalizedItems.filter((item) => !isClosed(item));
-        totalCountEl.textContent = `전체 ${items.length}건`;
         const allSortedItems = sortLatestItems(items);
         const todayFromData = Array.isArray(data.todayItems) ? data.todayItems : [];
         const todayItems = todayFromData.length > 0
@@ -801,7 +789,6 @@
         }
 
         const state = { query: '', view: 'all', source: 'all', field: 'all', page: 1, perPage: 12 };
-        urgentCountEl.textContent = `마감임박 ${urgentItems.length}건`;
 
         const fieldSet = new Set(['all']);
         items.forEach((item) => {
@@ -815,22 +802,6 @@
         // - view: 현재 탭(today/urgent/all)
         // - source: 사이트 필터(all/wevity/thinkcontest/campuspick)
         // - page/perPage: 페이지네이션 제어
-
-        // 현재 탭 기준으로 소스별 건수를 다시 계산해 칩에 표시합니다.
-        function renderSourceSummary(baseItems) {
-          const counts = baseItems.reduce((acc, item) => {
-            const key = item.source || 'unknown';
-            acc[key] = (acc[key] || 0) + 1;
-            return acc;
-          }, {});
-
-          sourceSummaryEl.innerHTML = `
-            <span class="pill ${state.source === 'wevity' ? 'active' : ''}">위비티 ${counts.wevity || 0}건</span>
-            <span class="pill ${state.source === 'thinkcontest' ? 'active' : ''}">씽굿 ${counts.thinkcontest || 0}건</span>
-            <span class="pill ${state.source === 'campuspick' ? 'active' : ''}">캠퍼스픽 ${counts.campuspick || 0}건</span>
-            <span class="pill ${state.source === 'linkareer' ? 'active' : ''}">링커리어 ${counts.linkareer || 0}건</span>
-          `;
-        }
 
         function renderFieldChips(baseItems) {
           const counts = baseItems.reduce((acc, item) => {
@@ -872,25 +843,12 @@
           // 마지막에 페이지 단위로 잘라서 카드 HTML로 렌더링합니다.
           // 이 함수는 "상태를 읽어 UI를 재생성"하는 단일 진입점입니다.
           // 따라서 상태 변경이 있으면 항상 render()를 다시 호출합니다.
-          let base;
-          if (state.view === 'today') {
-            base = todayItems;
-          } else if (state.view === 'urgent') {
-            base = urgentItems;
-          } else {
-            base = allSortedItems;
-          }
+          // 전체 목록만 표시 (view 탭 제거)
+          const base = allSortedItems;
 
-          const sourceScoped = state.source === 'all'
-            ? base
-            : base.filter((item) => item.source === state.source);
+          renderFieldChips(base);
 
-          renderSourceSummary(base);
-          renderFieldChips(sourceScoped);
-
-          const sortedBase = state.view === 'urgent'
-            ? sortUrgentItems(sourceScoped)
-            : sortLatestItems(sourceScoped);
+          const sortedBase = sortLatestItems(base);
           const filtered = applyFilters(sortedBase, state.query, 'all', state.field);
           const totalPages = Math.max(1, Math.ceil(filtered.length / state.perPage));
           if (state.page > totalPages) state.page = totalPages;
@@ -907,10 +865,6 @@
             const hasSearchQuery = state.query.trim() !== '';
             if (hasSearchQuery) {
               statusEl.textContent = '조건에 맞는 공고가 없습니다.';
-            } else if (state.view === 'today') {
-              statusEl.textContent = '오늘의 공고가 없습니다.';
-            } else if (state.view === 'urgent') {
-              statusEl.textContent = '마감임박한 공고가 없습니다.';
             } else {
               statusEl.textContent = '공고가 없습니다.';
             }
@@ -931,39 +885,6 @@
 
           listEl.innerHTML = pageItems.map(makeCard).join('');
         }
-
-        todayCountEl.onclick = () => {
-          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
-          state.view = 'today';
-          state.source = 'all';
-          state.page = 1;
-          todayCountEl.classList.add('active');
-          urgentCountEl.classList.remove('active');
-          totalCountEl.classList.remove('active');
-          render();
-        };
-
-        urgentCountEl.onclick = () => {
-          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
-          state.view = 'urgent';
-          state.source = 'all';
-          state.page = 1;
-          urgentCountEl.classList.add('active');
-          todayCountEl.classList.remove('active');
-          totalCountEl.classList.remove('active');
-          render();
-        };
-
-        totalCountEl.onclick = () => {
-          // 탭 전환 시 source를 all로 초기화해 "이전 사이트 고정" 혼란을 방지합니다.
-          state.view = 'all';
-          state.source = 'all';
-          state.page = 1;
-          totalCountEl.classList.add('active');
-          todayCountEl.classList.remove('active');
-          urgentCountEl.classList.remove('active');
-          render();
-        };
 
         searchInputEl.oninput = () => {
           // 검색어가 바뀌면 결과 길이가 달라지므로 1페이지부터 다시 시작합니다.
@@ -986,23 +907,6 @@
           if (!e.target.classList.contains('pill')) return;
           const selected = e.target.getAttribute('data-field') || 'all';
           state.field = state.field === selected ? 'all' : selected;
-          state.page = 1;
-          render();
-        };
-
-        sourceSummaryEl.onclick = (e) => {
-          if (!e.target.classList.contains('pill')) return;
-          // 칩 텍스트를 소스 코드값으로 변환합니다.
-          const text = e.target.textContent;
-          let source = 'all';
-          if (text.includes('위비티')) source = 'wevity';
-          else if (text.includes('씽굿')) source = 'thinkcontest';
-          else if (text.includes('캠퍼스픽')) source = 'campuspick';
-          else if (text.includes('링커리어')) source = 'linkareer';
-
-          state.source = state.source === source ? 'all' : source;
-          state.field = 'all';
-          // 사이트 필터 변경 시에도 목록 길이가 달라질 수 있어 1페이지로 이동합니다.
           state.page = 1;
           render();
         };
@@ -1042,11 +946,6 @@
             });
           });
         }
-
-        state.view = 'all';
-        totalCountEl.classList.add('active');
-        todayCountEl.classList.remove('active');
-        urgentCountEl.classList.remove('active');
 
         render();
       } catch (err) {
