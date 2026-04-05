@@ -878,22 +878,35 @@ async function scrapeThinkgood() {
 // =======================
 async function scrapeCampuspick() {
   const apiUrl = "https://api2.campuspick.com/find/activity/list";
-  const { data } = await axios.get(apiUrl, {
-    params: {
-      target: 1,
-      limit: 40,
-      offset: 0
-    },
-    headers: {
-      "User-Agent": "Mozilla/5.0",
-      Referer: "https://www.campuspick.com/contest"
-    }
-  });
+  const pageSize = 100;
+  const maxPages = 5;
+  const activities = [];
 
-  const activities = data?.result?.activities || [];
+  for (let page = 0; page < maxPages; page += 1) {
+    const offset = page * pageSize;
+    const { data } = await axios.get(apiUrl, {
+      params: {
+        target: 1,
+        limit: pageSize,
+        offset
+      },
+      headers: {
+        "User-Agent": "Mozilla/5.0",
+        Referer: "https://www.campuspick.com/contest"
+      }
+    });
 
-  const results = activities
-    .filter((a) => a?.id && a?.title)
+    const pageActivities = data?.result?.activities || [];
+    if (!Array.isArray(pageActivities) || pageActivities.length === 0) break;
+    activities.push(...pageActivities);
+    if (pageActivities.length < pageSize) break;
+  }
+
+  const uniqueActivities = Array.from(
+    new Map(activities.filter((a) => a?.id && a?.title).map((a) => [a.id, a])).values()
+  );
+
+  const results = uniqueActivities
     .map((a) => {
       const endHint = a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "";
       return {
