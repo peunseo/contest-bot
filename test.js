@@ -915,6 +915,7 @@ async function scrapeCampuspick() {
         link: `https://www.campuspick.com/contest/view?id=${a.id}`,
         deadline: endHint || "기간 정보 없음",
         uploadDate: "",
+        viewCount: Number(a.viewCount || 0),
         startDateHint: "",
         endDateHint: endHint || ""
       };
