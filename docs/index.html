@@ -969,7 +969,8 @@
     let hotContext = {
       avgBySource: {},
       rankByItemKey: new Map(),
-      globalRankByItemKey: new Map()
+      globalRankByItemKey: new Map(),
+      recentRankByItemKey: new Map()
     };
 
     function hotItemKey(item) {
@@ -989,12 +990,18 @@
       const avgBySource = {};
       const rankByItemKey = new Map();
       const globalRankByItemKey = new Map();
+      const recentRankByItemKey = new Map();
       const globallySorted = [...items]
         .filter((item) => Number(item.viewCount || 0) > 0)
         .sort((a, b) => Number(b.viewCount || 0) - Number(a.viewCount || 0));
+      const recentlySorted = [...items];
 
       globallySorted.forEach((item, index) => {
         globalRankByItemKey.set(hotItemKey(item), index + 1);
+      });
+
+      recentlySorted.forEach((item, index) => {
+        recentRankByItemKey.set(hotItemKey(item), index + 1);
       });
 
       Object.entries(groups).forEach(([source, list]) => {
@@ -1006,17 +1013,21 @@
         });
       });
 
-      return { avgBySource, rankByItemKey, globalRankByItemKey };
+      return { avgBySource, rankByItemKey, globalRankByItemKey, recentRankByItemKey };
     }
 
     function isHot(item) {
       const title = String(item.title || '').toLowerCase();
       const viewCount = Number(item.viewCount || 0);
       const globalRank = Number(hotContext.globalRankByItemKey.get(hotItemKey(item)) || Number.MAX_SAFE_INTEGER);
+      const recentRank = Number(hotContext.recentRankByItemKey.get(hotItemKey(item)) || Number.MAX_SAFE_INTEGER);
 
       // 모집형 공고는 제외하고, 전체 조회수 상위권의 공고를 HOT로 표시합니다.
-      if (viewCount <= 0) return false;
-      if (globalRank > 20) return false;
+      if (viewCount > 0) {
+        if (globalRank > 20) return false;
+      } else if (recentRank > 12) {
+        return false;
+      }
       if (/모집|기자단|서포터즈|홍보단|체험단|앰버서더|봉사단|동아리/.test(title)) return false;
       return true;
     }
