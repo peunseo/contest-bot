@@ -98,8 +98,8 @@ function extractPostedDate(text) {
 function splitTitleField(text) {
   const s = cleanText(text).replace(/^추천\s*/,'');
   const parts = s.split(/\s*분야\s*[:：]\s*/);
-  const title = cleanText(parts[0].replace(/\s+SPECIAL(?:\s+IDEA)?\s*$/i, ""));
-  const field = parts[1] ? cleanText(parts[1]) : "";
+  const title = decodeHtmlEntities(parts[0].replace(/\s+SPECIAL(?:\s+IDEA)?\s*$/i, ""));
+  const field = parts[1] ? decodeHtmlEntities(parts[1]) : "";
   return { title, field };
 }
 
@@ -716,6 +716,17 @@ function cleanText(text) {
     .trim();
 }
 
+// HTML 엔티티가 포함된 문자열을 사람이 읽는 텍스트로 복원합니다.
+function decodeHtmlEntities(text) {
+  return cleanText(String(text || "")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x2F;/g, "/"));
+}
+
 // href가 없거나 잘못된 경우 빈 문자열을 반환해 후처리에서 제외합니다.
 function safeAbsolute(base, href) {
   if (!href || href === "undefined") return "";
@@ -738,6 +749,10 @@ async function scrapeWevity() {
 
   const results = [];
   const anchors = $("a[href*='ix=']");
+  const readCounts = $(".read")
+    .toArray()
+    .map((el) => Number(String($(el).text() || "").replace(/[^\d]/g, "")) || 0)
+    .filter((n) => n > 0);
 
   anchors.each((_, a) => {
     const $a = $(a);
@@ -746,7 +761,7 @@ async function scrapeWevity() {
     if (!link || !/ix=\d+/.test(link)) return;
 
     const $card = $a.closest("li, tr, .list_box, .inner");
-    const rawTitle = cleanText($a.find(".tit").text() || $a.text());
+    const rawTitle = decodeHtmlEntities($a.find(".tit").text() || $a.text());
     const parsed = splitTitleField(rawTitle);
     const text = cleanText(($card.length ? $card.text() : $a.text()) || "");
 
@@ -766,6 +781,7 @@ async function scrapeWevity() {
       link,
       deadline,
       uploadDate,
+      viewCount: readCounts[results.length] || 0,
       startDateHint: listPeriod.startDate,
       endDateHint: listPeriod.endDate
     });
@@ -815,6 +831,10 @@ async function scrapeThinkgood() {
   const $ = cheerio.load(data);
 
   const results = [];
+  const readCounts = $(".read")
+    .toArray()
+    .map((el) => Number(String($(el).text() || "").replace(/[^\d]/g, "")) || 0)
+    .filter((n) => n > 0);
 
   // 씽굿은 목록을 JS로 렌더링하므로 JSON-LD(ItemList) 블록에서 링크/제목을 추출합니다.
   $("script[type='application/ld+json']").each((_, el) => {
@@ -828,10 +848,10 @@ async function scrapeThinkgood() {
         if (!obj || obj["@type"] !== "ItemList" || !Array.isArray(obj.itemListElement)) continue;
 
         for (const item of obj.itemListElement) {
-          const title = cleanText(item?.name);
+          const title = decodeHtmlEntities(item?.name);
           const link = safeAbsolute("https://www.thinkcontest.com", item?.url || "");
           if (title && link.includes("contest/view.do")) {
-            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "", startDateHint: "", endDateHint: "" });
+            results.push({ title, field: "", link, deadline: "기간 정보 없음", uploadDate: "", viewCount: readCounts[results.length] || 0, startDateHint: "", endDateHint: "" });
           }
         }
       }
@@ -910,7 +930,7 @@ async function scrapeCampuspick() {
     .map((a) => {
       const endHint = a.endDate ? normalizeDeadline(cleanText(a.endDate), cleanText(a.endDate)) : "";
       return {
-        title: cleanText(a.title),
+        title: decodeHtmlEntities(a.title),
         field: "",
         link: `https://www.campuspick.com/contest/view?id=${a.id}`,
         deadline: endHint || "기간 정보 없음",
