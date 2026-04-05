@@ -83,6 +83,14 @@ function extractUploadDate(text) {
   return "";
 }
 
+// 텍스트에서 "조회 1,234" 형태의 조회수를 숫자로 추출합니다.
+function extractViewCount(text) {
+  const s = cleanText(text || "");
+  const hit = s.match(/조회\s*([0-9,]+)/);
+  if (!hit) return 0;
+  return Number(String(hit[1]).replace(/,/g, "")) || 0;
+}
+
 // "등록일/게시일/작성일"처럼 라벨이 명확한 게시일을 우선 추출합니다.
 function extractPostedDate(text) {
   const s = cleanText(text);
@@ -1018,12 +1026,14 @@ async function scrapeLinkareer() {
       const titleDeadlineHint = extractExplicitLinkareerDeadlineFromTitle(row.title);
       const deadline = titleDeadlineHint || inferLinkareerDeadline(row.title, row.cardText);
       const normalizedEnd = normalizeDeadline(deadline, "");
+      const listViewCount = extractViewCount(row.cardText);
       out.push({
         title: cleanText(row.title).replace(/^추천\s*/, ""),
         field: "",
         link: safeAbsolute("https://linkareer.com", row.href),
         deadline,
         uploadDate: "",
+        viewCount: listViewCount,
         startDateHint: "",
         endDateHint: normalizedEnd && normalizedEnd !== "기간 정보 없음" && !normalizedEnd.includes("~") ? normalizedEnd : "",
         titleDeadlineHint
@@ -1045,6 +1055,7 @@ async function scrapeLinkareer() {
         const html = await detailPage.content();
         const text = await detailPage.evaluate(() => String(document.body?.innerText || "").replace(/\s+/g, " ").trim());
         await detailPage.close();
+        const detailViewCount = extractViewCount(text);
 
         const activityId = item.link.match(/\/activity\/(\d+)/)?.[1] || "";
         const meta = extractLinkareerMetaFromHtml(html, activityId);
@@ -1080,6 +1091,7 @@ async function scrapeLinkareer() {
         );
 
         if (composed && composed !== "기간 정보 없음") item.deadline = composed;
+        if (detailViewCount > 0) item.viewCount = detailViewCount;
       } catch (_) {
         // 상세 보강 실패 시 목록 기반 데이터 유지
       }
