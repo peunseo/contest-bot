@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-09T01:30:47.285Z",
-  "today": "2026.04.09",
+  "generatedAt": "2026-04-10T01:55:15.548Z",
+  "today": "2026.04.10",
   "counts": {
     "total": 547,
     "today": 0
@@ -19,7 +19,7 @@
       "collectedOrder": 47,
       "startDate": "2026-06-29",
       "endDate": "2026-07-09",
-      "dday": 91,
+      "dday": 90,
       "isClosed": false,
       "isUrgent": false
     },
@@ -36,7 +36,7 @@
       "collectedOrder": 48,
       "startDate": "2026-06-22",
       "endDate": "2026-06-26",
-      "dday": 78,
+      "dday": 77,
       "isClosed": false,
       "isUrgent": false
     },
@@ -53,7 +53,25 @@
       "collectedOrder": 32,
       "startDate": "2026-05-04",
       "endDate": "2026-05-10",
-      "dday": 31,
+      "dday": 30,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "제4회 국가대표 선원 그림공모전",
+      "field": "기타",
+      "link": "https://linkareer.com/activity/314361",
+      "deadline": "2026-05-03 ~ 2026-05-14",
+      "uploadDate": "",
+      "viewCount": 28371,
+      "startDateHint": "2026-05-03",
+      "endDateHint": "2026-05-14",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 19,
+      "startDate": "2026-05-03",
+      "endDate": "2026-05-14",
+      "dday": 34,
       "isClosed": false,
       "isUrgent": false
     },
@@ -63,33 +81,15 @@
       "link": "https://linkareer.com/activity/314148",
       "deadline": "2026-05-03 ~ 2026-05-15",
       "uploadDate": "",
-      "viewCount": 27919,
+      "viewCount": 28374,
       "startDateHint": "2026-05-03",
       "endDateHint": "2026-05-15",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 15,
+      "collectedOrder": 28,
       "startDate": "2026-05-03",
       "endDate": "2026-05-15",
-      "dday": 36,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "춘천인재육성장학재단 CI 디자인 공모전",
-      "field": "디자인/콘텐츠",
-      "link": "https://linkareer.com/activity/313982",
-      "deadline": "2026-05-03 ~ 2026-05-15",
-      "uploadDate": "",
-      "viewCount": 1903,
-      "startDateHint": "2026-05-03",
-      "endDateHint": "2026-05-15",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 31,
-      "startDate": "2026-05-03",
-      "endDate": "2026-05-15",
-      "dday": 36,
+      "dday": 35,
       "isClosed": false,
       "isUrgent": false
     },
@@ -106,7 +106,7 @@
       "collectedOrder": 49,
       "startDate": "2026-05-01",
       "endDate": "2026-08-01",
-      "dday": 114,
+      "dday": 113,
       "isClosed": false,
       "isUrgent": false
     },
@@ -123,7 +123,7 @@
       "collectedOrder": 50,
       "startDate": "2026-05-01",
       "endDate": "2026-05-08",
-      "dday": 29,
+      "dday": 28,
       "isClosed": false,
       "isUrgent": false
     },
@@ -140,7 +140,25 @@
       "collectedOrder": 51,
       "startDate": "2026-05-01",
       "endDate": "2026-05-20",
-      "dday": 41,
+      "dday": 40,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "제12회 전통 기록문화 활용 대학생 콘텐츠 공모전",
+      "field": "기타",
+      "link": "https://linkareer.com/activity/314390",
+      "deadline": "2026-04-30 ~ 2026-08-28",
+      "uploadDate": "",
+      "viewCount": 5835,
+      "startDateHint": "2026-04-30",
+      "endDateHint": "2026-08-28",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 17,
+      "startDate": "2026-04-30",
+      "endDate": "2026-08-28",
+      "dday": 140,
       "isClosed": false,
       "isUrgent": false
     },
@@ -150,7 +168,7 @@
       "link": "https://linkareer.com/activity/308724",
       "deadline": "2026-04-26 ~ 2026-04-30",
       "uploadDate": "",
-      "viewCount": 5385,
+      "viewCount": 5824,
       "startDateHint": "2026-04-26",
       "endDateHint": "2026-04-30",
       "titleDeadlineHint": "",
@@ -158,25 +176,7 @@
       "collectedOrder": 9,
       "startDate": "2026-04-26",
       "endDate": "2026-04-30",
-      "dday": 21,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "와디즈와 함께하는 청년 창업 역량강화 프로젝트 THE 와플 4기 모집",
-      "field": "창업/기획",
-      "link": "https://linkareer.com/activity/314033",
-      "deadline": "2026-04-26 ~ 2026-05-26",
-      "uploadDate": "",
-      "viewCount": 5390,
-      "startDateHint": "2026-04-26",
-      "endDateHint": "2026-05-26",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 29,
-      "startDate": "2026-04-26",
-      "endDate": "2026-05-26",
-      "dday": 47,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -193,7 +193,7 @@
       "collectedOrder": 33,
       "startDate": "2026-04-23",
       "endDate": "2026-06-29",
-      "dday": 81,
+      "dday": 80,
       "isClosed": false,
       "isUrgent": false
     },
@@ -210,7 +210,25 @@
       "collectedOrder": 52,
       "startDate": "2026-04-13",
       "endDate": "2026-04-27",
-      "dday": 18,
+      "dday": 17,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "대전시민뉴스 시민참여 댓글 공모전",
+      "field": "문학/글쓰기",
+      "link": "https://linkareer.com/activity/314358",
+      "deadline": "2026-04-09 ~ 2026-04-30",
+      "uploadDate": "",
+      "viewCount": 12677,
+      "startDateHint": "2026-04-09",
+      "endDateHint": "2026-04-30",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 21,
+      "startDate": "2026-04-09",
+      "endDate": "2026-04-30",
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -218,18 +236,18 @@
       "title": "지역특화 경남관광 협업 프로젝트 공모",
       "field": "기타",
       "link": "https://linkareer.com/activity/314147",
-      "deadline": "2026-04-07 ~ 2026-03-29",
+      "deadline": "2026-04-07 ~ 2026-04-24",
       "uploadDate": "",
-      "viewCount": 12232,
+      "viewCount": 12677,
       "startDateHint": "2026-04-07",
-      "endDateHint": "2026-03-29",
+      "endDateHint": "2026-04-24",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 16,
+      "collectedOrder": 29,
       "startDate": "2026-04-07",
-      "endDate": "2026-03-29",
-      "dday": -11,
-      "isClosed": true,
+      "endDate": "2026-04-24",
+      "dday": 14,
+      "isClosed": false,
       "isUrgent": false
     },
     {
@@ -238,15 +256,15 @@
       "link": "https://linkareer.com/activity/314146",
       "deadline": "2026-04-07 ~ 2026-05-04",
       "uploadDate": "",
-      "viewCount": 12232,
+      "viewCount": 12677,
       "startDateHint": "2026-04-07",
       "endDateHint": "2026-05-04",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 17,
+      "collectedOrder": 30,
       "startDate": "2026-04-07",
       "endDate": "2026-05-04",
-      "dday": 25,
+      "dday": 24,
       "isClosed": false,
       "isUrgent": false
     },
@@ -256,141 +274,15 @@
       "link": "https://linkareer.com/activity/314144",
       "deadline": "2026-04-07 ~ 2026-11-30",
       "uploadDate": "",
-      "viewCount": 27919,
+      "viewCount": 28374,
       "startDateHint": "2026-04-07",
       "endDateHint": "2026-11-30",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 18,
+      "collectedOrder": 31,
       "startDate": "2026-04-07",
       "endDate": "2026-11-30",
-      "dday": 235,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "2026 울산로컬콘텐츠 페스타 공모전",
-      "field": "기타",
-      "link": "https://linkareer.com/activity/314143",
-      "deadline": "2026-04-07 ~ 2026-03-29",
-      "uploadDate": "",
-      "viewCount": 27919,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-03-29",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 19,
-      "startDate": "2026-04-07",
-      "endDate": "2026-03-29",
-      "dday": -11,
-      "isClosed": true,
-      "isUrgent": false
-    },
-    {
-      "title": "군산시 공공자전거 명칭 시민 공모전",
-      "field": "문학/글쓰기",
-      "link": "https://linkareer.com/activity/314142",
-      "deadline": "2026-04-07 ~ 2026-03-29",
-      "uploadDate": "",
-      "viewCount": 1034,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-03-29",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 20,
-      "startDate": "2026-04-07",
-      "endDate": "2026-03-29",
-      "dday": -11,
-      "isClosed": true,
-      "isUrgent": false
-    },
-    {
-      "title": "CICA 미술관 국제전 “Doers Do” 공모",
-      "field": "예술/공연",
-      "link": "https://linkareer.com/activity/314139",
-      "deadline": "2026-04-07 ~ 2026-03-29",
-      "uploadDate": "",
-      "viewCount": 1903,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-03-29",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 21,
-      "startDate": "2026-04-07",
-      "endDate": "2026-03-29",
-      "dday": -11,
-      "isClosed": true,
-      "isUrgent": false
-    },
-    {
-      "title": "K-Architecture 100 표지 디자인 공모",
-      "field": "디자인/콘텐츠",
-      "link": "https://linkareer.com/activity/314138",
-      "deadline": "2026-04-07 ~ 2026-04-18",
-      "uploadDate": "",
-      "viewCount": 1903,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-04-18",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 22,
-      "startDate": "2026-04-07",
-      "endDate": "2026-04-18",
-      "dday": 9,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "2026년 제2회 양평징검다리영화제 단편영화 공모전",
-      "field": "기타",
-      "link": "https://linkareer.com/activity/314137",
-      "deadline": "2026-04-07 ~ 2026-03-29",
-      "uploadDate": "",
-      "viewCount": 27919,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-03-29",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 23,
-      "startDate": "2026-04-07",
-      "endDate": "2026-03-29",
-      "dday": -11,
-      "isClosed": true,
-      "isUrgent": false
-    },
-    {
-      "title": "한부모가족을 응원하는 N행시 공모전",
-      "field": "문학/글쓰기",
-      "link": "https://linkareer.com/activity/314136",
-      "deadline": "2026-04-07 ~ 2026-04-25",
-      "uploadDate": "",
-      "viewCount": 1034,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-04-25",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 24,
-      "startDate": "2026-04-07",
-      "endDate": "2026-04-25",
-      "dday": 16,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "제14회 수림문학상 작품 공모",
-      "field": "문학/글쓰기",
-      "link": "https://linkareer.com/activity/314073",
-      "deadline": "2026-04-07 ~ 2026-06-19",
-      "uploadDate": "",
-      "viewCount": 2434,
-      "startDateHint": "2026-04-07",
-      "endDateHint": "2026-06-19",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 26,
-      "startDate": "2026-04-07",
-      "endDate": "2026-06-19",
-      "dday": 71,
+      "dday": 234,
       "isClosed": false,
       "isUrgent": false
     },
@@ -407,7 +299,7 @@
       "collectedOrder": 53,
       "startDate": "2026-04-06",
       "endDate": "2026-05-16",
-      "dday": 37,
+      "dday": 36,
       "isClosed": false,
       "isUrgent": false
     },
@@ -415,35 +307,53 @@
       "title": "현대제철 한뼘 에세이 공모전: 나를 지탱해준 모먼트",
       "field": "문학/글쓰기",
       "link": "https://linkareer.com/activity/312447",
-      "deadline": "2026-04-05 ~ 2026-08-28",
-      "uploadDate": "",
-      "viewCount": 1105,
-      "startDateHint": "2026-04-05",
-      "endDateHint": "2026-08-28",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 7,
-      "startDate": "2026-04-05",
-      "endDate": "2026-08-28",
-      "dday": 141,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "대전형 모두의 가게 이름 공모전",
-      "field": "기타",
-      "link": "https://linkareer.com/activity/314080",
       "deadline": "2026-04-05 ~ 2026-04-30",
       "uploadDate": "",
-      "viewCount": 1034,
+      "viewCount": 1131,
       "startDateHint": "2026-04-05",
       "endDateHint": "2026-04-30",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 25,
+      "collectedOrder": 7,
       "startDate": "2026-04-05",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "[경남금연지원센터] 세계 금연의 날 슬로건 공모전 (~ 4.26)",
+      "field": "기타",
+      "link": "https://linkareer.com/activity/314376",
+      "deadline": "2026-04-05 ~ 2026-04-26",
+      "uploadDate": "",
+      "viewCount": 89,
+      "startDateHint": "2026-04-05",
+      "endDateHint": "2026-04-26",
+      "titleDeadlineHint": "2026-04-26",
+      "source": "linkareer",
+      "collectedOrder": 18,
+      "startDate": "2026-04-05",
+      "endDate": "2026-04-26",
+      "dday": 16,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "[한국산업인력공단] 전국기능경기대회 과제출제 공모전",
+      "field": "기타",
+      "link": "https://linkareer.com/activity/314344",
+      "deadline": "2026-04-05 ~ 2026-06-04",
+      "uploadDate": "",
+      "viewCount": 35810,
+      "startDateHint": "2026-04-05",
+      "endDateHint": "2026-06-04",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 22,
+      "startDate": "2026-04-05",
+      "endDate": "2026-06-04",
+      "dday": 55,
       "isClosed": false,
       "isUrgent": false
     },
@@ -460,7 +370,7 @@
       "collectedOrder": 34,
       "startDate": "2026-04-05",
       "endDate": "2026-04-07",
-      "dday": -2,
+      "dday": -3,
       "isClosed": true,
       "isUrgent": false
     },
@@ -477,7 +387,25 @@
       "collectedOrder": 54,
       "startDate": "2026-04-03",
       "endDate": "2026-05-17",
-      "dday": 38,
+      "dday": 37,
+      "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "반려식물 사진 공모전 '나는 대형식물 식집사",
+      "field": "디자인/콘텐츠",
+      "link": "https://linkareer.com/activity/314334",
+      "deadline": "2026-04-02 ~ 2026-04-19",
+      "uploadDate": "",
+      "viewCount": 28374,
+      "startDateHint": "2026-04-02",
+      "endDateHint": "2026-04-19",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 23,
+      "startDate": "2026-04-02",
+      "endDate": "2026-04-19",
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -485,17 +413,17 @@
       "title": "2026 혁신성장 청년 예비 소상공인 지원 사업 참여자 모집",
       "field": "창업/기획",
       "link": "https://linkareer.com/activity/314192",
-      "deadline": "2026-04-02 ~ 2026-04-18",
+      "deadline": "2026-04-02 ~ 2026-08-28",
       "uploadDate": "",
-      "viewCount": 1493,
+      "viewCount": 1500,
       "startDateHint": "2026-04-02",
-      "endDateHint": "2026-04-18",
+      "endDateHint": "2026-08-28",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 14,
+      "collectedOrder": 27,
       "startDate": "2026-04-02",
-      "endDate": "2026-04-18",
-      "dday": 9,
+      "endDate": "2026-08-28",
+      "dday": 140,
       "isClosed": false,
       "isUrgent": false
     },
@@ -512,7 +440,7 @@
       "collectedOrder": 35,
       "startDate": "2026-04-01",
       "endDate": "2026-05-17",
-      "dday": 38,
+      "dday": 37,
       "isClosed": false,
       "isUrgent": false
     },
@@ -529,7 +457,7 @@
       "collectedOrder": 55,
       "startDate": "2026-04-01",
       "endDate": "2026-06-30",
-      "dday": 82,
+      "dday": 81,
       "isClosed": false,
       "isUrgent": false
     },
@@ -546,7 +474,7 @@
       "collectedOrder": 56,
       "startDate": "2026-04-01",
       "endDate": "2026-06-01",
-      "dday": 53,
+      "dday": 52,
       "isClosed": false,
       "isUrgent": false
     },
@@ -563,7 +491,7 @@
       "collectedOrder": 57,
       "startDate": "2026-04-01",
       "endDate": "2026-05-01",
-      "dday": 22,
+      "dday": 21,
       "isClosed": false,
       "isUrgent": false
     },
@@ -580,7 +508,7 @@
       "collectedOrder": 58,
       "startDate": "2026-04-01",
       "endDate": "2026-04-28",
-      "dday": 19,
+      "dday": 18,
       "isClosed": false,
       "isUrgent": false
     },
@@ -597,7 +525,7 @@
       "collectedOrder": 59,
       "startDate": "2026-04-01",
       "endDate": "2026-05-06",
-      "dday": 27,
+      "dday": 26,
       "isClosed": false,
       "isUrgent": false
     },
@@ -614,7 +542,7 @@
       "collectedOrder": 60,
       "startDate": "2026-04-01",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -631,7 +559,7 @@
       "collectedOrder": 61,
       "startDate": "2026-04-01",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -648,7 +576,7 @@
       "collectedOrder": 62,
       "startDate": "2026-04-01",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
     },
@@ -665,7 +593,7 @@
       "collectedOrder": 63,
       "startDate": "2026-04-01",
       "endDate": "2026-05-06",
-      "dday": 27,
+      "dday": 26,
       "isClosed": false,
       "isUrgent": false
     },
@@ -682,7 +610,7 @@
       "collectedOrder": 64,
       "startDate": "2026-04-01",
       "endDate": "2026-04-23",
-      "dday": 14,
+      "dday": 13,
       "isClosed": false,
       "isUrgent": false
     },
@@ -699,7 +627,7 @@
       "collectedOrder": 65,
       "startDate": "2026-04-01",
       "endDate": "2026-05-01",
-      "dday": 22,
+      "dday": 21,
       "isClosed": false,
       "isUrgent": false
     },
@@ -707,36 +635,72 @@
       "title": "[HD건설기계] 2026 HD 퓨처 건설기계 챌린지",
       "field": "기타",
       "link": "https://linkareer.com/activity/311859",
-      "deadline": "2026-03-31 ~ 2026-04-15",
+      "deadline": "2026-03-31 ~ 2026-06-10",
       "uploadDate": "",
-      "viewCount": 13778,
+      "viewCount": 14219,
       "startDateHint": "2026-03-31",
-      "endDateHint": "2026-04-15",
+      "endDateHint": "2026-06-10",
       "titleDeadlineHint": "",
       "source": "linkareer",
       "collectedOrder": 8,
       "startDate": "2026-03-31",
-      "endDate": "2026-04-15",
-      "dday": 6,
+      "endDate": "2026-06-10",
+      "dday": 61,
       "isClosed": false,
-      "isUrgent": true
+      "isUrgent": false
     },
     {
-      "title": "2026 청주 밀원지와 꿀벌의 四季 사진 공모전",
+      "title": "2026 주다안 대학생 영상 콘텐츠 공모전",
       "field": "디자인/콘텐츠",
-      "link": "https://linkareer.com/activity/314004",
-      "deadline": "2026-03-31 ~ 2026-04-18",
+      "link": "https://linkareer.com/activity/314402",
+      "deadline": "2026-03-31 ~ 2026-05-31",
       "uploadDate": "",
-      "viewCount": 27919,
+      "viewCount": 982,
       "startDateHint": "2026-03-31",
-      "endDateHint": "2026-04-18",
+      "endDateHint": "2026-05-31",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 30,
+      "collectedOrder": 14,
       "startDate": "2026-03-31",
-      "endDate": "2026-04-18",
-      "dday": 9,
+      "endDate": "2026-05-31",
+      "dday": 51,
       "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "2026년 수원시 환경작품 공모전",
+      "field": "문학/글쓰기",
+      "link": "https://linkareer.com/activity/314360",
+      "deadline": "2026-03-31 ~ 2026-03-29",
+      "uploadDate": "",
+      "viewCount": 1957,
+      "startDateHint": "2026-03-31",
+      "endDateHint": "2026-03-29",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 20,
+      "startDate": "2026-03-31",
+      "endDate": "2026-03-29",
+      "dday": -12,
+      "isClosed": true,
+      "isUrgent": false
+    },
+    {
+      "title": "재정경제부 마스코트 캐릭터 네이밍 공모전",
+      "field": "디자인/콘텐츠",
+      "link": "https://linkareer.com/activity/314331",
+      "deadline": "2026-03-31 ~ 2026-03-29",
+      "uploadDate": "",
+      "viewCount": 1051,
+      "startDateHint": "2026-03-31",
+      "endDateHint": "2026-03-29",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 24,
+      "startDate": "2026-03-31",
+      "endDate": "2026-03-29",
+      "dday": -12,
+      "isClosed": true,
       "isUrgent": false
     },
     {
@@ -752,7 +716,7 @@
       "collectedOrder": 66,
       "startDate": "2026-03-31",
       "endDate": "2026-08-04",
-      "dday": 117,
+      "dday": 116,
       "isClosed": false,
       "isUrgent": false
     },
@@ -769,7 +733,7 @@
       "collectedOrder": 36,
       "startDate": "2026-03-30",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -786,7 +750,7 @@
       "collectedOrder": 67,
       "startDate": "2026-03-30",
       "endDate": "2026-04-12",
-      "dday": 3,
+      "dday": 2,
       "isClosed": false,
       "isUrgent": true
     },
@@ -803,9 +767,9 @@
       "collectedOrder": 68,
       "startDate": "2026-03-30",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "제11회 세계일보 영상&사진 공모전",
@@ -820,7 +784,7 @@
       "collectedOrder": 69,
       "startDate": "2026-03-30",
       "endDate": "2026-06-26",
-      "dday": 78,
+      "dday": 77,
       "isClosed": false,
       "isUrgent": false
     },
@@ -837,7 +801,7 @@
       "collectedOrder": 70,
       "startDate": "2026-03-30",
       "endDate": "2026-05-06",
-      "dday": 27,
+      "dday": 26,
       "isClosed": false,
       "isUrgent": false
     },
@@ -854,7 +818,7 @@
       "collectedOrder": 71,
       "startDate": "2026-03-30",
       "endDate": "2026-05-10",
-      "dday": 31,
+      "dday": 30,
       "isClosed": false,
       "isUrgent": false
     },
@@ -871,25 +835,7 @@
       "collectedOrder": 72,
       "startDate": "2026-03-30",
       "endDate": "2026-05-31",
-      "dday": 52,
-      "isClosed": false,
-      "isUrgent": false
-    },
-    {
-      "title": "2026년도 대구권역 사회적기업 창업지원사업 창업팀 모집 공고",
-      "field": "창업/기획",
-      "link": "https://linkareer.com/activity/314068",
-      "deadline": "2026-03-29 ~ 2026-04-17",
-      "uploadDate": "",
-      "viewCount": 1493,
-      "startDateHint": "2026-03-29",
-      "endDateHint": "2026-04-17",
-      "titleDeadlineHint": "",
-      "source": "linkareer",
-      "collectedOrder": 27,
-      "startDate": "2026-03-29",
-      "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -906,7 +852,7 @@
       "collectedOrder": 37,
       "startDate": "2026-03-27",
       "endDate": "2026-05-03",
-      "dday": 24,
+      "dday": 23,
       "isClosed": false,
       "isUrgent": false
     },
@@ -923,7 +869,7 @@
       "collectedOrder": 73,
       "startDate": "2026-03-27",
       "endDate": "2026-07-03",
-      "dday": 85,
+      "dday": 84,
       "isClosed": false,
       "isUrgent": false
     },
@@ -940,7 +886,7 @@
       "collectedOrder": 74,
       "startDate": "2026-03-27",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
     },
@@ -957,7 +903,7 @@
       "collectedOrder": 38,
       "startDate": "2026-03-25",
       "endDate": "2026-05-13",
-      "dday": 34,
+      "dday": 33,
       "isClosed": false,
       "isUrgent": false
     },
@@ -974,7 +920,7 @@
       "collectedOrder": 75,
       "startDate": "2026-03-25",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -991,7 +937,7 @@
       "collectedOrder": 76,
       "startDate": "2026-03-25",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1008,7 +954,7 @@
       "collectedOrder": 77,
       "startDate": "2026-03-25",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -1025,7 +971,7 @@
       "collectedOrder": 78,
       "startDate": "2026-03-25",
       "endDate": "2026-04-22",
-      "dday": 13,
+      "dday": 12,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1042,7 +988,7 @@
       "collectedOrder": 79,
       "startDate": "2026-03-24",
       "endDate": "2026-05-18",
-      "dday": 39,
+      "dday": 38,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1059,7 +1005,7 @@
       "collectedOrder": 80,
       "startDate": "2026-03-23",
       "endDate": "2026-04-13",
-      "dday": 4,
+      "dday": 3,
       "isClosed": false,
       "isUrgent": true
     },
@@ -1076,9 +1022,9 @@
       "collectedOrder": 81,
       "startDate": "2026-03-23",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "제6회 2030청년영화제 단편영화 제작지원 공모",
@@ -1093,7 +1039,7 @@
       "collectedOrder": 82,
       "startDate": "2026-03-23",
       "endDate": "2026-04-06",
-      "dday": -3,
+      "dday": -4,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1110,7 +1056,7 @@
       "collectedOrder": 83,
       "startDate": "2026-03-23",
       "endDate": "2026-04-20",
-      "dday": 11,
+      "dday": 10,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1127,7 +1073,7 @@
       "collectedOrder": 84,
       "startDate": "2026-03-23",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1144,7 +1090,7 @@
       "collectedOrder": 85,
       "startDate": "2026-03-23",
       "endDate": "2026-04-20",
-      "dday": 11,
+      "dday": 10,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1161,26 +1107,44 @@
       "collectedOrder": 86,
       "startDate": "2026-03-23",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
     {
-      "title": "[푸르메재단] 2026 코스콤 장애인 IT 창업아이템 공모전",
-      "field": "IT/개발",
-      "link": "https://linkareer.com/activity/314050",
-      "deadline": "2026-03-22 ~ 2026-04-17",
+      "title": "2026 글로벌 청강 패션뷰티스타일 공모전",
+      "field": "문학/글쓰기",
+      "link": "https://linkareer.com/activity/314394",
+      "deadline": "2026-03-22 ~ 2026-08-09",
       "uploadDate": "",
-      "viewCount": 13765,
+      "viewCount": 285,
       "startDateHint": "2026-03-22",
-      "endDateHint": "2026-04-17",
+      "endDateHint": "2026-08-09",
       "titleDeadlineHint": "",
       "source": "linkareer",
-      "collectedOrder": 28,
+      "collectedOrder": 15,
       "startDate": "2026-03-22",
-      "endDate": "2026-04-17",
-      "dday": 8,
+      "endDate": "2026-08-09",
+      "dday": 121,
       "isClosed": false,
+      "isUrgent": false
+    },
+    {
+      "title": "2026년 서리풀 아트테리어 참여예술가 모집(03.23.-04.10.)",
+      "field": "예술/공연",
+      "link": "https://linkareer.com/activity/314236",
+      "deadline": "2026-03-22 ~ 2026-03-23",
+      "uploadDate": "",
+      "viewCount": 2652,
+      "startDateHint": "2026-03-22",
+      "endDateHint": "2026-03-23",
+      "titleDeadlineHint": "2026-03-23",
+      "source": "linkareer",
+      "collectedOrder": 25,
+      "startDate": "2026-03-22",
+      "endDate": "2026-03-23",
+      "dday": -18,
+      "isClosed": true,
       "isUrgent": false
     },
     {
@@ -1196,7 +1160,7 @@
       "collectedOrder": 87,
       "startDate": "2026-03-20",
       "endDate": "2026-04-20",
-      "dday": 11,
+      "dday": 10,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1213,7 +1177,7 @@
       "collectedOrder": 88,
       "startDate": "2026-03-20",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1230,7 +1194,7 @@
       "collectedOrder": 89,
       "startDate": "2026-03-19",
       "endDate": "2026-04-05",
-      "dday": -4,
+      "dday": -5,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1247,7 +1211,7 @@
       "collectedOrder": 90,
       "startDate": "2026-03-18",
       "endDate": "2026-04-14",
-      "dday": 5,
+      "dday": 4,
       "isClosed": false,
       "isUrgent": true
     },
@@ -1264,9 +1228,9 @@
       "collectedOrder": 91,
       "startDate": "2026-03-18",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "대학생 나노기술 공모전 나노영챌린지 2026",
@@ -1281,7 +1245,7 @@
       "collectedOrder": 92,
       "startDate": "2026-03-18",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1298,7 +1262,7 @@
       "collectedOrder": 93,
       "startDate": "2026-03-18",
       "endDate": "2026-04-05",
-      "dday": -4,
+      "dday": -5,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1315,7 +1279,7 @@
       "collectedOrder": 94,
       "startDate": "2026-03-18",
       "endDate": "2026-04-23",
-      "dday": 14,
+      "dday": 13,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1332,7 +1296,7 @@
       "collectedOrder": 95,
       "startDate": "2026-03-18",
       "endDate": "2026-05-07",
-      "dday": 28,
+      "dday": 27,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1342,7 +1306,7 @@
       "link": "https://linkareer.com/activity/309750",
       "deadline": "2026-03-17 ~ 2026-04-14",
       "uploadDate": "",
-      "viewCount": 27913,
+      "viewCount": 28372,
       "startDateHint": "2026-03-17",
       "endDateHint": "2026-04-14",
       "titleDeadlineHint": "2026-04-14",
@@ -1350,7 +1314,7 @@
       "collectedOrder": 11,
       "startDate": "2026-03-17",
       "endDate": "2026-04-14",
-      "dday": 5,
+      "dday": 4,
       "isClosed": false,
       "isUrgent": true
     },
@@ -1367,9 +1331,9 @@
       "collectedOrder": 96,
       "startDate": "2026-03-17",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "2026 춘계통합학술대회 대학생 ERP 아이디어 공모전",
@@ -1384,7 +1348,7 @@
       "collectedOrder": 97,
       "startDate": "2026-03-17",
       "endDate": "2026-04-21",
-      "dday": 12,
+      "dday": 11,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1401,7 +1365,7 @@
       "collectedOrder": 98,
       "startDate": "2026-03-17",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1418,7 +1382,7 @@
       "collectedOrder": 3,
       "startDate": "2026-03-16",
       "endDate": "2026-05-14",
-      "dday": 35,
+      "dday": 34,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1435,7 +1399,7 @@
       "collectedOrder": 6,
       "startDate": "2026-03-16",
       "endDate": "2026-07-31",
-      "dday": 113,
+      "dday": 112,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1452,7 +1416,7 @@
       "collectedOrder": 99,
       "startDate": "2026-03-16",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1469,9 +1433,9 @@
       "collectedOrder": 100,
       "startDate": "2026-03-16",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "[국립중앙과학관] 2026 AI HACK CAMP",
@@ -1486,7 +1450,7 @@
       "collectedOrder": 101,
       "startDate": "2026-03-16",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1503,7 +1467,7 @@
       "collectedOrder": 102,
       "startDate": "2026-03-16",
       "endDate": "2026-05-29",
-      "dday": 50,
+      "dday": 49,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1520,7 +1484,7 @@
       "collectedOrder": 103,
       "startDate": "2026-03-16",
       "endDate": "2026-05-14",
-      "dday": 35,
+      "dday": 34,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1537,7 +1501,7 @@
       "collectedOrder": 104,
       "startDate": "2026-03-16",
       "endDate": "2026-07-31",
-      "dday": 113,
+      "dday": 112,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1554,7 +1518,7 @@
       "collectedOrder": 105,
       "startDate": "2026-03-16",
       "endDate": "2026-05-13",
-      "dday": 34,
+      "dday": 33,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1571,7 +1535,7 @@
       "collectedOrder": 106,
       "startDate": "2026-03-16",
       "endDate": "2026-03-20",
-      "dday": -20,
+      "dday": -21,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1581,7 +1545,7 @@
       "link": "https://linkareer.com/activity/309188",
       "deadline": "2026-03-15 ~ 2026-05-14",
       "uploadDate": "",
-      "viewCount": 5400,
+      "viewCount": 5847,
       "startDateHint": "2026-03-15",
       "endDateHint": "2026-05-14",
       "titleDeadlineHint": "2026-05-14",
@@ -1589,7 +1553,7 @@
       "collectedOrder": 12,
       "startDate": "2026-03-15",
       "endDate": "2026-05-14",
-      "dday": 35,
+      "dday": 34,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1606,7 +1570,7 @@
       "collectedOrder": 107,
       "startDate": "2026-03-12",
       "endDate": "2026-04-02",
-      "dday": -7,
+      "dday": -8,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1623,7 +1587,7 @@
       "collectedOrder": 108,
       "startDate": "2026-03-12",
       "endDate": "2026-03-18",
-      "dday": -22,
+      "dday": -23,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1640,7 +1604,7 @@
       "collectedOrder": 109,
       "startDate": "2026-03-11",
       "endDate": "2026-04-26",
-      "dday": 17,
+      "dday": 16,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1657,7 +1621,7 @@
       "collectedOrder": 110,
       "startDate": "2026-03-11",
       "endDate": "2026-03-17",
-      "dday": -23,
+      "dday": -24,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1674,7 +1638,7 @@
       "collectedOrder": 39,
       "startDate": "2026-03-10",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1691,7 +1655,7 @@
       "collectedOrder": 111,
       "startDate": "2026-03-10",
       "endDate": "2026-04-12",
-      "dday": 3,
+      "dday": 2,
       "isClosed": false,
       "isUrgent": true
     },
@@ -1708,7 +1672,7 @@
       "collectedOrder": 112,
       "startDate": "2026-03-10",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1725,7 +1689,7 @@
       "collectedOrder": 113,
       "startDate": "2026-03-10",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1742,7 +1706,7 @@
       "collectedOrder": 114,
       "startDate": "2026-03-10",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1759,7 +1723,7 @@
       "collectedOrder": 1,
       "startDate": "2026-03-09",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1776,7 +1740,7 @@
       "collectedOrder": 2,
       "startDate": "2026-03-09",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1793,7 +1757,7 @@
       "collectedOrder": 40,
       "startDate": "2026-03-09",
       "endDate": "2026-04-05",
-      "dday": -4,
+      "dday": -5,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1810,7 +1774,7 @@
       "collectedOrder": 41,
       "startDate": "2026-03-09",
       "endDate": "2026-04-06",
-      "dday": -3,
+      "dday": -4,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1827,7 +1791,7 @@
       "collectedOrder": 115,
       "startDate": "2026-03-09",
       "endDate": "2026-04-06",
-      "dday": -3,
+      "dday": -4,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1844,7 +1808,7 @@
       "collectedOrder": 116,
       "startDate": "2026-03-09",
       "endDate": "2026-04-06",
-      "dday": -3,
+      "dday": -4,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1861,7 +1825,7 @@
       "collectedOrder": 117,
       "startDate": "2026-03-09",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1878,7 +1842,7 @@
       "collectedOrder": 118,
       "startDate": "2026-03-09",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1895,7 +1859,7 @@
       "collectedOrder": 119,
       "startDate": "2026-03-09",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
     },
@@ -1912,7 +1876,7 @@
       "collectedOrder": 120,
       "startDate": "2026-03-09",
       "endDate": "2026-03-22",
-      "dday": -18,
+      "dday": -19,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1922,7 +1886,7 @@
       "link": "https://linkareer.com/activity/307472",
       "deadline": "2026-03-08 ~ 2026-04-24",
       "uploadDate": "",
-      "viewCount": 27917,
+      "viewCount": 28374,
       "startDateHint": "2026-03-08",
       "endDateHint": "2026-04-24",
       "titleDeadlineHint": "2026-04-24",
@@ -1930,9 +1894,27 @@
       "collectedOrder": 10,
       "startDate": "2026-03-08",
       "endDate": "2026-04-24",
-      "dday": 15,
+      "dday": 14,
       "isClosed": false,
       "isUrgent": false
+    },
+    {
+      "title": "[용인시기흥장애인복지관] 장애인식개선 숏폼 공모전",
+      "field": "문학/글쓰기",
+      "link": "https://linkareer.com/activity/314234",
+      "deadline": "2026-03-08 ~ 2026-04-17",
+      "uploadDate": "",
+      "viewCount": 2116,
+      "startDateHint": "2026-03-08",
+      "endDateHint": "2026-04-17",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 26,
+      "startDate": "2026-03-08",
+      "endDate": "2026-04-17",
+      "dday": 7,
+      "isClosed": false,
+      "isUrgent": true
     },
     {
       "title": "2026 INC0GNITO 아이디어톤",
@@ -1947,7 +1929,7 @@
       "collectedOrder": 121,
       "startDate": "2026-03-08",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1964,7 +1946,7 @@
       "collectedOrder": 122,
       "startDate": "2026-03-06",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1981,7 +1963,7 @@
       "collectedOrder": 123,
       "startDate": "2026-03-06",
       "endDate": "2026-03-10",
-      "dday": -30,
+      "dday": -31,
       "isClosed": true,
       "isUrgent": false
     },
@@ -1998,7 +1980,7 @@
       "collectedOrder": 124,
       "startDate": "2026-03-05",
       "endDate": "2026-03-21",
-      "dday": -19,
+      "dday": -20,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2015,7 +1997,7 @@
       "collectedOrder": 42,
       "startDate": "2026-03-04",
       "endDate": "2026-04-05",
-      "dday": -4,
+      "dday": -5,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2032,7 +2014,7 @@
       "collectedOrder": 125,
       "startDate": "2026-03-04",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -2049,7 +2031,7 @@
       "collectedOrder": 126,
       "startDate": "2026-03-04",
       "endDate": "2026-08-31",
-      "dday": 144,
+      "dday": 143,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2066,9 +2048,9 @@
       "collectedOrder": 43,
       "startDate": "2026-03-03",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "[산업통상부] 2026 엔지니어링산업 경진대회",
@@ -2083,7 +2065,7 @@
       "collectedOrder": 44,
       "startDate": "2026-03-03",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2100,7 +2082,7 @@
       "collectedOrder": 45,
       "startDate": "2026-03-03",
       "endDate": "2026-06-15",
-      "dday": 67,
+      "dday": 66,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2117,9 +2099,9 @@
       "collectedOrder": 127,
       "startDate": "2026-03-03",
       "endDate": "2026-04-17",
-      "dday": 8,
+      "dday": 7,
       "isClosed": false,
-      "isUrgent": false
+      "isUrgent": true
     },
     {
       "title": "2026년 무릉별 유천지 전국 학생 미술ㆍ사진 공모전",
@@ -2134,7 +2116,7 @@
       "collectedOrder": 128,
       "startDate": "2026-03-03",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2151,7 +2133,7 @@
       "collectedOrder": 129,
       "startDate": "2026-03-03",
       "endDate": "2026-05-13",
-      "dday": 34,
+      "dday": 33,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2168,7 +2150,7 @@
       "collectedOrder": 130,
       "startDate": "2026-03-03",
       "endDate": "2026-04-30",
-      "dday": 21,
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2185,7 +2167,7 @@
       "collectedOrder": 131,
       "startDate": "2026-03-03",
       "endDate": "2026-03-27",
-      "dday": -13,
+      "dday": -14,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2202,7 +2184,7 @@
       "collectedOrder": 132,
       "startDate": "2026-03-03",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2219,7 +2201,7 @@
       "collectedOrder": 133,
       "startDate": "2026-03-03",
       "endDate": "2026-03-25",
-      "dday": -15,
+      "dday": -16,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2227,17 +2209,17 @@
       "title": "2026 엔지니어링산업 경진대회",
       "field": "기타",
       "link": "https://linkareer.com/activity/305458",
-      "deadline": "2026-03-02 ~ 2026-08-28",
+      "deadline": "2026-03-02 ~ 2026-04-30",
       "uploadDate": "",
-      "viewCount": 5131,
+      "viewCount": 5275,
       "startDateHint": "2026-03-02",
-      "endDateHint": "2026-08-28",
+      "endDateHint": "2026-04-30",
       "titleDeadlineHint": "",
       "source": "linkareer",
       "collectedOrder": 13,
       "startDate": "2026-03-02",
-      "endDate": "2026-08-28",
-      "dday": 141,
+      "endDate": "2026-04-30",
+      "dday": 20,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2254,7 +2236,7 @@
       "collectedOrder": 134,
       "startDate": "2026-03-02",
       "endDate": "2026-03-31",
-      "dday": -9,
+      "dday": -10,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2271,7 +2253,7 @@
       "collectedOrder": 135,
       "startDate": "2026-03-02",
       "endDate": "2026-03-15",
-      "dday": -25,
+      "dday": -26,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2288,7 +2270,7 @@
       "collectedOrder": 136,
       "startDate": "2026-03-02",
       "endDate": "2026-03-25",
-      "dday": -15,
+      "dday": -16,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2305,8 +2287,26 @@
       "collectedOrder": 4,
       "startDate": "2026-03-01",
       "endDate": "2026-03-31",
-      "dday": -9,
+      "dday": -10,
       "isClosed": true,
+      "isUrgent": false
+    },
+    {
+      "title": "제14회 범정부 공공데이터·AI 활용 창업경진대회 공모전",
+      "field": "IT/개발",
+      "link": "https://linkareer.com/activity/314393",
+      "deadline": "2026-03-01 ~ 2026-08-28",
+      "uploadDate": "",
+      "viewCount": 14218,
+      "startDateHint": "2026-03-01",
+      "endDateHint": "2026-08-28",
+      "titleDeadlineHint": "",
+      "source": "linkareer",
+      "collectedOrder": 16,
+      "startDate": "2026-03-01",
+      "endDate": "2026-08-28",
+      "dday": 140,
+      "isClosed": false,
       "isUrgent": false
     },
     {
@@ -2322,7 +2322,7 @@
       "collectedOrder": 137,
       "startDate": "2026-03-01",
       "endDate": "2026-04-13",
-      "dday": 4,
+      "dday": 3,
       "isClosed": false,
       "isUrgent": true
     },
@@ -2339,7 +2339,7 @@
       "collectedOrder": 138,
       "startDate": "2026-03-01",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2356,7 +2356,7 @@
       "collectedOrder": 139,
       "startDate": "2026-03-01",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2373,7 +2373,7 @@
       "collectedOrder": 140,
       "startDate": "2026-02-27",
       "endDate": "2026-03-30",
-      "dday": -10,
+      "dday": -11,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2390,7 +2390,7 @@
       "collectedOrder": 141,
       "startDate": "2026-02-27",
       "endDate": "2026-03-15",
-      "dday": -25,
+      "dday": -26,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2407,7 +2407,7 @@
       "collectedOrder": 142,
       "startDate": "2026-02-26",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -2424,7 +2424,7 @@
       "collectedOrder": 143,
       "startDate": "2026-02-26",
       "endDate": "2026-06-10",
-      "dday": 62,
+      "dday": 61,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2441,7 +2441,7 @@
       "collectedOrder": 144,
       "startDate": "2026-02-26",
       "endDate": "2026-03-25",
-      "dday": -15,
+      "dday": -16,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2458,7 +2458,7 @@
       "collectedOrder": 145,
       "startDate": "2026-02-26",
       "endDate": "2026-03-22",
-      "dday": -18,
+      "dday": -19,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2475,7 +2475,7 @@
       "collectedOrder": 146,
       "startDate": "2026-02-26",
       "endDate": "2026-03-22",
-      "dday": -18,
+      "dday": -19,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2492,7 +2492,7 @@
       "collectedOrder": 147,
       "startDate": "2026-02-25",
       "endDate": "2026-04-04",
-      "dday": -5,
+      "dday": -6,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2509,7 +2509,7 @@
       "collectedOrder": 148,
       "startDate": "2026-02-24",
       "endDate": "2026-03-23",
-      "dday": -17,
+      "dday": -18,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2526,7 +2526,7 @@
       "collectedOrder": 149,
       "startDate": "2026-02-23",
       "endDate": "2026-04-19",
-      "dday": 10,
+      "dday": 9,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2543,7 +2543,7 @@
       "collectedOrder": 150,
       "startDate": "2026-02-23",
       "endDate": "2026-05-30",
-      "dday": 51,
+      "dday": 50,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2560,7 +2560,7 @@
       "collectedOrder": 151,
       "startDate": "2026-02-23",
       "endDate": "2026-03-25",
-      "dday": -15,
+      "dday": -16,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2577,7 +2577,7 @@
       "collectedOrder": 152,
       "startDate": "2026-02-23",
       "endDate": "2026-03-16",
-      "dday": -24,
+      "dday": -25,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2594,7 +2594,7 @@
       "collectedOrder": 153,
       "startDate": "2026-02-23",
       "endDate": "2026-03-08",
-      "dday": -32,
+      "dday": -33,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2611,7 +2611,7 @@
       "collectedOrder": 154,
       "startDate": "2026-02-23",
       "endDate": "2026-03-15",
-      "dday": -25,
+      "dday": -26,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2628,7 +2628,7 @@
       "collectedOrder": 155,
       "startDate": "2026-02-23",
       "endDate": "2026-03-13",
-      "dday": -27,
+      "dday": -28,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2645,7 +2645,7 @@
       "collectedOrder": 156,
       "startDate": "2026-02-23",
       "endDate": "2026-03-13",
-      "dday": -27,
+      "dday": -28,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2662,7 +2662,7 @@
       "collectedOrder": 157,
       "startDate": "2026-02-23",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2679,7 +2679,7 @@
       "collectedOrder": 46,
       "startDate": "2026-02-21",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -2696,7 +2696,7 @@
       "collectedOrder": 158,
       "startDate": "2026-02-20",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2713,7 +2713,7 @@
       "collectedOrder": 159,
       "startDate": "2026-02-20",
       "endDate": "2026-03-23",
-      "dday": -17,
+      "dday": -18,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2730,7 +2730,7 @@
       "collectedOrder": 160,
       "startDate": "2026-02-20",
       "endDate": "2026-03-04",
-      "dday": -36,
+      "dday": -37,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2747,7 +2747,7 @@
       "collectedOrder": 161,
       "startDate": "2026-02-19",
       "endDate": "2026-03-13",
-      "dday": -27,
+      "dday": -28,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2764,7 +2764,7 @@
       "collectedOrder": 162,
       "startDate": "2026-02-19",
       "endDate": "2026-03-31",
-      "dday": -9,
+      "dday": -10,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2781,7 +2781,7 @@
       "collectedOrder": 163,
       "startDate": "2026-02-19",
       "endDate": "2026-03-18",
-      "dday": -22,
+      "dday": -23,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2798,7 +2798,7 @@
       "collectedOrder": 164,
       "startDate": "2026-02-14",
       "endDate": "2026-03-14",
-      "dday": -26,
+      "dday": -27,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2815,7 +2815,7 @@
       "collectedOrder": 165,
       "startDate": "2026-02-13",
       "endDate": "2026-03-13",
-      "dday": -27,
+      "dday": -28,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2832,7 +2832,7 @@
       "collectedOrder": 166,
       "startDate": "2026-02-13",
       "endDate": "2026-02-28",
-      "dday": -40,
+      "dday": -41,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2849,7 +2849,7 @@
       "collectedOrder": 167,
       "startDate": "2026-02-13",
       "endDate": "2026-03-15",
-      "dday": -25,
+      "dday": -26,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2866,7 +2866,7 @@
       "collectedOrder": 168,
       "startDate": "2026-02-13",
       "endDate": "2026-03-12",
-      "dday": -28,
+      "dday": -29,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2883,7 +2883,7 @@
       "collectedOrder": 169,
       "startDate": "2026-02-13",
       "endDate": "2026-03-12",
-      "dday": -28,
+      "dday": -29,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2900,7 +2900,7 @@
       "collectedOrder": 170,
       "startDate": "2026-02-12",
       "endDate": "2026-05-31",
-      "dday": 52,
+      "dday": 51,
       "isClosed": false,
       "isUrgent": false
     },
@@ -2917,7 +2917,7 @@
       "collectedOrder": 171,
       "startDate": "2026-02-10",
       "endDate": "2026-03-29",
-      "dday": -11,
+      "dday": -12,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2934,7 +2934,7 @@
       "collectedOrder": 172,
       "startDate": "2026-02-10",
       "endDate": "2026-04-01",
-      "dday": -8,
+      "dday": -9,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2951,7 +2951,7 @@
       "collectedOrder": 173,
       "startDate": "2026-02-09",
       "endDate": "2026-03-06",
-      "dday": -34,
+      "dday": -35,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2968,7 +2968,7 @@
       "collectedOrder": 174,
       "startDate": "2026-02-09",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -2985,7 +2985,7 @@
       "collectedOrder": 175,
       "startDate": "2026-02-09",
       "endDate": "2026-02-13",
-      "dday": -55,
+      "dday": -56,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3002,7 +3002,7 @@
       "collectedOrder": 176,
       "startDate": "2026-02-06",
       "endDate": "2026-03-06",
-      "dday": -34,
+      "dday": -35,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3019,7 +3019,7 @@
       "collectedOrder": 177,
       "startDate": "2026-02-06",
       "endDate": "2026-03-05",
-      "dday": -35,
+      "dday": -36,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3036,7 +3036,7 @@
       "collectedOrder": 178,
       "startDate": "2026-02-06",
       "endDate": "2026-02-27",
-      "dday": -41,
+      "dday": -42,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3053,7 +3053,7 @@
       "collectedOrder": 179,
       "startDate": "2026-02-06",
       "endDate": "2026-03-01",
-      "dday": -39,
+      "dday": -40,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3070,7 +3070,7 @@
       "collectedOrder": 180,
       "startDate": "2026-02-06",
       "endDate": "2026-02-28",
-      "dday": -40,
+      "dday": -41,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3087,7 +3087,7 @@
       "collectedOrder": 181,
       "startDate": "2026-02-06",
       "endDate": "2026-03-04",
-      "dday": -36,
+      "dday": -37,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3104,7 +3104,7 @@
       "collectedOrder": 182,
       "startDate": "2026-02-04",
       "endDate": "2026-03-12",
-      "dday": -28,
+      "dday": -29,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3121,7 +3121,7 @@
       "collectedOrder": 0,
       "startDate": "2026-02-03",
       "endDate": "2026-04-12",
-      "dday": 3,
+      "dday": 2,
       "isClosed": false,
       "isUrgent": true
     },
@@ -3138,7 +3138,7 @@
       "collectedOrder": 183,
       "startDate": "2026-02-03",
       "endDate": "2026-04-12",
-      "dday": 3,
+      "dday": 2,
       "isClosed": false,
       "isUrgent": true
     },
@@ -3155,7 +3155,7 @@
       "collectedOrder": 184,
       "startDate": "2026-02-03",
       "endDate": "2026-03-03",
-      "dday": -37,
+      "dday": -38,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3172,7 +3172,7 @@
       "collectedOrder": 185,
       "startDate": "2026-02-02",
       "endDate": "2026-05-22",
-      "dday": 43,
+      "dday": 42,
       "isClosed": false,
       "isUrgent": false
     },
@@ -3189,7 +3189,7 @@
       "collectedOrder": 186,
       "startDate": "2026-02-02",
       "endDate": "2026-02-22",
-      "dday": -46,
+      "dday": -47,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3206,7 +3206,7 @@
       "collectedOrder": 187,
       "startDate": "2026-02-02",
       "endDate": "2026-02-22",
-      "dday": -46,
+      "dday": -47,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3223,7 +3223,7 @@
       "collectedOrder": 188,
       "startDate": "2026-02-02",
       "endDate": "2026-03-02",
-      "dday": -38,
+      "dday": -39,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3240,7 +3240,7 @@
       "collectedOrder": 189,
       "startDate": "2026-02-02",
       "endDate": "2026-03-02",
-      "dday": -38,
+      "dday": -39,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3257,7 +3257,7 @@
       "collectedOrder": 190,
       "startDate": "2026-02-02",
       "endDate": "2026-02-20",
-      "dday": -48,
+      "dday": -49,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3274,7 +3274,7 @@
       "collectedOrder": 191,
       "startDate": "2026-02-02",
       "endDate": "2026-03-08",
-      "dday": -32,
+      "dday": -33,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3291,7 +3291,7 @@
       "collectedOrder": 192,
       "startDate": "2026-02-02",
       "endDate": "2026-02-23",
-      "dday": -45,
+      "dday": -46,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3308,7 +3308,7 @@
       "collectedOrder": 193,
       "startDate": "2026-02-02",
       "endDate": "2026-03-27",
-      "dday": -13,
+      "dday": -14,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3325,7 +3325,7 @@
       "collectedOrder": 194,
       "startDate": "2026-02-01",
       "endDate": "2026-02-27",
-      "dday": -41,
+      "dday": -42,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3342,7 +3342,7 @@
       "collectedOrder": 195,
       "startDate": "2026-02-01",
       "endDate": "2026-02-28",
-      "dday": -40,
+      "dday": -41,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3359,7 +3359,7 @@
       "collectedOrder": 196,
       "startDate": "2026-01-30",
       "endDate": "2026-02-26",
-      "dday": -42,
+      "dday": -43,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3376,7 +3376,7 @@
       "collectedOrder": 197,
       "startDate": "2026-01-28",
       "endDate": "2026-02-05",
-      "dday": -63,
+      "dday": -64,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3393,7 +3393,7 @@
       "collectedOrder": 198,
       "startDate": "2026-01-27",
       "endDate": "2026-03-11",
-      "dday": -29,
+      "dday": -30,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3410,7 +3410,7 @@
       "collectedOrder": 199,
       "startDate": "2026-01-27",
       "endDate": "2026-02-23",
-      "dday": -45,
+      "dday": -46,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3427,7 +3427,7 @@
       "collectedOrder": 200,
       "startDate": "2026-01-26",
       "endDate": "2026-02-20",
-      "dday": -48,
+      "dday": -49,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3444,7 +3444,7 @@
       "collectedOrder": 201,
       "startDate": "2026-01-19",
       "endDate": "2026-03-29",
-      "dday": -11,
+      "dday": -12,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3461,7 +3461,7 @@
       "collectedOrder": 202,
       "startDate": "2026-01-19",
       "endDate": "2026-02-22",
-      "dday": -46,
+      "dday": -47,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3478,7 +3478,7 @@
       "collectedOrder": 203,
       "startDate": "2026-01-19",
       "endDate": "2026-02-06",
-      "dday": -62,
+      "dday": -63,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3495,7 +3495,7 @@
       "collectedOrder": 204,
       "startDate": "2026-01-19",
       "endDate": "2026-02-08",
-      "dday": -60,
+      "dday": -61,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3512,7 +3512,7 @@
       "collectedOrder": 205,
       "startDate": "2026-01-19",
       "endDate": "2026-01-30",
-      "dday": -69,
+      "dday": -70,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3529,7 +3529,7 @@
       "collectedOrder": 206,
       "startDate": "2026-01-14",
       "endDate": "2026-02-09",
-      "dday": -59,
+      "dday": -60,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3546,7 +3546,7 @@
       "collectedOrder": 207,
       "startDate": "2026-01-14",
       "endDate": "2026-02-08",
-      "dday": -60,
+      "dday": -61,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3563,7 +3563,7 @@
       "collectedOrder": 208,
       "startDate": "2026-01-12",
       "endDate": "2026-02-06",
-      "dday": -62,
+      "dday": -63,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3580,7 +3580,7 @@
       "collectedOrder": 5,
       "startDate": "2026-01-08",
       "endDate": "2026-04-15",
-      "dday": 6,
+      "dday": 5,
       "isClosed": false,
       "isUrgent": true
     },
@@ -3597,7 +3597,7 @@
       "collectedOrder": 209,
       "startDate": "2026-01-06",
       "endDate": "2026-01-26",
-      "dday": -73,
+      "dday": -74,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3614,7 +3614,7 @@
       "collectedOrder": 210,
       "startDate": "2026-01-02",
       "endDate": "2026-04-03",
-      "dday": -6,
+      "dday": -7,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3631,7 +3631,7 @@
       "collectedOrder": 211,
       "startDate": "2026-01-02",
       "endDate": "2026-01-08",
-      "dday": -91,
+      "dday": -92,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3648,7 +3648,7 @@
       "collectedOrder": 212,
       "startDate": "2026-01-01",
       "endDate": "2026-03-31",
-      "dday": -9,
+      "dday": -10,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3665,7 +3665,7 @@
       "collectedOrder": 213,
       "startDate": "2026-01-01",
       "endDate": "2026-02-03",
-      "dday": -65,
+      "dday": -66,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3682,7 +3682,7 @@
       "collectedOrder": 214,
       "startDate": "2026-01-01",
       "endDate": "2026-01-31",
-      "dday": -68,
+      "dday": -69,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3699,7 +3699,7 @@
       "collectedOrder": 215,
       "startDate": "2025-12-30",
       "endDate": "2026-01-08",
-      "dday": -91,
+      "dday": -92,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3716,7 +3716,7 @@
       "collectedOrder": 216,
       "startDate": "2025-12-30",
       "endDate": "2026-01-16",
-      "dday": -83,
+      "dday": -84,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3733,7 +3733,7 @@
       "collectedOrder": 217,
       "startDate": "2025-12-29",
       "endDate": "2026-03-03",
-      "dday": -37,
+      "dday": -38,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3750,7 +3750,7 @@
       "collectedOrder": 218,
       "startDate": "2025-12-29",
       "endDate": "2026-01-28",
-      "dday": -71,
+      "dday": -72,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3767,7 +3767,7 @@
       "collectedOrder": 219,
       "startDate": "2025-12-26",
       "endDate": "2026-01-30",
-      "dday": -69,
+      "dday": -70,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3784,7 +3784,7 @@
       "collectedOrder": 220,
       "startDate": "2025-12-26",
       "endDate": "2026-02-27",
-      "dday": -41,
+      "dday": -42,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3801,7 +3801,7 @@
       "collectedOrder": 221,
       "startDate": "2025-12-22",
       "endDate": "2026-02-13",
-      "dday": -55,
+      "dday": -56,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3818,7 +3818,7 @@
       "collectedOrder": 222,
       "startDate": "2025-12-22",
       "endDate": "2026-02-28",
-      "dday": -40,
+      "dday": -41,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3835,7 +3835,7 @@
       "collectedOrder": 223,
       "startDate": "2025-12-22",
       "endDate": "2026-01-23",
-      "dday": -76,
+      "dday": -77,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3852,7 +3852,7 @@
       "collectedOrder": 224,
       "startDate": "2025-12-22",
       "endDate": "2026-01-12",
-      "dday": -87,
+      "dday": -88,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3869,7 +3869,7 @@
       "collectedOrder": 225,
       "startDate": "2025-12-22",
       "endDate": "2026-01-26",
-      "dday": -73,
+      "dday": -74,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3886,7 +3886,7 @@
       "collectedOrder": 226,
       "startDate": "2025-12-22",
       "endDate": "2026-01-22",
-      "dday": -77,
+      "dday": -78,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3903,7 +3903,7 @@
       "collectedOrder": 227,
       "startDate": "2025-12-19",
       "endDate": "2025-12-26",
-      "dday": -104,
+      "dday": -105,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3920,7 +3920,7 @@
       "collectedOrder": 228,
       "startDate": "2025-12-19",
       "endDate": "2026-01-31",
-      "dday": -68,
+      "dday": -69,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3937,7 +3937,7 @@
       "collectedOrder": 229,
       "startDate": "2025-12-17",
       "endDate": "2026-02-06",
-      "dday": -62,
+      "dday": -63,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3954,7 +3954,7 @@
       "collectedOrder": 230,
       "startDate": "2025-12-16",
       "endDate": "2026-01-15",
-      "dday": -84,
+      "dday": -85,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3971,7 +3971,7 @@
       "collectedOrder": 231,
       "startDate": "2025-12-15",
       "endDate": "2026-03-06",
-      "dday": -34,
+      "dday": -35,
       "isClosed": true,
       "isUrgent": false
     },
@@ -3988,7 +3988,7 @@
       "collectedOrder": 232,
       "startDate": "2025-12-15",
       "endDate": "2026-02-02",
-      "dday": -66,
+      "dday": -67,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4005,7 +4005,7 @@
       "collectedOrder": 233,
       "startDate": "2025-12-15",
       "endDate": "2026-01-14",
-      "dday": -85,
+      "dday": -86,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4022,7 +4022,7 @@
       "collectedOrder": 234,
       "startDate": "2025-12-12",
       "endDate": "2026-03-13",
-      "dday": -27,
+      "dday": -28,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4039,7 +4039,7 @@
       "collectedOrder": 235,
       "startDate": "2025-12-11",
       "endDate": "2026-01-31",
-      "dday": -68,
+      "dday": -69,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4056,7 +4056,7 @@
       "collectedOrder": 236,
       "startDate": "2025-12-11",
       "endDate": "2026-01-31",
-      "dday": -68,
+      "dday": -69,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4073,7 +4073,7 @@
       "collectedOrder": 237,
       "startDate": "2025-12-11",
       "endDate": "2026-01-31",
-      "dday": -68,
+      "dday": -69,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4090,7 +4090,7 @@
       "collectedOrder": 238,
       "startDate": "2025-12-10",
       "endDate": "2026-01-09",
-      "dday": -90,
+      "dday": -91,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4107,7 +4107,7 @@
       "collectedOrder": 239,
       "startDate": "2025-12-09",
       "endDate": "2025-12-23",
-      "dday": -107,
+      "dday": -108,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4124,7 +4124,7 @@
       "collectedOrder": 240,
       "startDate": "2025-12-08",
       "endDate": "2026-01-22",
-      "dday": -77,
+      "dday": -78,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4141,7 +4141,7 @@
       "collectedOrder": 241,
       "startDate": "2025-12-08",
       "endDate": "2026-01-09",
-      "dday": -90,
+      "dday": -91,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4158,7 +4158,7 @@
       "collectedOrder": 242,
       "startDate": "2025-12-05",
       "endDate": "2026-01-18",
-      "dday": -81,
+      "dday": -82,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4175,7 +4175,7 @@
       "collectedOrder": 243,
       "startDate": "2025-12-01",
       "endDate": "2026-01-04",
-      "dday": -95,
+      "dday": -96,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4192,7 +4192,7 @@
       "collectedOrder": 244,
       "startDate": "2025-12-01",
       "endDate": "2025-12-14",
-      "dday": -116,
+      "dday": -117,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4209,7 +4209,7 @@
       "collectedOrder": 245,
       "startDate": "2025-12-01",
       "endDate": "2026-01-27",
-      "dday": -72,
+      "dday": -73,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4226,7 +4226,7 @@
       "collectedOrder": 246,
       "startDate": "2025-11-28",
       "endDate": "2026-01-04",
-      "dday": -95,
+      "dday": -96,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4243,7 +4243,7 @@
       "collectedOrder": 247,
       "startDate": "2025-11-28",
       "endDate": "2025-12-16",
-      "dday": -114,
+      "dday": -115,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4260,7 +4260,7 @@
       "collectedOrder": 248,
       "startDate": "2025-11-28",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4277,7 +4277,7 @@
       "collectedOrder": 249,
       "startDate": "2025-11-26",
       "endDate": "2025-12-21",
-      "dday": -109,
+      "dday": -110,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4294,7 +4294,7 @@
       "collectedOrder": 250,
       "startDate": "2025-11-26",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4311,7 +4311,7 @@
       "collectedOrder": 251,
       "startDate": "2025-11-26",
       "endDate": "2026-01-18",
-      "dday": -81,
+      "dday": -82,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4328,7 +4328,7 @@
       "collectedOrder": 252,
       "startDate": "2025-11-26",
       "endDate": "2026-03-22",
-      "dday": -18,
+      "dday": -19,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4345,7 +4345,7 @@
       "collectedOrder": 253,
       "startDate": "2025-11-24",
       "endDate": "2025-12-30",
-      "dday": -100,
+      "dday": -101,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4362,7 +4362,7 @@
       "collectedOrder": 254,
       "startDate": "2025-11-24",
       "endDate": "2025-12-21",
-      "dday": -109,
+      "dday": -110,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4379,7 +4379,7 @@
       "collectedOrder": 255,
       "startDate": "2025-11-24",
       "endDate": "2025-12-07",
-      "dday": -123,
+      "dday": -124,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4396,7 +4396,7 @@
       "collectedOrder": 256,
       "startDate": "2025-11-24",
       "endDate": "2025-12-25",
-      "dday": -105,
+      "dday": -106,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4413,7 +4413,7 @@
       "collectedOrder": 257,
       "startDate": "2025-11-24",
       "endDate": "2025-12-28",
-      "dday": -102,
+      "dday": -103,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4430,7 +4430,7 @@
       "collectedOrder": 258,
       "startDate": "2025-11-24",
       "endDate": "2025-12-05",
-      "dday": -125,
+      "dday": -126,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4447,7 +4447,7 @@
       "collectedOrder": 259,
       "startDate": "2025-11-23",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4464,7 +4464,7 @@
       "collectedOrder": 260,
       "startDate": "2025-11-21",
       "endDate": "2025-12-17",
-      "dday": -113,
+      "dday": -114,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4481,7 +4481,7 @@
       "collectedOrder": 261,
       "startDate": "2025-11-21",
       "endDate": "2025-12-31",
-      "dday": -99,
+      "dday": -100,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4498,7 +4498,7 @@
       "collectedOrder": 262,
       "startDate": "2025-11-21",
       "endDate": "2025-12-10",
-      "dday": -120,
+      "dday": -121,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4515,7 +4515,7 @@
       "collectedOrder": 263,
       "startDate": "2025-11-19",
       "endDate": "2025-12-19",
-      "dday": -111,
+      "dday": -112,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4532,7 +4532,7 @@
       "collectedOrder": 264,
       "startDate": "2025-11-17",
       "endDate": "2025-12-07",
-      "dday": -123,
+      "dday": -124,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4549,7 +4549,7 @@
       "collectedOrder": 265,
       "startDate": "2025-11-17",
       "endDate": "2025-12-17",
-      "dday": -113,
+      "dday": -114,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4566,7 +4566,7 @@
       "collectedOrder": 266,
       "startDate": "2025-11-17",
       "endDate": "2025-12-08",
-      "dday": -122,
+      "dday": -123,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4583,7 +4583,7 @@
       "collectedOrder": 267,
       "startDate": "2025-11-17",
       "endDate": "2025-12-05",
-      "dday": -125,
+      "dday": -126,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4600,7 +4600,7 @@
       "collectedOrder": 268,
       "startDate": "2025-11-17",
       "endDate": "2025-12-06",
-      "dday": -124,
+      "dday": -125,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4617,7 +4617,7 @@
       "collectedOrder": 269,
       "startDate": "2025-11-15",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4634,7 +4634,7 @@
       "collectedOrder": 270,
       "startDate": "2025-11-14",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4651,7 +4651,7 @@
       "collectedOrder": 271,
       "startDate": "2025-11-13",
       "endDate": "2025-12-18",
-      "dday": -112,
+      "dday": -113,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4668,7 +4668,7 @@
       "collectedOrder": 272,
       "startDate": "2025-11-12",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4685,7 +4685,7 @@
       "collectedOrder": 273,
       "startDate": "2025-11-12",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4702,7 +4702,7 @@
       "collectedOrder": 274,
       "startDate": "2025-11-10",
       "endDate": "2026-01-05",
-      "dday": -94,
+      "dday": -95,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4719,7 +4719,7 @@
       "collectedOrder": 275,
       "startDate": "2025-11-10",
       "endDate": "2025-11-20",
-      "dday": -140,
+      "dday": -141,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4736,7 +4736,7 @@
       "collectedOrder": 276,
       "startDate": "2025-11-10",
       "endDate": "2025-12-07",
-      "dday": -123,
+      "dday": -124,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4753,7 +4753,7 @@
       "collectedOrder": 277,
       "startDate": "2025-11-10",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4770,7 +4770,7 @@
       "collectedOrder": 278,
       "startDate": "2025-11-10",
       "endDate": "2025-11-28",
-      "dday": -132,
+      "dday": -133,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4787,7 +4787,7 @@
       "collectedOrder": 279,
       "startDate": "2025-11-07",
       "endDate": "2025-12-18",
-      "dday": -112,
+      "dday": -113,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4804,7 +4804,7 @@
       "collectedOrder": 280,
       "startDate": "2025-11-05",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4821,7 +4821,7 @@
       "collectedOrder": 281,
       "startDate": "2025-11-04",
       "endDate": "2025-11-18",
-      "dday": -142,
+      "dday": -143,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4838,7 +4838,7 @@
       "collectedOrder": 282,
       "startDate": "2025-11-04",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4855,7 +4855,7 @@
       "collectedOrder": 283,
       "startDate": "2025-11-03",
       "endDate": "2025-12-01",
-      "dday": -129,
+      "dday": -130,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4872,7 +4872,7 @@
       "collectedOrder": 284,
       "startDate": "2025-11-03",
       "endDate": "2025-12-02",
-      "dday": -128,
+      "dday": -129,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4889,7 +4889,7 @@
       "collectedOrder": 285,
       "startDate": "2025-11-03",
       "endDate": "2025-11-20",
-      "dday": -140,
+      "dday": -141,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4906,7 +4906,7 @@
       "collectedOrder": 286,
       "startDate": "2025-11-03",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4923,7 +4923,7 @@
       "collectedOrder": 287,
       "startDate": "2025-11-03",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4940,7 +4940,7 @@
       "collectedOrder": 288,
       "startDate": "2025-11-03",
       "endDate": "2025-11-12",
-      "dday": -148,
+      "dday": -149,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4957,7 +4957,7 @@
       "collectedOrder": 289,
       "startDate": "2025-11-03",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4974,7 +4974,7 @@
       "collectedOrder": 290,
       "startDate": "2025-11-01",
       "endDate": "2025-12-05",
-      "dday": -125,
+      "dday": -126,
       "isClosed": true,
       "isUrgent": false
     },
@@ -4991,7 +4991,7 @@
       "collectedOrder": 291,
       "startDate": "2025-11-01",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5008,7 +5008,7 @@
       "collectedOrder": 292,
       "startDate": "2025-11-01",
       "endDate": "2025-11-20",
-      "dday": -140,
+      "dday": -141,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5025,7 +5025,7 @@
       "collectedOrder": 293,
       "startDate": "2025-10-31",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5042,7 +5042,7 @@
       "collectedOrder": 294,
       "startDate": "2025-10-31",
       "endDate": "2025-11-18",
-      "dday": -142,
+      "dday": -143,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5059,7 +5059,7 @@
       "collectedOrder": 295,
       "startDate": "2025-10-30",
       "endDate": "2025-11-11",
-      "dday": -149,
+      "dday": -150,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5076,7 +5076,7 @@
       "collectedOrder": 296,
       "startDate": "2025-10-30",
       "endDate": "2025-11-06",
-      "dday": -154,
+      "dday": -155,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5093,7 +5093,7 @@
       "collectedOrder": 297,
       "startDate": "2025-10-29",
       "endDate": "2025-11-23",
-      "dday": -137,
+      "dday": -138,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5110,7 +5110,7 @@
       "collectedOrder": 298,
       "startDate": "2025-10-29",
       "endDate": "2025-11-16",
-      "dday": -144,
+      "dday": -145,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5127,7 +5127,7 @@
       "collectedOrder": 299,
       "startDate": "2025-10-29",
       "endDate": "2025-11-15",
-      "dday": -145,
+      "dday": -146,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5144,7 +5144,7 @@
       "collectedOrder": 300,
       "startDate": "2025-10-27",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5161,7 +5161,7 @@
       "collectedOrder": 301,
       "startDate": "2025-10-27",
       "endDate": "2025-11-17",
-      "dday": -143,
+      "dday": -144,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5178,7 +5178,7 @@
       "collectedOrder": 302,
       "startDate": "2025-10-27",
       "endDate": "2025-11-14",
-      "dday": -146,
+      "dday": -147,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5195,7 +5195,7 @@
       "collectedOrder": 303,
       "startDate": "2025-10-27",
       "endDate": "2025-11-20",
-      "dday": -140,
+      "dday": -141,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5212,7 +5212,7 @@
       "collectedOrder": 304,
       "startDate": "2025-10-27",
       "endDate": "2025-12-09",
-      "dday": -121,
+      "dday": -122,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5229,7 +5229,7 @@
       "collectedOrder": 305,
       "startDate": "2025-10-27",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5246,7 +5246,7 @@
       "collectedOrder": 306,
       "startDate": "2025-10-24",
       "endDate": "2025-11-17",
-      "dday": -143,
+      "dday": -144,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5263,7 +5263,7 @@
       "collectedOrder": 307,
       "startDate": "2025-10-24",
       "endDate": "2025-11-23",
-      "dday": -137,
+      "dday": -138,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5280,7 +5280,7 @@
       "collectedOrder": 308,
       "startDate": "2025-10-24",
       "endDate": "2025-11-23",
-      "dday": -137,
+      "dday": -138,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5297,7 +5297,7 @@
       "collectedOrder": 309,
       "startDate": "2025-10-23",
       "endDate": "2025-11-13",
-      "dday": -147,
+      "dday": -148,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5314,7 +5314,7 @@
       "collectedOrder": 310,
       "startDate": "2025-10-22",
       "endDate": "2025-11-14",
-      "dday": -146,
+      "dday": -147,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5331,7 +5331,7 @@
       "collectedOrder": 311,
       "startDate": "2025-10-22",
       "endDate": "2025-11-18",
-      "dday": -142,
+      "dday": -143,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5348,7 +5348,7 @@
       "collectedOrder": 312,
       "startDate": "2025-10-22",
       "endDate": "2025-11-11",
-      "dday": -149,
+      "dday": -150,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5365,7 +5365,7 @@
       "collectedOrder": 313,
       "startDate": "2025-10-20",
       "endDate": "2025-11-16",
-      "dday": -144,
+      "dday": -145,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5382,7 +5382,7 @@
       "collectedOrder": 314,
       "startDate": "2025-10-20",
       "endDate": "2025-11-17",
-      "dday": -143,
+      "dday": -144,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5399,7 +5399,7 @@
       "collectedOrder": 315,
       "startDate": "2025-10-20",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5416,7 +5416,7 @@
       "collectedOrder": 316,
       "startDate": "2025-10-20",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5433,7 +5433,7 @@
       "collectedOrder": 317,
       "startDate": "2025-10-20",
       "endDate": "2025-11-10",
-      "dday": -150,
+      "dday": -151,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5450,7 +5450,7 @@
       "collectedOrder": 318,
       "startDate": "2025-10-18",
       "endDate": "2025-11-06",
-      "dday": -154,
+      "dday": -155,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5467,7 +5467,7 @@
       "collectedOrder": 319,
       "startDate": "2025-10-17",
       "endDate": "2025-11-16",
-      "dday": -144,
+      "dday": -145,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5484,7 +5484,7 @@
       "collectedOrder": 320,
       "startDate": "2025-10-16",
       "endDate": "2025-10-26",
-      "dday": -165,
+      "dday": -166,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5501,7 +5501,7 @@
       "collectedOrder": 321,
       "startDate": "2025-10-15",
       "endDate": "2026-02-02",
-      "dday": -66,
+      "dday": -67,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5518,7 +5518,7 @@
       "collectedOrder": 322,
       "startDate": "2025-10-15",
       "endDate": "2025-11-04",
-      "dday": -156,
+      "dday": -157,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5535,7 +5535,7 @@
       "collectedOrder": 323,
       "startDate": "2025-10-15",
       "endDate": "2025-11-19",
-      "dday": -141,
+      "dday": -142,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5552,7 +5552,7 @@
       "collectedOrder": 324,
       "startDate": "2025-10-14",
       "endDate": "2025-11-04",
-      "dday": -156,
+      "dday": -157,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5569,7 +5569,7 @@
       "collectedOrder": 325,
       "startDate": "2025-10-14",
       "endDate": "2025-11-07",
-      "dday": -153,
+      "dday": -154,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5586,7 +5586,7 @@
       "collectedOrder": 326,
       "startDate": "2025-10-14",
       "endDate": "2025-10-30",
-      "dday": -161,
+      "dday": -162,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5603,7 +5603,7 @@
       "collectedOrder": 327,
       "startDate": "2025-10-14",
       "endDate": "2025-11-03",
-      "dday": -157,
+      "dday": -158,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5620,7 +5620,7 @@
       "collectedOrder": 328,
       "startDate": "2025-10-14",
       "endDate": "2025-11-10",
-      "dday": -150,
+      "dday": -151,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5637,7 +5637,7 @@
       "collectedOrder": 329,
       "startDate": "2025-10-13",
       "endDate": "2025-11-04",
-      "dday": -156,
+      "dday": -157,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5654,7 +5654,7 @@
       "collectedOrder": 330,
       "startDate": "2025-10-13",
       "endDate": "2025-11-08",
-      "dday": -152,
+      "dday": -153,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5671,7 +5671,7 @@
       "collectedOrder": 331,
       "startDate": "2025-10-13",
       "endDate": "2025-12-19",
-      "dday": -111,
+      "dday": -112,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5688,7 +5688,7 @@
       "collectedOrder": 332,
       "startDate": "2025-10-13",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5705,7 +5705,7 @@
       "collectedOrder": 333,
       "startDate": "2025-10-13",
       "endDate": "2025-10-26",
-      "dday": -165,
+      "dday": -166,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5722,7 +5722,7 @@
       "collectedOrder": 334,
       "startDate": "2025-10-13",
       "endDate": "2025-11-14",
-      "dday": -146,
+      "dday": -147,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5739,7 +5739,7 @@
       "collectedOrder": 335,
       "startDate": "2025-10-13",
       "endDate": "2025-11-28",
-      "dday": -132,
+      "dday": -133,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5756,7 +5756,7 @@
       "collectedOrder": 336,
       "startDate": "2025-10-13",
       "endDate": "2025-11-15",
-      "dday": -145,
+      "dday": -146,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5773,7 +5773,7 @@
       "collectedOrder": 337,
       "startDate": "2025-10-10",
       "endDate": "2025-11-10",
-      "dday": -150,
+      "dday": -151,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5790,7 +5790,7 @@
       "collectedOrder": 338,
       "startDate": "2025-10-10",
       "endDate": "2025-11-14",
-      "dday": -146,
+      "dday": -147,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5807,7 +5807,7 @@
       "collectedOrder": 339,
       "startDate": "2025-10-10",
       "endDate": "2025-11-14",
-      "dday": -146,
+      "dday": -147,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5824,7 +5824,7 @@
       "collectedOrder": 340,
       "startDate": "2025-10-10",
       "endDate": "2025-11-06",
-      "dday": -154,
+      "dday": -155,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5841,7 +5841,7 @@
       "collectedOrder": 341,
       "startDate": "2025-10-10",
       "endDate": "2025-11-13",
-      "dday": -147,
+      "dday": -148,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5858,7 +5858,7 @@
       "collectedOrder": 342,
       "startDate": "2025-10-10",
       "endDate": "2025-10-29",
-      "dday": -162,
+      "dday": -163,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5875,7 +5875,7 @@
       "collectedOrder": 343,
       "startDate": "2025-10-09",
       "endDate": "2025-10-27",
-      "dday": -164,
+      "dday": -165,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5892,7 +5892,7 @@
       "collectedOrder": 344,
       "startDate": "2025-10-06",
       "endDate": "2025-11-07",
-      "dday": -153,
+      "dday": -154,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5909,7 +5909,7 @@
       "collectedOrder": 345,
       "startDate": "2025-10-03",
       "endDate": "2025-10-27",
-      "dday": -164,
+      "dday": -165,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5926,7 +5926,7 @@
       "collectedOrder": 346,
       "startDate": "2025-10-02",
       "endDate": "2025-11-16",
-      "dday": -144,
+      "dday": -145,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5943,7 +5943,7 @@
       "collectedOrder": 347,
       "startDate": "2025-10-02",
       "endDate": "2025-10-27",
-      "dday": -164,
+      "dday": -165,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5960,7 +5960,7 @@
       "collectedOrder": 348,
       "startDate": "2025-10-02",
       "endDate": "2025-10-22",
-      "dday": -169,
+      "dday": -170,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5977,7 +5977,7 @@
       "collectedOrder": 349,
       "startDate": "2025-10-01",
       "endDate": "2026-01-11",
-      "dday": -88,
+      "dday": -89,
       "isClosed": true,
       "isUrgent": false
     },
@@ -5994,7 +5994,7 @@
       "collectedOrder": 350,
       "startDate": "2025-10-01",
       "endDate": "2025-11-23",
-      "dday": -137,
+      "dday": -138,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6011,7 +6011,7 @@
       "collectedOrder": 351,
       "startDate": "2025-10-01",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6028,7 +6028,7 @@
       "collectedOrder": 352,
       "startDate": "2025-10-01",
       "endDate": "2025-11-04",
-      "dday": -156,
+      "dday": -157,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6045,7 +6045,7 @@
       "collectedOrder": 353,
       "startDate": "2025-10-01",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6062,7 +6062,7 @@
       "collectedOrder": 354,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6079,7 +6079,7 @@
       "collectedOrder": 355,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6096,7 +6096,7 @@
       "collectedOrder": 356,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6113,7 +6113,7 @@
       "collectedOrder": 357,
       "startDate": "2025-10-01",
       "endDate": "2025-11-11",
-      "dday": -149,
+      "dday": -150,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6130,7 +6130,7 @@
       "collectedOrder": 358,
       "startDate": "2025-10-01",
       "endDate": "2025-10-19",
-      "dday": -172,
+      "dday": -173,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6147,7 +6147,7 @@
       "collectedOrder": 359,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6164,7 +6164,7 @@
       "collectedOrder": 360,
       "startDate": "2025-10-01",
       "endDate": "2025-11-07",
-      "dday": -153,
+      "dday": -154,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6181,7 +6181,7 @@
       "collectedOrder": 361,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6198,7 +6198,7 @@
       "collectedOrder": 362,
       "startDate": "2025-10-01",
       "endDate": "2025-10-29",
-      "dday": -162,
+      "dday": -163,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6215,7 +6215,7 @@
       "collectedOrder": 363,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6232,7 +6232,7 @@
       "collectedOrder": 364,
       "startDate": "2025-10-01",
       "endDate": "2025-11-04",
-      "dday": -156,
+      "dday": -157,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6249,7 +6249,7 @@
       "collectedOrder": 365,
       "startDate": "2025-10-01",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6266,7 +6266,7 @@
       "collectedOrder": 366,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6283,7 +6283,7 @@
       "collectedOrder": 367,
       "startDate": "2025-10-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6300,7 +6300,7 @@
       "collectedOrder": 368,
       "startDate": "2025-09-30",
       "endDate": "2025-11-24",
-      "dday": -136,
+      "dday": -137,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6317,7 +6317,7 @@
       "collectedOrder": 369,
       "startDate": "2025-09-29",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6334,7 +6334,7 @@
       "collectedOrder": 370,
       "startDate": "2025-09-29",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6351,7 +6351,7 @@
       "collectedOrder": 371,
       "startDate": "2025-09-29",
       "endDate": "2025-11-07",
-      "dday": -153,
+      "dday": -154,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6368,7 +6368,7 @@
       "collectedOrder": 372,
       "startDate": "2025-09-29",
       "endDate": "2025-10-26",
-      "dday": -165,
+      "dday": -166,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6385,7 +6385,7 @@
       "collectedOrder": 373,
       "startDate": "2025-09-29",
       "endDate": "2025-10-23",
-      "dday": -168,
+      "dday": -169,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6402,7 +6402,7 @@
       "collectedOrder": 374,
       "startDate": "2025-09-29",
       "endDate": "2025-10-21",
-      "dday": -170,
+      "dday": -171,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6419,7 +6419,7 @@
       "collectedOrder": 375,
       "startDate": "2025-09-29",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6436,7 +6436,7 @@
       "collectedOrder": 376,
       "startDate": "2025-09-29",
       "endDate": "2025-11-03",
-      "dday": -157,
+      "dday": -158,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6453,7 +6453,7 @@
       "collectedOrder": 377,
       "startDate": "2025-09-29",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6470,7 +6470,7 @@
       "collectedOrder": 378,
       "startDate": "2025-09-27",
       "endDate": "2025-11-08",
-      "dday": -152,
+      "dday": -153,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6487,7 +6487,7 @@
       "collectedOrder": 379,
       "startDate": "2025-09-27",
       "endDate": "2025-10-22",
-      "dday": -169,
+      "dday": -170,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6504,7 +6504,7 @@
       "collectedOrder": 380,
       "startDate": "2025-09-26",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6521,7 +6521,7 @@
       "collectedOrder": 381,
       "startDate": "2025-09-26",
       "endDate": "2025-10-23",
-      "dday": -168,
+      "dday": -169,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6538,7 +6538,7 @@
       "collectedOrder": 382,
       "startDate": "2025-09-25",
       "endDate": "2025-11-20",
-      "dday": -140,
+      "dday": -141,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6555,7 +6555,7 @@
       "collectedOrder": 383,
       "startDate": "2025-09-25",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6572,7 +6572,7 @@
       "collectedOrder": 384,
       "startDate": "2025-09-24",
       "endDate": "2025-11-28",
-      "dday": -132,
+      "dday": -133,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6589,7 +6589,7 @@
       "collectedOrder": 385,
       "startDate": "2025-09-24",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6606,7 +6606,7 @@
       "collectedOrder": 386,
       "startDate": "2025-09-24",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6623,7 +6623,7 @@
       "collectedOrder": 387,
       "startDate": "2025-09-24",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6640,7 +6640,7 @@
       "collectedOrder": 388,
       "startDate": "2025-09-23",
       "endDate": "2025-11-11",
-      "dday": -149,
+      "dday": -150,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6657,7 +6657,7 @@
       "collectedOrder": 389,
       "startDate": "2025-09-22",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6674,7 +6674,7 @@
       "collectedOrder": 390,
       "startDate": "2025-09-22",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6691,7 +6691,7 @@
       "collectedOrder": 391,
       "startDate": "2025-09-22",
       "endDate": "2025-10-22",
-      "dday": -169,
+      "dday": -170,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6708,7 +6708,7 @@
       "collectedOrder": 392,
       "startDate": "2025-09-22",
       "endDate": "2025-10-16",
-      "dday": -175,
+      "dday": -176,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6725,7 +6725,7 @@
       "collectedOrder": 393,
       "startDate": "2025-09-22",
       "endDate": "2025-11-07",
-      "dday": -153,
+      "dday": -154,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6742,7 +6742,7 @@
       "collectedOrder": 394,
       "startDate": "2025-09-22",
       "endDate": "2025-10-19",
-      "dday": -172,
+      "dday": -173,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6759,7 +6759,7 @@
       "collectedOrder": 395,
       "startDate": "2025-09-22",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6776,7 +6776,7 @@
       "collectedOrder": 396,
       "startDate": "2025-09-22",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6793,7 +6793,7 @@
       "collectedOrder": 397,
       "startDate": "2025-09-22",
       "endDate": "2025-10-19",
-      "dday": -172,
+      "dday": -173,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6810,7 +6810,7 @@
       "collectedOrder": 398,
       "startDate": "2025-09-22",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6827,7 +6827,7 @@
       "collectedOrder": 399,
       "startDate": "2025-09-20",
       "endDate": "2025-11-10",
-      "dday": -150,
+      "dday": -151,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6844,7 +6844,7 @@
       "collectedOrder": 400,
       "startDate": "2025-09-19",
       "endDate": "2025-10-08",
-      "dday": -183,
+      "dday": -184,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6861,7 +6861,7 @@
       "collectedOrder": 401,
       "startDate": "2025-09-19",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6878,7 +6878,7 @@
       "collectedOrder": 402,
       "startDate": "2025-09-19",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6895,7 +6895,7 @@
       "collectedOrder": 403,
       "startDate": "2025-09-19",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6912,7 +6912,7 @@
       "collectedOrder": 404,
       "startDate": "2025-09-17",
       "endDate": "2025-10-06",
-      "dday": -185,
+      "dday": -186,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6929,7 +6929,7 @@
       "collectedOrder": 405,
       "startDate": "2025-09-17",
       "endDate": "2025-10-14",
-      "dday": -177,
+      "dday": -178,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6946,7 +6946,7 @@
       "collectedOrder": 406,
       "startDate": "2025-09-16",
       "endDate": "2025-10-01",
-      "dday": -190,
+      "dday": -191,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6963,7 +6963,7 @@
       "collectedOrder": 407,
       "startDate": "2025-09-15",
       "endDate": "2025-10-15",
-      "dday": -176,
+      "dday": -177,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6980,7 +6980,7 @@
       "collectedOrder": 408,
       "startDate": "2025-09-15",
       "endDate": "2025-10-23",
-      "dday": -168,
+      "dday": -169,
       "isClosed": true,
       "isUrgent": false
     },
@@ -6997,7 +6997,7 @@
       "collectedOrder": 409,
       "startDate": "2025-09-15",
       "endDate": "2025-10-20",
-      "dday": -171,
+      "dday": -172,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7014,7 +7014,7 @@
       "collectedOrder": 410,
       "startDate": "2025-09-15",
       "endDate": "2025-09-28",
-      "dday": -193,
+      "dday": -194,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7031,7 +7031,7 @@
       "collectedOrder": 411,
       "startDate": "2025-09-15",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7048,7 +7048,7 @@
       "collectedOrder": 412,
       "startDate": "2025-09-15",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7065,7 +7065,7 @@
       "collectedOrder": 413,
       "startDate": "2025-09-15",
       "endDate": "2025-10-28",
-      "dday": -163,
+      "dday": -164,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7082,7 +7082,7 @@
       "collectedOrder": 414,
       "startDate": "2025-09-15",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7099,7 +7099,7 @@
       "collectedOrder": 415,
       "startDate": "2025-09-15",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7116,7 +7116,7 @@
       "collectedOrder": 416,
       "startDate": "2025-09-15",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7133,7 +7133,7 @@
       "collectedOrder": 417,
       "startDate": "2025-09-12",
       "endDate": "2025-11-03",
-      "dday": -157,
+      "dday": -158,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7150,7 +7150,7 @@
       "collectedOrder": 418,
       "startDate": "2025-09-12",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7167,7 +7167,7 @@
       "collectedOrder": 419,
       "startDate": "2025-09-12",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7184,7 +7184,7 @@
       "collectedOrder": 420,
       "startDate": "2025-09-12",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7201,7 +7201,7 @@
       "collectedOrder": 421,
       "startDate": "2025-09-11",
       "endDate": "2026-01-30",
-      "dday": -69,
+      "dday": -70,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7218,7 +7218,7 @@
       "collectedOrder": 422,
       "startDate": "2025-09-11",
       "endDate": "2025-12-05",
-      "dday": -125,
+      "dday": -126,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7235,7 +7235,7 @@
       "collectedOrder": 423,
       "startDate": "2025-09-11",
       "endDate": "2025-12-22",
-      "dday": -108,
+      "dday": -109,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7252,7 +7252,7 @@
       "collectedOrder": 424,
       "startDate": "2025-09-11",
       "endDate": "2025-10-16",
-      "dday": -175,
+      "dday": -176,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7269,7 +7269,7 @@
       "collectedOrder": 425,
       "startDate": "2025-09-10",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7286,7 +7286,7 @@
       "collectedOrder": 426,
       "startDate": "2025-09-10",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7303,7 +7303,7 @@
       "collectedOrder": 427,
       "startDate": "2025-09-10",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7320,7 +7320,7 @@
       "collectedOrder": 428,
       "startDate": "2025-09-10",
       "endDate": "2025-11-09",
-      "dday": -151,
+      "dday": -152,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7337,7 +7337,7 @@
       "collectedOrder": 429,
       "startDate": "2025-09-10",
       "endDate": "2025-09-19",
-      "dday": -202,
+      "dday": -203,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7354,7 +7354,7 @@
       "collectedOrder": 430,
       "startDate": "2025-09-10",
       "endDate": "2025-09-24",
-      "dday": -197,
+      "dday": -198,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7371,7 +7371,7 @@
       "collectedOrder": 431,
       "startDate": "2025-09-09",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7388,7 +7388,7 @@
       "collectedOrder": 432,
       "startDate": "2025-09-09",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7405,7 +7405,7 @@
       "collectedOrder": 433,
       "startDate": "2025-09-08",
       "endDate": "2025-11-03",
-      "dday": -157,
+      "dday": -158,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7422,7 +7422,7 @@
       "collectedOrder": 434,
       "startDate": "2025-09-08",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7439,7 +7439,7 @@
       "collectedOrder": 435,
       "startDate": "2025-09-08",
       "endDate": "2025-10-05",
-      "dday": -186,
+      "dday": -187,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7456,7 +7456,7 @@
       "collectedOrder": 436,
       "startDate": "2025-09-08",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7473,7 +7473,7 @@
       "collectedOrder": 437,
       "startDate": "2025-09-08",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7490,7 +7490,7 @@
       "collectedOrder": 438,
       "startDate": "2025-09-08",
       "endDate": "2025-09-14",
-      "dday": -207,
+      "dday": -208,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7507,7 +7507,7 @@
       "collectedOrder": 439,
       "startDate": "2025-09-05",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7524,7 +7524,7 @@
       "collectedOrder": 440,
       "startDate": "2025-09-04",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7541,7 +7541,7 @@
       "collectedOrder": 441,
       "startDate": "2025-09-04",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7558,7 +7558,7 @@
       "collectedOrder": 442,
       "startDate": "2025-09-04",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7575,7 +7575,7 @@
       "collectedOrder": 443,
       "startDate": "2025-09-03",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7592,7 +7592,7 @@
       "collectedOrder": 444,
       "startDate": "2025-09-03",
       "endDate": "2025-10-30",
-      "dday": -161,
+      "dday": -162,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7609,7 +7609,7 @@
       "collectedOrder": 445,
       "startDate": "2025-09-02",
       "endDate": "2025-10-02",
-      "dday": -189,
+      "dday": -190,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7626,7 +7626,7 @@
       "collectedOrder": 446,
       "startDate": "2025-09-02",
       "endDate": "2025-09-21",
-      "dday": -200,
+      "dday": -201,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7643,7 +7643,7 @@
       "collectedOrder": 447,
       "startDate": "2025-09-02",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7660,7 +7660,7 @@
       "collectedOrder": 448,
       "startDate": "2025-09-02",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7677,7 +7677,7 @@
       "collectedOrder": 449,
       "startDate": "2025-09-01",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7694,7 +7694,7 @@
       "collectedOrder": 450,
       "startDate": "2025-09-01",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7711,7 +7711,7 @@
       "collectedOrder": 451,
       "startDate": "2025-09-01",
       "endDate": "2025-10-19",
-      "dday": -172,
+      "dday": -173,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7728,7 +7728,7 @@
       "collectedOrder": 452,
       "startDate": "2025-09-01",
       "endDate": "2025-09-29",
-      "dday": -192,
+      "dday": -193,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7745,7 +7745,7 @@
       "collectedOrder": 453,
       "startDate": "2025-09-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7762,7 +7762,7 @@
       "collectedOrder": 454,
       "startDate": "2025-09-01",
       "endDate": "2025-09-24",
-      "dday": -197,
+      "dday": -198,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7779,7 +7779,7 @@
       "collectedOrder": 455,
       "startDate": "2025-09-01",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7796,7 +7796,7 @@
       "collectedOrder": 456,
       "startDate": "2025-09-01",
       "endDate": "2025-10-09",
-      "dday": -182,
+      "dday": -183,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7813,7 +7813,7 @@
       "collectedOrder": 457,
       "startDate": "2025-09-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7830,7 +7830,7 @@
       "collectedOrder": 458,
       "startDate": "2025-09-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7847,7 +7847,7 @@
       "collectedOrder": 459,
       "startDate": "2025-09-01",
       "endDate": "2025-10-15",
-      "dday": -176,
+      "dday": -177,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7864,7 +7864,7 @@
       "collectedOrder": 460,
       "startDate": "2025-09-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7881,7 +7881,7 @@
       "collectedOrder": 461,
       "startDate": "2025-09-01",
       "endDate": "2025-09-21",
-      "dday": -200,
+      "dday": -201,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7898,7 +7898,7 @@
       "collectedOrder": 462,
       "startDate": "2025-09-01",
       "endDate": "2025-09-24",
-      "dday": -197,
+      "dday": -198,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7915,7 +7915,7 @@
       "collectedOrder": 463,
       "startDate": "2025-09-01",
       "endDate": "2025-10-24",
-      "dday": -167,
+      "dday": -168,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7932,7 +7932,7 @@
       "collectedOrder": 464,
       "startDate": "2025-09-01",
       "endDate": "2025-10-04",
-      "dday": -187,
+      "dday": -188,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7949,7 +7949,7 @@
       "collectedOrder": 465,
       "startDate": "2025-09-01",
       "endDate": "2025-09-28",
-      "dday": -193,
+      "dday": -194,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7966,7 +7966,7 @@
       "collectedOrder": 466,
       "startDate": "2025-09-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -7983,7 +7983,7 @@
       "collectedOrder": 467,
       "startDate": "2025-09-01",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8000,7 +8000,7 @@
       "collectedOrder": 468,
       "startDate": "2025-09-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8017,7 +8017,7 @@
       "collectedOrder": 469,
       "startDate": "2025-09-01",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8034,7 +8034,7 @@
       "collectedOrder": 470,
       "startDate": "2025-09-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8051,7 +8051,7 @@
       "collectedOrder": 471,
       "startDate": "2025-09-01",
       "endDate": "2025-11-21",
-      "dday": -139,
+      "dday": -140,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8068,7 +8068,7 @@
       "collectedOrder": 472,
       "startDate": "2025-09-01",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8085,7 +8085,7 @@
       "collectedOrder": 473,
       "startDate": "2025-08-29",
       "endDate": "2025-11-16",
-      "dday": -144,
+      "dday": -145,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8102,7 +8102,7 @@
       "collectedOrder": 474,
       "startDate": "2025-08-28",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8119,7 +8119,7 @@
       "collectedOrder": 475,
       "startDate": "2025-08-28",
       "endDate": "2025-09-04",
-      "dday": -217,
+      "dday": -218,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8136,7 +8136,7 @@
       "collectedOrder": 476,
       "startDate": "2025-08-28",
       "endDate": "2025-10-12",
-      "dday": -179,
+      "dday": -180,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8153,7 +8153,7 @@
       "collectedOrder": 477,
       "startDate": "2025-08-27",
       "endDate": "2025-09-17",
-      "dday": -204,
+      "dday": -205,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8170,7 +8170,7 @@
       "collectedOrder": 478,
       "startDate": "2025-08-26",
       "endDate": "2025-09-29",
-      "dday": -192,
+      "dday": -193,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8187,7 +8187,7 @@
       "collectedOrder": 479,
       "startDate": "2025-08-26",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8204,7 +8204,7 @@
       "collectedOrder": 480,
       "startDate": "2025-08-26",
       "endDate": "2025-11-03",
-      "dday": -157,
+      "dday": -158,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8221,7 +8221,7 @@
       "collectedOrder": 481,
       "startDate": "2025-08-25",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8238,7 +8238,7 @@
       "collectedOrder": 482,
       "startDate": "2025-08-25",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8255,7 +8255,7 @@
       "collectedOrder": 483,
       "startDate": "2025-08-25",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8272,7 +8272,7 @@
       "collectedOrder": 484,
       "startDate": "2025-08-25",
       "endDate": "2025-09-05",
-      "dday": -216,
+      "dday": -217,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8289,7 +8289,7 @@
       "collectedOrder": 485,
       "startDate": "2025-08-25",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8306,7 +8306,7 @@
       "collectedOrder": 486,
       "startDate": "2025-08-25",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8323,7 +8323,7 @@
       "collectedOrder": 487,
       "startDate": "2025-08-25",
       "endDate": "2025-09-22",
-      "dday": -199,
+      "dday": -200,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8340,7 +8340,7 @@
       "collectedOrder": 488,
       "startDate": "2025-08-25",
       "endDate": "2025-09-19",
-      "dday": -202,
+      "dday": -203,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8357,7 +8357,7 @@
       "collectedOrder": 489,
       "startDate": "2025-08-25",
       "endDate": "2025-10-12",
-      "dday": -179,
+      "dday": -180,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8374,7 +8374,7 @@
       "collectedOrder": 490,
       "startDate": "2025-08-22",
       "endDate": "2025-10-17",
-      "dday": -174,
+      "dday": -175,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8391,7 +8391,7 @@
       "collectedOrder": 491,
       "startDate": "2025-08-22",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8408,7 +8408,7 @@
       "collectedOrder": 492,
       "startDate": "2025-08-22",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8425,7 +8425,7 @@
       "collectedOrder": 493,
       "startDate": "2025-08-21",
       "endDate": "2025-09-10",
-      "dday": -211,
+      "dday": -212,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8442,7 +8442,7 @@
       "collectedOrder": 494,
       "startDate": "2025-08-21",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8459,7 +8459,7 @@
       "collectedOrder": 495,
       "startDate": "2025-08-20",
       "endDate": "2025-09-14",
-      "dday": -207,
+      "dday": -208,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8476,7 +8476,7 @@
       "collectedOrder": 496,
       "startDate": "2025-08-20",
       "endDate": "2025-09-09",
-      "dday": -212,
+      "dday": -213,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8493,7 +8493,7 @@
       "collectedOrder": 497,
       "startDate": "2025-08-20",
       "endDate": "2025-09-24",
-      "dday": -197,
+      "dday": -198,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8510,7 +8510,7 @@
       "collectedOrder": 498,
       "startDate": "2025-08-20",
       "endDate": "2025-09-17",
-      "dday": -204,
+      "dday": -205,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8527,7 +8527,7 @@
       "collectedOrder": 499,
       "startDate": "2025-08-19",
       "endDate": "2025-09-19",
-      "dday": -202,
+      "dday": -203,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8544,7 +8544,7 @@
       "collectedOrder": 500,
       "startDate": "2025-08-19",
       "endDate": "2025-09-15",
-      "dday": -206,
+      "dday": -207,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8561,7 +8561,7 @@
       "collectedOrder": 501,
       "startDate": "2025-08-18",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8578,7 +8578,7 @@
       "collectedOrder": 502,
       "startDate": "2025-08-18",
       "endDate": "2025-09-18",
-      "dday": -203,
+      "dday": -204,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8595,7 +8595,7 @@
       "collectedOrder": 503,
       "startDate": "2025-08-18",
       "endDate": "2025-10-12",
-      "dday": -179,
+      "dday": -180,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8612,7 +8612,7 @@
       "collectedOrder": 504,
       "startDate": "2025-08-18",
       "endDate": "2025-09-19",
-      "dday": -202,
+      "dday": -203,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8629,7 +8629,7 @@
       "collectedOrder": 505,
       "startDate": "2025-08-18",
       "endDate": "2025-09-12",
-      "dday": -209,
+      "dday": -210,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8646,7 +8646,7 @@
       "collectedOrder": 506,
       "startDate": "2025-08-18",
       "endDate": "2025-09-22",
-      "dday": -199,
+      "dday": -200,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8663,7 +8663,7 @@
       "collectedOrder": 507,
       "startDate": "2025-08-18",
       "endDate": "2025-09-07",
-      "dday": -214,
+      "dday": -215,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8680,7 +8680,7 @@
       "collectedOrder": 508,
       "startDate": "2025-08-18",
       "endDate": "2025-09-05",
-      "dday": -216,
+      "dday": -217,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8697,7 +8697,7 @@
       "collectedOrder": 509,
       "startDate": "2025-08-18",
       "endDate": "2025-09-14",
-      "dday": -207,
+      "dday": -208,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8714,7 +8714,7 @@
       "collectedOrder": 510,
       "startDate": "2025-08-18",
       "endDate": "2025-09-28",
-      "dday": -193,
+      "dday": -194,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8731,7 +8731,7 @@
       "collectedOrder": 511,
       "startDate": "2025-08-18",
       "endDate": "2025-09-08",
-      "dday": -213,
+      "dday": -214,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8748,7 +8748,7 @@
       "collectedOrder": 512,
       "startDate": "2025-08-18",
       "endDate": "2025-08-27",
-      "dday": -225,
+      "dday": -226,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8765,7 +8765,7 @@
       "collectedOrder": 513,
       "startDate": "2025-08-18",
       "endDate": "2025-08-31",
-      "dday": -221,
+      "dday": -222,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8782,7 +8782,7 @@
       "collectedOrder": 514,
       "startDate": "2025-08-18",
       "endDate": "2025-09-07",
-      "dday": -214,
+      "dday": -215,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8799,7 +8799,7 @@
       "collectedOrder": 515,
       "startDate": "2025-08-18",
       "endDate": "2025-09-12",
-      "dday": -209,
+      "dday": -210,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8816,7 +8816,7 @@
       "collectedOrder": 516,
       "startDate": "2025-08-15",
       "endDate": "2025-09-05",
-      "dday": -216,
+      "dday": -217,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8833,7 +8833,7 @@
       "collectedOrder": 517,
       "startDate": "2025-08-15",
       "endDate": "2025-10-02",
-      "dday": -189,
+      "dday": -190,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8850,7 +8850,7 @@
       "collectedOrder": 518,
       "startDate": "2025-08-15",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8867,7 +8867,7 @@
       "collectedOrder": 519,
       "startDate": "2025-08-15",
       "endDate": "2025-08-29",
-      "dday": -223,
+      "dday": -224,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8884,7 +8884,7 @@
       "collectedOrder": 520,
       "startDate": "2025-08-15",
       "endDate": "2025-08-29",
-      "dday": -223,
+      "dday": -224,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8901,7 +8901,7 @@
       "collectedOrder": 521,
       "startDate": "2025-08-14",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8918,7 +8918,7 @@
       "collectedOrder": 522,
       "startDate": "2025-08-14",
       "endDate": "2025-08-31",
-      "dday": -221,
+      "dday": -222,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8935,7 +8935,7 @@
       "collectedOrder": 523,
       "startDate": "2025-08-13",
       "endDate": "2025-09-11",
-      "dday": -210,
+      "dday": -211,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8952,7 +8952,7 @@
       "collectedOrder": 524,
       "startDate": "2025-08-13",
       "endDate": "2025-08-27",
-      "dday": -225,
+      "dday": -226,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8969,7 +8969,7 @@
       "collectedOrder": 525,
       "startDate": "2025-08-13",
       "endDate": "2025-09-09",
-      "dday": -212,
+      "dday": -213,
       "isClosed": true,
       "isUrgent": false
     },
@@ -8986,7 +8986,7 @@
       "collectedOrder": 526,
       "startDate": "2025-08-12",
       "endDate": "2025-10-09",
-      "dday": -182,
+      "dday": -183,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9003,7 +9003,7 @@
       "collectedOrder": 527,
       "startDate": "2025-08-11",
       "endDate": "2025-09-10",
-      "dday": -211,
+      "dday": -212,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9020,7 +9020,7 @@
       "collectedOrder": 528,
       "startDate": "2025-08-11",
       "endDate": "2025-09-10",
-      "dday": -211,
+      "dday": -212,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9037,7 +9037,7 @@
       "collectedOrder": 529,
       "startDate": "2025-08-08",
       "endDate": "2025-09-17",
-      "dday": -204,
+      "dday": -205,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9054,7 +9054,7 @@
       "collectedOrder": 530,
       "startDate": "2025-08-07",
       "endDate": "2025-10-10",
-      "dday": -181,
+      "dday": -182,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9071,7 +9071,7 @@
       "collectedOrder": 531,
       "startDate": "2025-08-07",
       "endDate": "2025-10-13",
-      "dday": -178,
+      "dday": -179,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9088,7 +9088,7 @@
       "collectedOrder": 532,
       "startDate": "2025-08-04",
       "endDate": "2025-12-12",
-      "dday": -118,
+      "dday": -119,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9105,7 +9105,7 @@
       "collectedOrder": 533,
       "startDate": "2025-08-04",
       "endDate": "2025-09-07",
-      "dday": -214,
+      "dday": -215,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9122,7 +9122,7 @@
       "collectedOrder": 534,
       "startDate": "2025-08-04",
       "endDate": "2025-08-29",
-      "dday": -223,
+      "dday": -224,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9139,7 +9139,7 @@
       "collectedOrder": 535,
       "startDate": "2025-08-01",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9156,7 +9156,7 @@
       "collectedOrder": 536,
       "startDate": "2025-07-25",
       "endDate": "2025-09-10",
-      "dday": -211,
+      "dday": -212,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9173,7 +9173,7 @@
       "collectedOrder": 537,
       "startDate": "2025-07-21",
       "endDate": "2025-09-26",
-      "dday": -195,
+      "dday": -196,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9190,7 +9190,7 @@
       "collectedOrder": 538,
       "startDate": "2025-07-17",
       "endDate": "2025-10-12",
-      "dday": -179,
+      "dday": -180,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9207,7 +9207,7 @@
       "collectedOrder": 539,
       "startDate": "2025-07-17",
       "endDate": "2025-09-17",
-      "dday": -204,
+      "dday": -205,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9224,7 +9224,7 @@
       "collectedOrder": 540,
       "startDate": "2025-07-14",
       "endDate": "2025-09-11",
-      "dday": -210,
+      "dday": -211,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9241,7 +9241,7 @@
       "collectedOrder": 541,
       "startDate": "2025-07-14",
       "endDate": "2025-09-05",
-      "dday": -216,
+      "dday": -217,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9258,7 +9258,7 @@
       "collectedOrder": 542,
       "startDate": "2025-07-07",
       "endDate": "2025-08-31",
-      "dday": -221,
+      "dday": -222,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9275,7 +9275,7 @@
       "collectedOrder": 543,
       "startDate": "2025-06-16",
       "endDate": "2025-11-30",
-      "dday": -130,
+      "dday": -131,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9292,7 +9292,7 @@
       "collectedOrder": 544,
       "startDate": "2025-06-04",
       "endDate": "2025-08-29",
-      "dday": -223,
+      "dday": -224,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9309,7 +9309,7 @@
       "collectedOrder": 545,
       "startDate": "2025-06-01",
       "endDate": "2025-10-31",
-      "dday": -160,
+      "dday": -161,
       "isClosed": true,
       "isUrgent": false
     },
@@ -9326,7 +9326,7 @@
       "collectedOrder": 546,
       "startDate": "2025-04-14",
       "endDate": "2025-09-30",
-      "dday": -191,
+      "dday": -192,
       "isClosed": true,
       "isUrgent": false
     }
